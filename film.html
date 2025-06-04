@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>CinéStream</title>
+  <link rel="icon" href="https://github.com/Cyprdu/projection/blob/main/CIN%C3%A9%20(1).png?raw=true" type="image/png">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+            background-color: #00050d; /* Arrière-plan de la page */
+
+    }
+
+    #container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    iframe {
+      width: 99.9%;
+      height: 99.9%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <iframe id="myFrame" src="https://projection-2025.netlify.app/flix"></iframe>
+  </div>
+
+  <script>
+    function forceReflow() {
+      const frame = document.getElementById('myFrame');
+      // Redimensionner légèrement puis restaurer pour forcer le reflow
+      const originalHeight = frame.style.height;
+      frame.style.height = '99.9%';
+      setTimeout(() => {
+        frame.style.height = originalHeight || '100%';
+      }, 50);
+    }
+
+    window.addEventListener('resize', forceReflow);
+    document.addEventListener('fullscreenchange', forceReflow);
+  </script>
+</body>
+</html>
+
