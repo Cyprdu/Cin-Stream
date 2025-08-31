@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lancer un Cast</title>
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #ffffff;
+            --background-color: #f4f7f6;
+            --text-color: #333;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--secondary-color);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input[type="url"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: var(--border-radius);
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        input[type="url"]:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .action-button {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            padding: 15px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .action-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        
+        /* Ce bouton n'est plus nécessaire mais on le garde caché pour l'API */
+        google-cast-launcher {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Mon Lanceur de Cast</h1>
+        <p>Entrez l'URL d'une vidéo et de son affiche pour la caster.</p>
+        
+        <div class="input-group">
+            <label for="videoUrl">URL de la vidéo (.mp4)</label>
+            <input type="url" id="videoUrl" placeholder="https://exemple.com/video.mp4" required>
+        </div>
+        
+        <div class="input-group">
+            <label for="posterUrl">URL de l'affiche (.jpg, .png)</label>
+            <input type="url" id="posterUrl" placeholder="https://exemple.com/affiche.jpg" required>
+        </div>
+        
+        <button id="castButton" class="action-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a8 8 0 0 1 14.08 0"/><path d="M1.42 9.5a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a4 4 0 0 1 6.95 0"/><line x1="12" x2="12.01" y1="20" y2="20"/></svg>
+            Caster
+        </button>
+        
+        <google-cast-launcher></google-cast-launcher>
+    </div>
+
+    <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+
+    <script>
+        // Initialisation du contexte de Cast
+        window.cast.framework.CastContext.getInstance().setOptions({
+            receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
+            autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
+        });
+
+        // Récupération des éléments du DOM
+        const castButton = document.getElementById('castButton');
+        const videoUrlInput = document.getElementById('videoUrl');
+        const posterUrlInput = document.getElementById('posterUrl');
+
+        // Ajout de l'événement au clic sur le nouveau bouton "Caster"
+        castButton.addEventListener('click', () => {
+            const videoUrl = videoUrlInput.value;
+            const posterUrl = posterUrlInput.value;
+
+            if (!videoUrl) {
+                alert("Veuillez entrer une URL pour la vidéo.");
+                return;
+            }
+
+            const castContext = cast.framework.CastContext.getInstance();
+            
+            // Étape 1 : Demander à l'utilisateur de choisir un appareil
+            castContext.requestSession().then(castSession => {
+                // Étape 2 : Une fois l'appareil choisi, préparer les informations de la vidéo
+                
+                const videoTitle = videoUrl.substring(videoUrl.lastIndexOf('/') + 1) || "Vidéo personnalisée";
+                
+                const mediaMetadata = new chrome.cast.media.MediaMetadata(chrome.cast.media.MetadataType.MOVIE);
+                mediaMetadata.title = videoTitle;
+                mediaMetadata.subtitle = "Diffusé depuis votre navigateur";
+                if (posterUrl) {
+                    mediaMetadata.images = [new chrome.cast.Image(posterUrl)];
+                }
+
+                const mediaInfo = new chrome.cast.media.MediaInfo(videoUrl, 'video/mp4');
+                mediaInfo.metadata = mediaMetadata;
+
+                const request = new chrome.cast.media.LoadRequest(mediaInfo);
+
+                // Étape 3 : Envoyer la vidéo à l'appareil choisi
+                return castSession.loadMedia(request);
+
+            }).then(() => {
+                console.log('La vidéo est en cours de diffusion !');
+            }).catch(error => {
+                // L'utilisateur a annulé la sélection ou une erreur est survenue
+                console.error('Erreur lors du lancement du cast: ', error);
+            });
+        });
+    </script>
+</body>
+</html>
