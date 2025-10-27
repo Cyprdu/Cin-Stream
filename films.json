@@ -7,6 +7,38 @@
         "tmdb_id": "movie-954",
         "url": "https://cinecake.xyz/movies/Mission-Impossible.mp4"
     },
+        {
+        "tmdb_id": "movie-106646",
+        "url": "https://cinecake.xyz/movies/Le-Loup-de-Wall-Street.mp4"
+    },
+    {
+        "tmdb_id": "movie-9358",
+        "url": "https://cinecake.xyz/movies/Destination-finale-2.mp4"
+    },
+        {
+        "tmdb_id": "movie-9532",
+        "url": "https://cinecake.xyz/movies/Destination-finale.mp4"
+    },
+        {
+        "tmdb_id": "movie-9286",
+        "url": "https://playjelly.fr/videos/4e702ceb-3eeb-2b85-2ac5-38ae5e358083/hls1/main/-1.mp4?DeviceId=TW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEzOS4wLjAuMCBTYWZhcmkvNTM3LjM2fDE3NTQ1MjgyMDk4Mjg1&MediaSourceId=4e702ceb3eeb2b852ac538ae5e358083&VideoCodec=av1,hevc,h264,vp9&AudioCodec=aac&AudioStreamIndex=1&VideoBitrate=326748345&AudioBitrate=384000&MaxFramerate=23.976025&PlaySessionId=7be105d2a38942c1be3dcbfa3654d921&api_key=19aaf8997c1d494c9ac0600511b73ff3&TranscodingMaxAudioChannels=2&RequireAvc=false&EnableAudioVbrEncoding=true&Tag=5d42a6329ef0e722866b909f7a836508&SegmentContainer=mp4&MinSegments=1&BreakOnNonKeyFrames=True&h264-level=41&h264-videobitdepth=8&h264-profile=high&av1-profile=main&av1-rangetype=SDR,HDR10,HLG&av1-level=19&vp9-rangetype=SDR,HDR10,HLG&hevc-profile=main,main10&hevc-rangetype=SDR,HDR10,HLG&hevc-level=183&hevc-deinterlace=true&h264-rangetype=SDR&h264-deinterlace=true&TranscodeReasons=ContainerNotSupported,%20AudioCodecNotSupported&runtimeTicks=0&actualSegmentLengthTicks=0"
+    },
+        {
+        "tmdb_id": "movie-19912",
+        "url": "https://cinecake.xyz/movies/Destination-finale-4.mp4"
+    },
+
+        {
+        "tmdb_id": "movie-55779",
+        "url": "https://cinecake.xyz/movies/Destination-finale-5.mp4"
+    },
+        {
+        "tmdb_id": "movie-604079",
+        "url": "https://cinecake.xyz/movies/Marche-ou-creve.mp4"
+    },
+
+
+    
     {
         "tmdb_id": "movie-353081",
         "url": "https://cinecake.xyz/movies/Mission-Impossible-Fallout.mp4"
@@ -5582,6 +5614,145 @@
     {
         "tmdb_id": "tv/119051/season/2/episode/4",
         "url": "https://cinecake.xyz/series/Mercredi/S02/Mercredi-S02-E04.mp4"
+    },
+    {
+        "tmdb_id": "tv/119051/season/2/episode/5",
+        "url": "https://cinecake.xyz/series/Mercredi/S02/Mercredi-S02-E05.mp4"
+    },
+    {
+        "tmdb_id": "tv/119051/season/2/episode/6",
+        "url": "https://cinecake.xyz/series/Mercredi/S02/Mercredi-S02-E06.mp4"
+    },
+    {
+        "tmdb_id": "tv/119051/season/2/episode/7",
+        "url": "https://cinecake.xyz/series/Mercredi/S02/Mercredi-S02-E07.mp4"
+    },
+    {
+        "tmdb_id": "tv/119051/season/2/episode/8",
+        "url": "https://cinecake.xyz/series/Mercredi/S02/Mercredi-S02-E08.mp4"
+    },
+    {
+        "tmdb_id": "tv-114410",
+        "url": ""
+    },
+    {
+        "tmdb_id": "tv/114410/season/1/episode/1",
+        "url": "https://cinecake.xyz/animes/VF/Chainsaw-Man/S01/Chainsaw-Man-S01-E01.mp4"
+    },
+    {
+        "tmdb_id": "tv/114410/season/1/episode/2",
+        "url": "https://cinecake.xyz/animes/VF/Chainsaw-Man/S01/Chainsaw-Man-S01-E02.mp4"
+    },
+    {
+        "tmdb_id": "tv/114410/season/1/episode/3",
+        "url": "https://cinecake.xyz/animes/VF/Chainsaw-Man/S01/Chainsaw-Man-S01-E03.mp4"
+    },
+    {
+        "tmdb_id": "tv/114410/season/1/episode/4",
+        "url": "https://cinecake.xyz/animes/VF/Chainsaw-Man/S01/Chainsaw-Man-S01-E04.mp4"
+    },
+    {
+        "tmdb_id": "tv/114410/season/1/episode/5",
+        "url": "https://cinecake.xyz/animes/VF/Chainsaw-Man/S01/Chainsaw-Man-S01-E05.mp4"
+    },
+    {
+        "tmdb_id": "tv/114410/season/1/episode/6",
+        "url": "https://cinecake.xyz/animes/VF/Chainsaw-Man/S01/Chainsaw-Man-S01-E06.mp4"
+    },
+    {
+        "tmdb_id": "tv/114410/season/1/episode/7",
+        "url": "https://cinecake.xyz/animes/VF/Chainsaw-Man/S01/Chainsaw-Man-S01-E07.mp4"
+    },
+    {
+        "tmdb_id": "tv/114410/season/1/episode/8",
+        "url": "https://cinecake.xyz/animes/VF/Chainsaw-Man/S01/Chainsaw-Man-S01-E08.mp4"
+    },
+    {
+        "tmdb_id": "tv/114410/season/1/episode/9",
+        "url": "https://cinecake.xyz/animes/VF/Chainsaw-Man/S01/Chainsaw-Man-S01-E09.mp4"
+    },
+    {
+        "tmdb_id": "tv/114410/season/1/episode/10",
+        "url": "https://cinecake.xyz/animes/VF/Chainsaw-Man/S01/Chainsaw-Man-S01-E10.mp4"
+    },
+    {
+        "tmdb_id": "tv/114410/season/1/episode/11",
+        "url": "https://cinecake.xyz/animes/VF/Chainsaw-Man/S01/Chainsaw-Man-S01-E11.mp4"
+    },
+    {
+        "tmdb_id": "tv/114410/season/1/episode/12",
+        "url": "https://cinecake.xyz/animes/VF/Chainsaw-Man/S01/Chainsaw-Man-S01-E12.mp4"
+    },
+
+    {
+        "tmdb_id": "tv-205715",
+        "url": ""
+    },
+    
+        {
+        "tmdb_id": "tv/205715/season/1/episode/1",
+        "url": "https://cinecake.xyz/series/GEN-V/S01/GEN-V-S01-E01.mp4"
+    },
+    {
+        "tmdb_id": "tv/205715/season/1/episode/2",
+        "url": "https://cinecake.xyz/series/GEN-V/S01/GEN-V-S01-E02.mp4"
+    },
+    {
+        "tmdb_id": "tv/205715/season/1/episode/3",
+        "url": "https://cinecake.xyz/series/GEN-V/S01/GEN-V-S01-E03.mp4"
+    },
+    {
+        "tmdb_id": "tv/205715/season/1/episode/4",
+        "url": "https://cinecake.xyz/series/GEN-V/S01/GEN-V-S01-E04.mp4"
+    },
+    {
+        "tmdb_id": "tv/205715/season/1/episode/5",
+        "url": "https://cinecake.xyz/series/GEN-V/S01/GEN-V-S01-E05.mp4"
+    },
+    {
+        "tmdb_id": "tv/205715/season/1/episode/6",
+        "url": "https://cinecake.xyz/series/GEN-V/S01/GEN-V-S01-E06.mp4"
+    },
+    {
+        "tmdb_id": "tv/205715/season/1/episode/7",
+        "url": "https://cinecake.xyz/series/GEN-V/S01/GEN-V-S01-E07.mp4"
+    },
+    {
+        "tmdb_id": "tv/205715/season/1/episode/8",
+        "url": "https://cinecake.xyz/series/GEN-V/S01/GEN-V-S01-E08.mp4"
+    },
+    {
+        "tmdb_id": "tv/205715/season/2/episode/1",
+        "url": "https://cinecake.xyz/series/GEN-V/S02/GEN-V-S02-E01.mp4"
+    },
+    {
+        "tmdb_id": "tv/205715/season/2/episode/2",
+        "url": "https://cinecake.xyz/series/GEN-V/S02/GEN-V-S02-E02.mp4"
+    },
+    {
+        "tmdb_id": "tv/205715/season/2/episode/3",
+        "url": "https://cinecake.xyz/series/GEN-V/S02/GEN-V-S02-E03.mp4"
+    },
+    {
+        "tmdb_id": "tv/205715/season/2/episode/4",
+        "url": "https://cinecake.xyz/series/GEN-V/S02/GEN-V-S02-E04.mp4"
+    },
+    {
+        "tmdb_id": "tv/205715/season/2/episode/5",
+        "url": "https://cinecake.xyz/series/GEN-V/S02/GEN-V-S02-E05.mp4"
+    },
+    {
+        "tmdb_id": "tv/205715/season/2/episode/6",
+        "url": "https://cinecake.xyz/series/GEN-V/S02/GEN-V-S02-E06.mp4"
+    },
+    {
+        "tmdb_id": "tv/205715/season/2/episode/7",
+        "url": "https://cinecake.xyz/series/GEN-V/S02/GEN-V-S02-E07.mp4"
+    },
+    {
+        "tmdb_id": "tv/205715/season/2/episode/8",
+        "url": "https://cinecake.xyz/series/GEN-V/S02/GEN-V-S02-E08.mp4"
     }
 
 ]
+
