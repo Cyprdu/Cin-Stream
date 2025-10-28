@@ -964,28 +964,6 @@
     );
 }
 
-
-
-
-
-
-
-            
-
-            const progressInterval = setInterval(() => {
-                if (player && typeof player.api === 'function') {
-                    try {
-                        const currentTime = player.api("time");
-                        const duration = player.api("duration");
-                        if (currentTime && duration) {
-                            saveProgress(currentMediaType, currentMediaId, currentTime, duration);
-                        }
-                    } catch (e) {
-                        console.error("Error saving progress:", e);
-                    }
-                }
-            }, 5000);
-
             videoPlayerContainer.addEventListener('close', () => {
                 clearInterval(progressInterval);
             }, { once: true });
@@ -1007,23 +985,25 @@
         }
 
         function closeVideoPlayer() {
-            if (player && typeof player.api === 'function') {
-                try {
-                    const currentTime = player.api("time");
-                    const duration = player.api("duration");
-                    if (currentTime && duration) {
-                        saveProgress(currentMediaType, currentMediaId, currentTime, duration);
-                    }
-                    player.api("stop");
-                } catch (e) {
-                    console.error("Error stopping player:", e);
-                }
-            }
-            videoPlayerContainer.style.display = 'none';
-            videoPlayerContainer.dispatchEvent(new Event('close'));
-            player = null;
-            document.title = "CinéStream - Votre plateforme de streaming";
+           if (player && typeof player.api === 'function') {
+    try {
+        const currentTime = player.api("time");
+        const duration = player.api("duration");
+
+        const progressKey =
+            currentMediaType === 'tv' && currentSeason && currentEpisode
+                ? `tv-${currentMediaId}`
+                : generateUniqueKey(currentMediaType, currentMediaId);
+
+        if (currentTime && duration) {
+            saveProgressByKey(progressKey, currentTime, duration);
         }
+        player.api("stop");
+    } catch (e) {
+        console.error("Error stopping player:", e);
+    }
+}
+
         
             function generateUniqueKey(mediaType, mediaId) {
     // Cas d’un épisode spécifique : ex. "tv-12345-s1e3"
@@ -1090,15 +1070,16 @@ function getProgressByKey(key) {
 }
 
 
-        function getProgress(mediaType, mediaId) {
-            const key = `${mediaType}-${mediaId}`;
-            const progress = localStorage.getItem(key);
-            if (progress) {
-                const [currentTime, duration] = progress.split('--').map(Number);
-                return { currentTime, duration };
-            }
-            return null;
-        }
+function getProgress(mediaType, mediaId) {
+    const key = generateUniqueKey(mediaType, mediaId);
+    const progress = localStorage.getItem(key);
+    if (progress) {
+        const [currentTime, duration] = progress.split('--').map(Number);
+        return { currentTime, duration };
+    }
+    return null;
+}
+
 
         // API Functions
         async function fetchFromTMDB(endpoint) {
