@@ -1009,24 +1009,25 @@ function openVideoPlayer(url, title, ageRating = '', posterUrl = '', isTrailer =
             ];
         }
 
-        function closeVideoPlayer() {
-            if (player && typeof player.api === 'function') {
-                try {
-                    const currentTime = player.api("time");
-                    const duration = player.api("duration");
-                    if (currentTime && duration) {
-                        saveProgress(currentMediaType, currentMediaId, currentTime, duration);
-                    }
-                    player.api("stop");
-                } catch (e) {
-                    console.error("Error stopping player:", e);
-                }
+function closeVideoPlayer() {
+    if (player && typeof player.api === 'function') {
+        try {
+            const currentTime = player.api("time");
+            const duration = player.api("duration");
+            // Utiliser les variables globales actuelles
+            if (currentTime && duration && currentMediaType && currentMediaId) {
+                saveProgress(currentMediaType, currentMediaId, currentTime, duration);
             }
-            videoPlayerContainer.style.display = 'none';
-            videoPlayerContainer.dispatchEvent(new Event('close'));
-            player = null;
-            document.title = "CinéStream - Votre plateforme de streaming";
+            player.api("stop");
+        } catch (e) {
+            console.error("Error stopping player:", e);
         }
+    }
+    videoPlayerContainer.style.display = 'none';
+    videoPlayerContainer.dispatchEvent(new Event('close'));
+    player = null;
+    document.title = "CinéStream - Votre plateforme de streaming";
+}
 
         // Progress Tracking Functions
        function saveProgress(mediaType, mediaId, currentTime, duration) {
@@ -1661,178 +1662,147 @@ function getProgress(mediaType, mediaId) {
             }
         }
 
-        async function showDetailPage(mediaType, id) {
-            showLoading();
-            try {
-                currentMediaType = mediaType;
-                currentMediaId = id;
-                const details = await fetchFromTMDB(`/${mediaType}/${id}?language=fr-FR&append_to_response=credits,videos,images,content_ratings,belongs_to_collection`);
-                document.getElementById('detail-title').textContent = mediaType === 'tv' ? details.name : details.title;
-                document.getElementById('detail-poster').src = getImageUrl(details.poster_path);
-                document.getElementById('detail-year').textContent = mediaType === 'tv'
-                    ? (details.first_air_date ? new Date(details.first_air_date).getFullYear() : '')
-                    : (details.release_date ? new Date(details.release_date).getFullYear() : '');
-                document.getElementById('detail-runtime').textContent = mediaType === 'tv'
-                    ? `${details.number_of_seasons} saison${details.number_of_seasons > 1 ? 's' : ''}`
-                    : `${Math.floor(details.runtime / 60)}h ${details.runtime % 60}min`;
-                document.getElementById('detail-rating').textContent = details.vote_average
-                    ? `${Math.round(details.vote_average * 10) / 10}/10`
-                    : '';
-                document.getElementById('detail-overview').textContent = details.overview || 'Aucune description disponible.';
-                document.querySelector('.detail-backdrop').style.backgroundImage =
-                    `url(${getImageUrl(details.backdrop_path, 'original')})`;
+async function showDetailPage(mediaType, id) {
+    showLoading();
+    try {
+        currentMediaType = mediaType;
+        currentMediaId = id;
+        const details = await fetchFromTMDB(`/${mediaType}/${id}?language=fr-FR&append_to_response=credits,videos,images,content_ratings,belongs_to_collection`);
+        document.getElementById('detail-title').textContent = mediaType === 'tv' ? details.name : details.title;
+        document.getElementById('detail-poster').src = getImageUrl(details.poster_path);
+        document.getElementById('detail-year').textContent = mediaType === 'tv'
+            ? (details.first_air_date ? new Date(details.first_air_date).getFullYear() : '')
+            : (details.release_date ? new Date(details.release_date).getFullYear() : '');
+        document.getElementById('detail-runtime').textContent = mediaType === 'tv'
+            ? `${details.number_of_seasons} saison${details.number_of_seasons > 1 ? 's' : ''}`
+            : `${Math.floor(details.runtime / 60)}h ${details.runtime % 60}min`;
+        document.getElementById('detail-rating').textContent = details.vote_average
+            ? `${Math.round(details.vote_average * 10) / 10}/10`
+            : '';
+        document.getElementById('detail-overview').textContent = details.overview || 'Aucune description disponible.';
+        document.querySelector('.detail-backdrop').style.backgroundImage =
+            `url(${getImageUrl(details.backdrop_path, 'original')})`;
 
-                const logoElement = document.getElementById('detail-logo');
-                const titleElement = document.getElementById('detail-title');
-                if (details.images && details.images.logos && details.images.logos.length > 0) {
-                const frLogo = details.images.logos.find(logo => logo.iso_639_1 === 'fr');
-                logoElement.src = getImageUrl((frLogo || details.images.logos[0]).file_path);
-                logoElement.classList.remove('hidden');
-                titleElement.classList.add('hidden'); // ← on cache le titre
-            } else {
-                logoElement.classList.add('hidden');
-                titleElement.classList.remove('hidden'); // ← on réaffiche le titre s’il n’y a pas de logo
-            }
-
-
-                const genresContainer = document.getElementById('detail-genres');
-                genresContainer.innerHTML = '';
-                details.genres.forEach(genre => {
-                    const genreTag = document.createElement('span');
-                    genreTag.className = 'bg-gray-700 text-gray-300 px-3 py-1 rounded-full text-sm';
-                    genreTag.textContent = genre.name;
-                    genresContainer.appendChild(genreTag);
-                });
-
-                const playBtn = document.getElementById('play-btn');
-                playBtn.onclick = () => {
-                    if (mediaType === 'movie') {
-                        playContent(mediaType, id);
-                    } else {
-                        playEpisode(id, 1, 1);
-                    }
-                };
-
-// Dans showDetailPage(), remplacez TOUTE la partie bande-annonce par ceci :
-const trailerBtn = document.getElementById('trailer-btn');
-trailerBtn.style.display = 'none';
-trailerBtn.onclick = null;
-
-// Titre sûr pour l'affichage
-const mediaTitle = mediaType === 'tv' ? details.name : details.title;
-
-// Chercher un trailer YouTube dans la réponse TMDB
-if (details.videos && Array.isArray(details.videos.results) && details.videos.results.length > 0) {
-    const trailer = details.videos.results.find(v => v.type === 'Trailer' && v.site === 'YouTube')
-                  || details.videos.results.find(v => v.site === 'YouTube')
-                  || details.videos.results[0];
-
-    if (trailer && trailer.key) {
-        trailerBtn.onclick = (e) => {
-            e.stopPropagation();
-            const trailerUrl = `https://www.youtube.com/watch?v=${trailer.key}`;
-            // Mettre à jour le contexte
-            currentMediaType = mediaType;
-            currentMediaId = id;
-            // Ouvrir le lecteur avec isTrailer = true
-            openVideoPlayer(trailerUrl, `${mediaTitle} - Bande-annonce`, '', '', true);
-        };
-        trailerBtn.style.display = 'flex';
-    } else {
-        trailerBtn.style.display = 'none';
-    }
-} else {
-    trailerBtn.style.display = 'none';
-}
-
-// titre sûr pour l'affichage
-const mediaTitle = mediaType === 'tv' ? details.name : details.title;
-
-// chercher un trailer YouTube dans la réponse TMDB (priorité aux vrais "Trailer")
-if (details.videos && Array.isArray(details.videos.results) && details.videos.results.length > 0) {
-    const trailer = details.videos.results.find(v => v.type === 'Trailer' && v.site === 'YouTube')
-                  || details.videos.results.find(v => v.site === 'YouTube')
-                  || details.videos.results[0];
-
-    if (trailer && trailer.key) {
-        trailerBtn.onclick = (e) => {
-            e.stopPropagation();
-            const trailerUrl = `https://www.youtube.com/watch?v=${trailer.key}`;
-            // mettre à jour le contexte si besoin
-            currentMediaType = mediaType;
-            currentMediaId = id;
-            // ouvrir le lecteur intégré avec l'URL YouTube
-            openVideoPlayer(trailerUrl, `${mediaTitle} - Bande-annonce`);
-        };
-        trailerBtn.style.display = 'flex';
-    } else {
-        // pas de clé YouTube trouvée
-        trailerBtn.style.display = 'none';
-    }
-} else {
-    // pas de vidéos TMDB -> on cache le bouton
-    trailerBtn.style.display = 'none';
-}
-
-
-                const favoriteBtn = document.getElementById('favorite-btn');
-                favoriteBtn.onclick = () => {
-                    toggleFavorite(mediaType, id);
-                    updateFavoriteButton(mediaType, id);
-                };
-                updateFavoriteButton(mediaType, id);
-
-                const episodesSection = document.getElementById('episodes-section');
-                if (mediaType === 'tv') {
-                    episodesSection.classList.remove('hidden');
-                    const seasonSelect = document.getElementById('season-select');
-                    seasonSelect.innerHTML = '';
-                    for (let i = 1; i <= details.number_of_seasons; i++) {
-                        const option = document.createElement('option');
-                        option.value = i;
-                        option.textContent = `Saison ${i}`;
-                        seasonSelect.appendChild(option);
-                    }
-
-                    await loadSeasonEpisodes(id, 1);
-                    seasonSelect.onchange = () => {
-                        loadSeasonEpisodes(id, parseInt(seasonSelect.value));
-                    };
-                } else {
-                    episodesSection.classList.add('hidden');
-                }
-
-                if (details.belongs_to_collection) {
-                    const collectionId = details.belongs_to_collection.id;
-                    const collectionDetails = await fetchFromTMDB(`/collection/${collectionId}?language=fr-FR`);
-                    const availableMovies = collectionDetails.parts.filter(movie =>
-                        isContentAvailable('movie', movie.id) && movie.id !== id
-                    );
-                    if (availableMovies.length > 0) {
-                        const sameSagaSection = document.getElementById('same-saga-section');
-                        sameSagaSection.classList.remove('hidden');
-                        const sameSagaList = document.getElementById('same-saga-list');
-                        sameSagaList.innerHTML = '';
-                        availableMovies.forEach(movie => {
-                            sameSagaList.appendChild(createSameSagaItem(movie));
-                        });
-                    }
-                } else {
-                    const sameSagaSection = document.getElementById('same-saga-section');
-                    sameSagaSection.classList.add('hidden');
-                }
-
-                Object.values(pages).forEach(p => {
-                    p.style.display = 'none';
-                });
-                pages.detail.style.display = 'block';
-                window.scrollTo(0, 0);
-            } catch (error) {
-                console.error('Error showing detail page:', error);
-            } finally {
-                hideLoading();
-            }
+        const logoElement = document.getElementById('detail-logo');
+        const titleElement = document.getElementById('detail-title');
+        if (details.images && details.images.logos && details.images.logos.length > 0) {
+            const frLogo = details.images.logos.find(logo => logo.iso_639_1 === 'fr');
+            logoElement.src = getImageUrl((frLogo || details.images.logos[0]).file_path);
+            logoElement.classList.remove('hidden');
+            titleElement.classList.add('hidden');
+        } else {
+            logoElement.classList.add('hidden');
+            titleElement.classList.remove('hidden');
         }
+
+        const genresContainer = document.getElementById('detail-genres');
+        genresContainer.innerHTML = '';
+        details.genres.forEach(genre => {
+            const genreTag = document.createElement('span');
+            genreTag.className = 'bg-gray-700 text-gray-300 px-3 py-1 rounded-full text-sm';
+            genreTag.textContent = genre.name;
+            genresContainer.appendChild(genreTag);
+        });
+
+        const playBtn = document.getElementById('play-btn');
+        playBtn.onclick = () => {
+            if (mediaType === 'movie') {
+                playContent(mediaType, id);
+            } else {
+                playEpisode(id, 1, 1);
+            }
+        };
+
+        // Partie bande-annonce CORRIGÉE (supprimer la duplication)
+        const trailerBtn = document.getElementById('trailer-btn');
+        trailerBtn.style.display = 'none';
+        trailerBtn.onclick = null;
+
+        // Titre sûr pour l'affichage (UNE SEULE DÉCLARATION)
+        const mediaTitle = mediaType === 'tv' ? details.name : details.title;
+
+        // Chercher un trailer YouTube dans la réponse TMDB
+        if (details.videos && Array.isArray(details.videos.results) && details.videos.results.length > 0) {
+            const trailer = details.videos.results.find(v => v.type === 'Trailer' && v.site === 'YouTube')
+                          || details.videos.results.find(v => v.site === 'YouTube')
+                          || details.videos.results[0];
+
+            if (trailer && trailer.key) {
+                trailerBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    const trailerUrl = `https://www.youtube.com/watch?v=${trailer.key}`;
+                    // Mettre à jour le contexte
+                    currentMediaType = mediaType;
+                    currentMediaId = id;
+                    // Ouvrir le lecteur avec isTrailer = true
+                    openVideoPlayer(trailerUrl, `${mediaTitle} - Bande-annonce`, '', '', true);
+                };
+                trailerBtn.style.display = 'flex';
+            } else {
+                trailerBtn.style.display = 'none';
+            }
+        } else {
+            trailerBtn.style.display = 'none';
+        }
+
+        const favoriteBtn = document.getElementById('favorite-btn');
+        favoriteBtn.onclick = () => {
+            toggleFavorite(mediaType, id);
+            updateFavoriteButton(mediaType, id);
+        };
+        updateFavoriteButton(mediaType, id);
+
+        const episodesSection = document.getElementById('episodes-section');
+        if (mediaType === 'tv') {
+            episodesSection.classList.remove('hidden');
+            const seasonSelect = document.getElementById('season-select');
+            seasonSelect.innerHTML = '';
+            for (let i = 1; i <= details.number_of_seasons; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = `Saison ${i}`;
+                seasonSelect.appendChild(option);
+            }
+
+            await loadSeasonEpisodes(id, 1);
+            seasonSelect.onchange = () => {
+                loadSeasonEpisodes(id, parseInt(seasonSelect.value));
+            };
+        } else {
+            episodesSection.classList.add('hidden');
+        }
+
+        if (details.belongs_to_collection) {
+            const collectionId = details.belongs_to_collection.id;
+            const collectionDetails = await fetchFromTMDB(`/collection/${collectionId}?language=fr-FR`);
+            const availableMovies = collectionDetails.parts.filter(movie =>
+                isContentAvailable('movie', movie.id) && movie.id !== id
+            );
+            if (availableMovies.length > 0) {
+                const sameSagaSection = document.getElementById('same-saga-section');
+                sameSagaSection.classList.remove('hidden');
+                const sameSagaList = document.getElementById('same-saga-list');
+                sameSagaList.innerHTML = '';
+                availableMovies.forEach(movie => {
+                    sameSagaList.appendChild(createSameSagaItem(movie));
+                });
+            }
+        } else {
+            const sameSagaSection = document.getElementById('same-saga-section');
+            sameSagaSection.classList.add('hidden');
+        }
+
+        Object.values(pages).forEach(p => {
+            p.style.display = 'none';
+        });
+        pages.detail.style.display = 'block';
+        window.scrollTo(0, 0);
+    } catch (error) {
+        console.error('Error showing detail page:', error);
+    } finally {
+        hideLoading();
+    }
+}
 
         async function loadSeasonEpisodes(seriesId, seasonNumber) {
             showLoading();
