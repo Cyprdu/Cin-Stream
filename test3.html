@@ -390,6 +390,15 @@
     margin-top: 5px;
     z-index: 999; /* Changez cette valeur pour qu'elle soit inférieure à celle du lecteur */
 }
+        /* Taille adaptée pour le logo sur la page de détail */
+#detail-logo {
+    max-height: 70px; /* hauteur raisonnable */
+    max-width: 60%;   /* pour éviter qu'il déborde à droite */
+    object-fit: contain; /* conserve les proportions du logo */
+    margin-bottom: 15px;
+    display: block;
+}
+
     </style>
 </head>
 <body>
