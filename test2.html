@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -387,8 +388,17 @@
     border-radius: 50%;
     backdrop-filter: blur(5px);
     margin-top: 5px;
-    z-index: 0; /* Changez cette valeur pour qu'elle soit inférieure à celle du lecteur */
+    z-index: 999; /* Changez cette valeur pour qu'elle soit inférieure à celle du lecteur */
 }
+        /* Taille adaptée pour le logo sur la page de détail */
+#detail-logo {
+    max-height: 45px;
+    max-width: 60%;   /* pour éviter qu'il déborde à droite */
+    object-fit: contain; /* conserve les proportions du logo */
+    margin-bottom: 15px;
+    display: block;
+}
+
     </style>
 </head>
 <body>
@@ -1596,13 +1606,17 @@
                     `url(${getImageUrl(details.backdrop_path, 'original')})`;
 
                 const logoElement = document.getElementById('detail-logo');
+                const titleElement = document.getElementById('detail-title');
                 if (details.images && details.images.logos && details.images.logos.length > 0) {
-                    const frLogo = details.images.logos.find(logo => logo.iso_639_1 === 'fr');
-                    logoElement.src = getImageUrl((frLogo || details.images.logos[0]).file_path);
-                    logoElement.classList.remove('hidden');
-                } else {
-                    logoElement.classList.add('hidden');
-                }
+                const frLogo = details.images.logos.find(logo => logo.iso_639_1 === 'fr');
+                logoElement.src = getImageUrl((frLogo || details.images.logos[0]).file_path);
+                logoElement.classList.remove('hidden');
+                titleElement.classList.add('hidden'); // ← on cache le titre
+            } else {
+                logoElement.classList.add('hidden');
+                titleElement.classList.remove('hidden'); // ← on réaffiche le titre s’il n’y a pas de logo
+            }
+
 
                 const genresContainer = document.getElementById('detail-genres');
                 genresContainer.innerHTML = '';
@@ -1622,19 +1636,40 @@
                     }
                 };
 
-                const trailerBtn = document.getElementById('trailer-btn');
-                if (details.videos && details.videos.results && details.videos.results.length > 0) {
-                    const trailer = details.videos.results.find(video =>
-                        video.type === 'Trailer' && video.site === 'YouTube'
-                    ) || details.videos.results[0];
-                    trailerBtn.onclick = () => {
-                        const trailerUrl = `https://www.youtube.com/watch?v=${trailer.key}`;
-                        openVideoPlayer(trailerUrl, `${title} - Bande-annonce`);
-                    };
-                    trailerBtn.style.display = 'flex';
-                } else {
-                    trailerBtn.style.display = 'none';
-                }
+// --- Bloc à coller dans showDetailPage() ---
+const trailerBtn = document.getElementById('trailer-btn');
+trailerBtn.style.display = 'none';
+trailerBtn.onclick = null; // s'assurer qu'il n'y a pas d'ancien handler
+
+// titre sûr pour l'affichage
+const mediaTitle = mediaType === 'tv' ? details.name : details.title;
+
+// chercher un trailer YouTube dans la réponse TMDB (priorité aux vrais "Trailer")
+if (details.videos && Array.isArray(details.videos.results) && details.videos.results.length > 0) {
+    const trailer = details.videos.results.find(v => v.type === 'Trailer' && v.site === 'YouTube')
+                  || details.videos.results.find(v => v.site === 'YouTube')
+                  || details.videos.results[0];
+
+    if (trailer && trailer.key) {
+        trailerBtn.onclick = (e) => {
+            e.stopPropagation();
+            const trailerUrl = `https://www.youtube.com/watch?v=${trailer.key}`;
+            // mettre à jour le contexte si besoin
+            currentMediaType = mediaType;
+            currentMediaId = id;
+            // ouvrir le lecteur intégré avec l'URL YouTube
+            openVideoPlayer(trailerUrl, `${mediaTitle} - Bande-annonce`);
+        };
+        trailerBtn.style.display = 'flex';
+    } else {
+        // pas de clé YouTube trouvée
+        trailerBtn.style.display = 'none';
+    }
+} else {
+    // pas de vidéos TMDB -> on cache le bouton
+    trailerBtn.style.display = 'none';
+}
+
 
                 const favoriteBtn = document.getElementById('favorite-btn');
                 favoriteBtn.onclick = () => {
