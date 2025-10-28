@@ -1636,19 +1636,40 @@
                     }
                 };
 
-                const trailerBtn = document.getElementById('trailer-btn');
-                if (details.videos && details.videos.results && details.videos.results.length > 0) {
-                    const trailer = details.videos.results.find(video =>
-                        video.type === 'Trailer' && video.site === 'YouTube'
-                    ) || details.videos.results[0];
-                    trailerBtn.onclick = () => {
-                        const trailerUrl = `https://www.youtube.com/watch?v=${trailer.key}`;
-                        openVideoPlayer(trailerUrl, `${title} - Bande-annonce`);
-                    };
-                    trailerBtn.style.display = 'flex';
-                } else {
-                    trailerBtn.style.display = 'none';
-                }
+// --- Bloc à coller dans showDetailPage() ---
+const trailerBtn = document.getElementById('trailer-btn');
+trailerBtn.style.display = 'none';
+trailerBtn.onclick = null; // s'assurer qu'il n'y a pas d'ancien handler
+
+// titre sûr pour l'affichage
+const mediaTitle = mediaType === 'tv' ? details.name : details.title;
+
+// chercher un trailer YouTube dans la réponse TMDB (priorité aux vrais "Trailer")
+if (details.videos && Array.isArray(details.videos.results) && details.videos.results.length > 0) {
+    const trailer = details.videos.results.find(v => v.type === 'Trailer' && v.site === 'YouTube')
+                  || details.videos.results.find(v => v.site === 'YouTube')
+                  || details.videos.results[0];
+
+    if (trailer && trailer.key) {
+        trailerBtn.onclick = (e) => {
+            e.stopPropagation();
+            const trailerUrl = `https://www.youtube.com/watch?v=${trailer.key}`;
+            // mettre à jour le contexte si besoin
+            currentMediaType = mediaType;
+            currentMediaId = id;
+            // ouvrir le lecteur intégré avec l'URL YouTube
+            openVideoPlayer(trailerUrl, `${mediaTitle} - Bande-annonce`);
+        };
+        trailerBtn.style.display = 'flex';
+    } else {
+        // pas de clé YouTube trouvée
+        trailerBtn.style.display = 'none';
+    }
+} else {
+    // pas de vidéos TMDB -> on cache le bouton
+    trailerBtn.style.display = 'none';
+}
+
 
                 const favoriteBtn = document.getElementById('favorite-btn');
                 favoriteBtn.onclick = () => {
