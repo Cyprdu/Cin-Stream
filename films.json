@@ -115,6 +115,10 @@
         "url": "https://cinecake.xyz/movies/Fight-Club.mp4"
     },
     {
+        "tmdb_id": "movie-552524",
+        "url": "https://cinecake.xyz/movies/Lilo-Et-Stitch-2025.mp4"
+    },
+    {
         "tmdb_id": "movie-278",
         "url": "https://cinecake.xyz/movies/Les-Evades.mp4"
     },
@@ -1363,6 +1367,60 @@
         "tmdb_id": "movie-3600",
         "url": "https://pulse.topstrime.online/movie/3600/video-4/index.m3u8"
     },
+    {
+        "tmdb_id": "movie-1277988",
+        "url": "https://pub-850d3e9bb31a421a96c4f5f68970ea9b.r2.dev/episode/caramelo.mp4"
+    },
+    {
+        "tmdb_id": "movie-13207",
+        "url": "https://cinecake.xyz/movies/Vendredi-13-Chapitre-4-Chapitre-Final.mp4"
+    },
+    {
+        "tmdb_id": "movie-420634",
+        "url": "https://cinecake.xyz/movies/Terrifier.mp4"
+    },
+    {
+        "tmdb_id": "movie-663712",
+        "url": "https://cinecake.xyz/movies/Terrifier-2.mp4"
+    },
+    {
+        "tmdb_id": "movie-1034541",
+        "url": "https://cinecake.xyz/movies/Terrifier-3.mp4"
+    },
+    {
+        "tmdb_id": "movie-9730",
+        "url": "https://cinecake.xyz/movies/Vendredi-13.mp4"
+    },
+    {
+        "tmdb_id": "movie-9731",
+        "url": "https://cinecake.xyz/movies/Vendredi-13-Chapitre-5-Une-Nouvelle-Terreur.mp4"
+    },
+    {
+        "tmdb_id": "movie-10225",
+        "url": "https://cinecake.xyz/movies/Vendredi-13-Chapitre-6-Jason-Le-Mort-Vivant.mp4"
+    },
+    {
+        "tmdb_id": "movie-10281",
+        "url": "https://cinecake.xyz/movies/Vendredi-13-Chapitre-7-Un-Nouveau-Defi.mp4"
+    },
+    {
+        "tmdb_id": "movie-10283",
+        "url": "https://cinecake.xyz/movies/Vendredi-13-Chapitre-8-Lultime-Retour.mp4"
+    },
+     {
+        "tmdb_id": "movie-10285",
+        "url": "https://cinecake.xyz/movies/Vendredi-13-Chapitre-9-Jason-Va-En-Enfer.mp4"
+    },
+    {
+        "tmdb_id": "movie-756999",
+        "url": "https://cinecake.xyz/movies/Black-Phone.mp4"
+    },
+    
+    {
+        "tmdb_id": "movie-14836",
+        "url": "https://cinecake.xyz/movies/Coraline.mp4"
+    },
+    
     {
         "tmdb_id": "movie-3602",
         "url": "https://pulse.topstrime.online/movie/3602/master.m3u8"
@@ -7507,3 +7565,4 @@
         "url": "https://cinecake.xyz/series/Moon-Knight/S01/Moon-Knight-S01-E06.mp4"
     }
 ]
+
