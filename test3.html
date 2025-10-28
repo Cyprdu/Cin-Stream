@@ -1003,10 +1003,32 @@
             player = null;
             document.title = "CinéStream - Votre plateforme de streaming";
         }
+        
+function getUniqueKey(mediaType, mediaId, options = {}) {
+    if (mediaType === 'movie') {
+        if (options.isTrailer) {
+            return `trailer-${mediaId}`;
+        }
+        return `movie-${mediaId}`;
+    } 
+    else if (mediaType === 'tv') {
+        const { season, episode } = options;
+        if (season && episode) {
+            return `tv-${mediaId}-S${season}-E${episode}`;
+        }
+        return `tv-${mediaId}`;
+    }
+    return `${mediaType}-${mediaId}`;
+}
 
+        
         // Progress Tracking Functions
         function saveProgress(mediaType, mediaId, currentTime, duration) {
-            const key = `${mediaType}-${mediaId}`;
+const key = getUniqueKey(mediaType, mediaId, {
+    season: currentSeason,
+    episode: currentEpisode,
+    isTrailer: mediaType === 'trailer'
+});
             const progress = `${currentTime}--${duration}`;
             localStorage.setItem(key, progress);
 
@@ -1033,7 +1055,11 @@
         }
 
         function getProgress(mediaType, mediaId) {
-            const key = `${mediaType}-${mediaId}`;
+const key = getUniqueKey(mediaType, mediaId, {
+    season: currentSeason,
+    episode: currentEpisode,
+    isTrailer: mediaType === 'trailer'
+});
             const progress = localStorage.getItem(key);
             if (progress) {
                 const [currentTime, duration] = progress.split('--').map(Number);
@@ -1650,17 +1676,23 @@ if (details.videos && Array.isArray(details.videos.results) && details.videos.re
                   || details.videos.results.find(v => v.site === 'YouTube')
                   || details.videos.results[0];
 
-    if (trailer && trailer.key) {
-        trailerBtn.onclick = (e) => {
-            e.stopPropagation();
-            const trailerUrl = `https://www.youtube.com/watch?v=${trailer.key}`;
-            // mettre à jour le contexte si besoin
-            currentMediaType = mediaType;
-            currentMediaId = id;
-            // ouvrir le lecteur intégré avec l'URL YouTube
-            openVideoPlayer(trailerUrl, `${mediaTitle} - Bande-annonce`);
-        };
-        trailerBtn.style.display = 'flex';
+if (trailer && trailer.key) {
+    trailerBtn.onclick = (e) => {
+        e.stopPropagation();
+        const trailerUrl = `https://www.youtube.com/watch?v=${trailer.key}`;
+
+        // ✅ identifiant unique pour la bande-annonce
+        currentMediaType = 'trailer';
+        currentMediaId = id;          // l’id du film ou de la série
+        currentSeason = null;
+        currentEpisode = null;
+
+        // ouvrir le lecteur intégré avec l'URL YouTube
+        openVideoPlayer(trailerUrl, `${mediaTitle} - Bande-annonce`);
+    };
+    trailerBtn.style.display = 'flex';
+}
+
     } else {
         // pas de clé YouTube trouvée
         trailerBtn.style.display = 'none';
