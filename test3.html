@@ -924,40 +924,31 @@ function openVideoPlayer(url, title, ageRating = '', posterUrl = '', isTrailer =
     // Pour les bandes-annonces, toujours commencer au début
     if (progress && !isTrailer) {
         startTime = progress.currentTime;
-        // Optionnel: ne pas reprendre si très proche de la fin (90%)
-        if (progress.duration - progress.currentTime < 60) { // 60 secondes avant la fin
+        // Ne pas reprendre si très proche de la fin (moins de 60 secondes)
+        if (progress.duration - progress.currentTime < 60) {
             startTime = 0;
         }
     }
 
-    if (currentMediaType === 'movie' || isTrailer) {
-        player = new Playerjs({
-            id: "player",
-            file: url,
-            poster: "https://github.com/Cyprdu/projection/blob/main/black.png?raw=true",
-            autoplay: 1,
-            subtitle: "",
-            default_subtitle: "",
-            rename_audio: {"French": "Français"},
-            default_audio: "Français",
-            title: title,
-            start: startTime
-        });
-    } else if (currentMediaType === 'tv') {
-        const playlist = createSeriesPlaylist();
-        player = new Playerjs({
-            id: "player",
-            file: url,
-            poster: "https://github.com/Cyprdu/projection/blob/main/black.png?raw=true",
-            autoplay: 1,
-            subtitle: "",
-            default_subtitle: "",
-            rename_audio: {"French": "Français"},
-            default_audio: "Français",
-            title: title,
-            start: startTime
-        });
+    // Configuration du player
+    const playerConfig = {
+        id: "player",
+        file: url,
+        poster: posterUrl || "https://github.com/Cyprdu/projection/blob/main/black.png?raw=true",
+        autoplay: 1,
+        subtitle: "",
+        default_subtitle: "",
+        rename_audio: {"French": "Français"},
+        default_audio: "Français",
+        title: title
+    };
+
+    // Ajouter le timecode de départ seulement si nécessaire
+    if (startTime > 0) {
+        playerConfig.start = startTime;
     }
+
+    player = new Playerjs(playerConfig);
 
     // Animation du titre
     movieTitle.style.display = 'block';
