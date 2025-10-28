@@ -901,55 +901,76 @@
             backLink.addEventListener('click', closeVideoPlayer);
         }
 
+
         function openVideoPlayer(url, title, ageRating = '', posterUrl = '') {
-            videoPlayerContainer.style.display = 'block';
-            const displayTitle = ageRating ? `${title} (${ageRating})` : title;
-            movieTitle.textContent = displayTitle;
-            document.title = displayTitle;
+    videoPlayerContainer.style.display = 'block';
+    const displayTitle = ageRating ? `${title} (${ageRating})` : title;
+    movieTitle.textContent = displayTitle;
+    document.title = displayTitle;
 
-            const progress = getProgress(currentMediaType, currentMediaId);
-            let startTime = 0;
-            if (progress) {
-                startTime = progress.currentTime;
+    // 🔹 Déterminer la clé de progression unique
+    const progressKey =
+        currentMediaType === 'tv' && currentSeason && currentEpisode
+            ? `tv-${currentMediaId}` // ex. tv-119051-1-2
+            : generateUniqueKey(currentMediaType, currentMediaId);
+
+    // 🔹 Récupération du bon timecode
+    const progress = getProgressByKey(progressKey);
+    const startTime = progress ? progress.currentTime : 0;
+
+    player = new Playerjs({
+        id: "player",
+        file: url,
+        poster: "https://github.com/Cyprdu/projection/blob/main/black.png?raw=true",
+        autoplay: 1,
+        subtitle: "",
+        default_subtitle: "",
+        rename_audio: { "French": "Français" },
+        default_audio: "Français",
+        title: title,
+        start: startTime
+    });
+
+    movieTitle.style.display = 'block';
+    movieTitle.style.opacity = '1';
+    setTimeout(function () {
+        movieTitle.style.opacity = '0';
+        setTimeout(function () {
+            movieTitle.style.display = 'none';
+        }, 300);
+    }, 10000);
+
+    // 🔹 Sauvegarde périodique avec la clé unique
+    const progressInterval = setInterval(() => {
+        if (player && typeof player.api === 'function') {
+            try {
+                const currentTime = player.api("time");
+                const duration = player.api("duration");
+                if (currentTime && duration) {
+                    saveProgressByKey(progressKey, currentTime, duration);
+                }
+            } catch (e) {
+                console.error("Error saving progress:", e);
             }
+        }
+    }, 5000);
 
-            if (currentMediaType === 'movie') {
-                player = new Playerjs({
-                    id: "player",
-                    file: url,
-                    poster: "https://github.com/Cyprdu/projection/blob/main/black.png?raw=true",
-                    autoplay: 1,
-                    subtitle: "",
-                    default_subtitle: "",
-                    rename_audio: {"French": "Français"},
-                    default_audio: "Français",
-                    title: title,
-                    start: startTime
-                });
-            } else if (currentMediaType === 'tv') {
-                const playlist = createSeriesPlaylist();
-                player = new Playerjs({
-                    id: "player",
-                    file: url,
-                    poster: "https://github.com/Cyprdu/projection/blob/main/black.png?raw=true",
-                    autoplay: 1,
-                    subtitle: "",
-                    default_subtitle: "",
-                    rename_audio: {"French": "Français"},
-                    default_audio: "Français",
-                    title: title,
-                    start: startTime
-                });
-            }
+    videoPlayerContainer.addEventListener(
+        'close',
+        () => {
+            clearInterval(progressInterval);
+        },
+        { once: true }
+    );
+}
 
-            movieTitle.style.display = 'block';
-            movieTitle.style.opacity = '1';
-            setTimeout(function() {
-                movieTitle.style.opacity = '0';
-                setTimeout(function() {
-                    movieTitle.style.display = 'none';
-                }, 300);
-            }, 10000);
+
+
+
+
+
+
+            
 
             const progressInterval = setInterval(() => {
                 if (player && typeof player.api === 'function') {
@@ -1051,6 +1072,23 @@
             }
             localStorage.setItem('watchedList', JSON.stringify(watchedList));
         }
+
+
+
+        function saveProgressByKey(key, currentTime, duration) {
+    const progress = `${currentTime}--${duration}`;
+    localStorage.setItem(key, progress);
+}
+
+function getProgressByKey(key) {
+    const progress = localStorage.getItem(key);
+    if (progress) {
+        const [currentTime, duration] = progress.split('--').map(Number);
+        return { currentTime, duration };
+    }
+    return null;
+}
+
 
         function getProgress(mediaType, mediaId) {
             const key = `${mediaType}-${mediaId}`;
