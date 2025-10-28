@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -900,87 +902,74 @@
             backLink.addEventListener('click', closeVideoPlayer);
         }
 
-function openVideoPlayer(url, title, ageRating = '', posterUrl = '', isTrailer = false) {
-    videoPlayerContainer.style.display = 'block';
-    const displayTitle = ageRating ? `${title} (${ageRating})` : title;
-    movieTitle.textContent = displayTitle;
-    document.title = displayTitle;
+        function openVideoPlayer(url, title, ageRating = '', posterUrl = '') {
+            videoPlayerContainer.style.display = 'block';
+            const displayTitle = ageRating ? `${title} (${ageRating})` : title;
+            movieTitle.textContent = displayTitle;
+            document.title = displayTitle;
 
-    // Déterminer le type de média pour la progression
-    let progressMediaType = currentMediaType;
-    let progressMediaId = currentMediaId;
-    
-    if (isTrailer) {
-        progressMediaType = 'trailer';
-        // Créer un ID unique pour la bande-annonce basé sur le titre
-        progressMediaId = `trailer-${title.replace(/\s+/g, '-').toLowerCase()}`;
-    }
-
-    const progress = getProgress(progressMediaType, progressMediaId);
-    let startTime = 0;
-    
-    // Pour les bandes-annonces, toujours commencer au début
-    if (progress && !isTrailer) {
-        startTime = progress.currentTime;
-        // Ne pas reprendre si très proche de la fin (moins de 60 secondes)
-        if (progress.duration - progress.currentTime < 60) {
-            startTime = 0;
-        }
-    }
-
-    // Configuration du player
-    const playerConfig = {
-        id: "player",
-        file: url,
-        poster: posterUrl || "https://github.com/Cyprdu/projection/blob/main/black.png?raw=true",
-        autoplay: 1,
-        subtitle: "",
-        default_subtitle: "",
-        rename_audio: {"French": "Français"},
-        default_audio: "Français",
-        title: title
-    };
-
-    // Ajouter le timecode de départ seulement si nécessaire
-    if (startTime > 0) {
-        playerConfig.start = startTime;
-    }
-
-    player = new Playerjs(playerConfig);
-
-    // Animation du titre
-    movieTitle.style.display = 'block';
-    movieTitle.style.opacity = '1';
-    setTimeout(function() {
-        movieTitle.style.opacity = '0';
-        setTimeout(function() {
-            movieTitle.style.display = 'none';
-        }, 300);
-    }, 10000);
-
-    // Sauvegarde de la progression
-    const progressInterval = setInterval(() => {
-        if (player && typeof player.api === 'function') {
-            try {
-                const currentTime = player.api("time");
-                const duration = player.api("duration");
-                if (currentTime && duration) {
-                    saveProgress(progressMediaType, progressMediaId, currentTime, duration);
-                }
-            } catch (e) {
-                console.error("Error saving progress:", e);
+            const progress = getProgress(currentMediaType, currentMediaId);
+            let startTime = 0;
+            if (progress) {
+                startTime = progress.currentTime;
             }
+
+            if (currentMediaType === 'movie') {
+                player = new Playerjs({
+                    id: "player",
+                    file: url,
+                    poster: "https://github.com/Cyprdu/projection/blob/main/black.png?raw=true",
+                    autoplay: 1,
+                    subtitle: "",
+                    default_subtitle: "",
+                    rename_audio: {"French": "Français"},
+                    default_audio: "Français",
+                    title: title,
+                    start: startTime
+                });
+            } else if (currentMediaType === 'tv') {
+                const playlist = createSeriesPlaylist();
+                player = new Playerjs({
+                    id: "player",
+                    file: url,
+                    poster: "https://github.com/Cyprdu/projection/blob/main/black.png?raw=true",
+                    autoplay: 1,
+                    subtitle: "",
+                    default_subtitle: "",
+                    rename_audio: {"French": "Français"},
+                    default_audio: "Français",
+                    title: title,
+                    start: startTime
+                });
+            }
+
+            movieTitle.style.display = 'block';
+            movieTitle.style.opacity = '1';
+            setTimeout(function() {
+                movieTitle.style.opacity = '0';
+                setTimeout(function() {
+                    movieTitle.style.display = 'none';
+                }, 300);
+            }, 10000);
+
+            const progressInterval = setInterval(() => {
+                if (player && typeof player.api === 'function') {
+                    try {
+                        const currentTime = player.api("time");
+                        const duration = player.api("duration");
+                        if (currentTime && duration) {
+                            saveProgress(currentMediaType, currentMediaId, currentTime, duration);
+                        }
+                    } catch (e) {
+                        console.error("Error saving progress:", e);
+                    }
+                }
+            }, 5000);
+
+            videoPlayerContainer.addEventListener('close', () => {
+                clearInterval(progressInterval);
+            }, { once: true });
         }
-    }, 5000);
-
-    videoPlayerContainer.addEventListener('close', () => {
-        clearInterval(progressInterval);
-    }, { once: true });
-}
-
-
-
-        
 
         function createSeriesPlaylist() {
             return [
@@ -997,56 +986,34 @@ function openVideoPlayer(url, title, ageRating = '', posterUrl = '', isTrailer =
             ];
         }
 
-function closeVideoPlayer() {
-    if (player && typeof player.api === 'function') {
-        try {
-            const currentTime = player.api("time");
-            const duration = player.api("duration");
-            // Utiliser les variables globales actuelles
-            if (currentTime && duration && currentMediaType && currentMediaId) {
-                saveProgress(currentMediaType, currentMediaId, currentTime, duration);
+        function closeVideoPlayer() {
+            if (player && typeof player.api === 'function') {
+                try {
+                    const currentTime = player.api("time");
+                    const duration = player.api("duration");
+                    if (currentTime && duration) {
+                        saveProgress(currentMediaType, currentMediaId, currentTime, duration);
+                    }
+                    player.api("stop");
+                } catch (e) {
+                    console.error("Error stopping player:", e);
+                }
             }
-            player.api("stop");
-        } catch (e) {
-            console.error("Error stopping player:", e);
+            videoPlayerContainer.style.display = 'none';
+            videoPlayerContainer.dispatchEvent(new Event('close'));
+            player = null;
+            document.title = "CinéStream - Votre plateforme de streaming";
         }
-    }
-    videoPlayerContainer.style.display = 'none';
-    videoPlayerContainer.dispatchEvent(new Event('close'));
-    player = null;
-    document.title = "CinéStream - Votre plateforme de streaming";
-}
 
-        // Progress Tracking Functions
-       function saveProgress(mediaType, mediaId, currentTime, duration) {
-    // Créer un identifiant unique basé sur le type de contenu
-    let uniqueKey;
-    
-    if (mediaType === 'movie') {
-        uniqueKey = `movie-${mediaId}`;
-    } else if (mediaType === 'tv') {
-        // Pour les épisodes de série, utiliser un identifiant plus spécifique
-        if (mediaId.includes('-')) {
-            // Format: seriesId-season-episode
-            uniqueKey = `tv-${mediaId}`;
-        } else {
-            // Fallback pour les séries en général
-            uniqueKey = `tv-series-${mediaId}`;
-        }
-    } else if (mediaType === 'trailer') {
-        uniqueKey = `trailer-${mediaId}`;
-    } else {
-        uniqueKey = `${mediaType}-${mediaId}`;
-    }
-    
+function saveProgress(mediaType, mediaId, currentTime, duration) {
+    // Utiliser la clé spécifique au contenu (ex: "movie-911430" ou "tv-119051-1-2")
+    const key = `${mediaType}-${mediaId}`;
     const progress = `${currentTime}--${duration}`;
-    localStorage.setItem(uniqueKey, progress);
+    localStorage.setItem(key, progress);
 
-    // Mettre à jour la watchedList avec l'identifiant unique
     let watchedList = JSON.parse(localStorage.getItem('watchedList') || '[]');
-    const existingIndex = watchedList.findIndex(item => item.uniqueKey === uniqueKey);
+    const existingIndex = watchedList.findIndex(item => item.id === mediaId && item.type === mediaType);
     const watchedItem = {
-        uniqueKey: uniqueKey,
         id: mediaId,
         type: mediaType,
         progress: currentTime,
@@ -1069,40 +1036,18 @@ function closeVideoPlayer() {
 
 
 
-
-
-
-
-
-
         
+
 function getProgress(mediaType, mediaId) {
-    // Créer le même identifiant unique que dans saveProgress
-    let uniqueKey;
-    
-    if (mediaType === 'movie') {
-        uniqueKey = `movie-${mediaId}`;
-    } else if (mediaType === 'tv') {
-        if (mediaId.includes('-')) {
-            uniqueKey = `tv-${mediaId}`;
-        } else {
-            uniqueKey = `tv-series-${mediaId}`;
-        }
-    } else if (mediaType === 'trailer') {
-        uniqueKey = `trailer-${mediaId}`;
-    } else {
-        uniqueKey = `${mediaType}-${mediaId}`;
-    }
-    
-    const progress = localStorage.getItem(uniqueKey);
+    // Utiliser la clé spécifique au contenu
+    const key = `${mediaType}-${mediaId}`;
+    const progress = localStorage.getItem(key);
     if (progress) {
         const [currentTime, duration] = progress.split('--').map(Number);
         return { currentTime, duration };
     }
     return null;
 }
-
-        
 
         // API Functions
         async function fetchFromTMDB(endpoint) {
@@ -1119,10 +1064,6 @@ function getProgress(mediaType, mediaId) {
             }
             return await response.json();
         }
-
-
-
-        
 
         function getImageUrl(path, size = 'w500') {
             if (!path) return 'https://via.placeholder.com/500x750?text=No+Image';
@@ -1650,147 +1591,151 @@ function getProgress(mediaType, mediaId) {
             }
         }
 
-async function showDetailPage(mediaType, id) {
-    showLoading();
-    try {
-        currentMediaType = mediaType;
-        currentMediaId = id;
-        const details = await fetchFromTMDB(`/${mediaType}/${id}?language=fr-FR&append_to_response=credits,videos,images,content_ratings,belongs_to_collection`);
-        document.getElementById('detail-title').textContent = mediaType === 'tv' ? details.name : details.title;
-        document.getElementById('detail-poster').src = getImageUrl(details.poster_path);
-        document.getElementById('detail-year').textContent = mediaType === 'tv'
-            ? (details.first_air_date ? new Date(details.first_air_date).getFullYear() : '')
-            : (details.release_date ? new Date(details.release_date).getFullYear() : '');
-        document.getElementById('detail-runtime').textContent = mediaType === 'tv'
-            ? `${details.number_of_seasons} saison${details.number_of_seasons > 1 ? 's' : ''}`
-            : `${Math.floor(details.runtime / 60)}h ${details.runtime % 60}min`;
-        document.getElementById('detail-rating').textContent = details.vote_average
-            ? `${Math.round(details.vote_average * 10) / 10}/10`
-            : '';
-        document.getElementById('detail-overview').textContent = details.overview || 'Aucune description disponible.';
-        document.querySelector('.detail-backdrop').style.backgroundImage =
-            `url(${getImageUrl(details.backdrop_path, 'original')})`;
+        async function showDetailPage(mediaType, id) {
+            showLoading();
+            try {
+                currentMediaType = mediaType;
+                currentMediaId = id;
+                const details = await fetchFromTMDB(`/${mediaType}/${id}?language=fr-FR&append_to_response=credits,videos,images,content_ratings,belongs_to_collection`);
+                document.getElementById('detail-title').textContent = mediaType === 'tv' ? details.name : details.title;
+                document.getElementById('detail-poster').src = getImageUrl(details.poster_path);
+                document.getElementById('detail-year').textContent = mediaType === 'tv'
+                    ? (details.first_air_date ? new Date(details.first_air_date).getFullYear() : '')
+                    : (details.release_date ? new Date(details.release_date).getFullYear() : '');
+                document.getElementById('detail-runtime').textContent = mediaType === 'tv'
+                    ? `${details.number_of_seasons} saison${details.number_of_seasons > 1 ? 's' : ''}`
+                    : `${Math.floor(details.runtime / 60)}h ${details.runtime % 60}min`;
+                document.getElementById('detail-rating').textContent = details.vote_average
+                    ? `${Math.round(details.vote_average * 10) / 10}/10`
+                    : '';
+                document.getElementById('detail-overview').textContent = details.overview || 'Aucune description disponible.';
+                document.querySelector('.detail-backdrop').style.backgroundImage =
+                    `url(${getImageUrl(details.backdrop_path, 'original')})`;
 
-        const logoElement = document.getElementById('detail-logo');
-        const titleElement = document.getElementById('detail-title');
-        if (details.images && details.images.logos && details.images.logos.length > 0) {
-            const frLogo = details.images.logos.find(logo => logo.iso_639_1 === 'fr');
-            logoElement.src = getImageUrl((frLogo || details.images.logos[0]).file_path);
-            logoElement.classList.remove('hidden');
-            titleElement.classList.add('hidden');
-        } else {
-            logoElement.classList.add('hidden');
-            titleElement.classList.remove('hidden');
-        }
-
-        const genresContainer = document.getElementById('detail-genres');
-        genresContainer.innerHTML = '';
-        details.genres.forEach(genre => {
-            const genreTag = document.createElement('span');
-            genreTag.className = 'bg-gray-700 text-gray-300 px-3 py-1 rounded-full text-sm';
-            genreTag.textContent = genre.name;
-            genresContainer.appendChild(genreTag);
-        });
-
-        const playBtn = document.getElementById('play-btn');
-        playBtn.onclick = () => {
-            if (mediaType === 'movie') {
-                playContent(mediaType, id);
+                const logoElement = document.getElementById('detail-logo');
+                const titleElement = document.getElementById('detail-title');
+                if (details.images && details.images.logos && details.images.logos.length > 0) {
+                const frLogo = details.images.logos.find(logo => logo.iso_639_1 === 'fr');
+                logoElement.src = getImageUrl((frLogo || details.images.logos[0]).file_path);
+                logoElement.classList.remove('hidden');
+                titleElement.classList.add('hidden'); // ← on cache le titre
             } else {
-                playEpisode(id, 1, 1);
-            }
-        };
-
-        // Partie bande-annonce CORRIGÉE (supprimer la duplication)
-        const trailerBtn = document.getElementById('trailer-btn');
-        trailerBtn.style.display = 'none';
-        trailerBtn.onclick = null;
-
-        // Titre sûr pour l'affichage (UNE SEULE DÉCLARATION)
-        const mediaTitle = mediaType === 'tv' ? details.name : details.title;
-
-        // Chercher un trailer YouTube dans la réponse TMDB
-        if (details.videos && Array.isArray(details.videos.results) && details.videos.results.length > 0) {
-            const trailer = details.videos.results.find(v => v.type === 'Trailer' && v.site === 'YouTube')
-                          || details.videos.results.find(v => v.site === 'YouTube')
-                          || details.videos.results[0];
-
-            if (trailer && trailer.key) {
-                trailerBtn.onclick = (e) => {
-                    e.stopPropagation();
-                    const trailerUrl = `https://www.youtube.com/watch?v=${trailer.key}`;
-                    // Mettre à jour le contexte
-                    currentMediaType = mediaType;
-                    currentMediaId = id;
-                    // Ouvrir le lecteur avec isTrailer = true
-                    openVideoPlayer(trailerUrl, `${mediaTitle} - Bande-annonce`, '', '', true);
-                };
-                trailerBtn.style.display = 'flex';
-            } else {
-                trailerBtn.style.display = 'none';
-            }
-        } else {
-            trailerBtn.style.display = 'none';
-        }
-
-        const favoriteBtn = document.getElementById('favorite-btn');
-        favoriteBtn.onclick = () => {
-            toggleFavorite(mediaType, id);
-            updateFavoriteButton(mediaType, id);
-        };
-        updateFavoriteButton(mediaType, id);
-
-        const episodesSection = document.getElementById('episodes-section');
-        if (mediaType === 'tv') {
-            episodesSection.classList.remove('hidden');
-            const seasonSelect = document.getElementById('season-select');
-            seasonSelect.innerHTML = '';
-            for (let i = 1; i <= details.number_of_seasons; i++) {
-                const option = document.createElement('option');
-                option.value = i;
-                option.textContent = `Saison ${i}`;
-                seasonSelect.appendChild(option);
+                logoElement.classList.add('hidden');
+                titleElement.classList.remove('hidden'); // ← on réaffiche le titre s’il n’y a pas de logo
             }
 
-            await loadSeasonEpisodes(id, 1);
-            seasonSelect.onchange = () => {
-                loadSeasonEpisodes(id, parseInt(seasonSelect.value));
-            };
-        } else {
-            episodesSection.classList.add('hidden');
-        }
 
-        if (details.belongs_to_collection) {
-            const collectionId = details.belongs_to_collection.id;
-            const collectionDetails = await fetchFromTMDB(`/collection/${collectionId}?language=fr-FR`);
-            const availableMovies = collectionDetails.parts.filter(movie =>
-                isContentAvailable('movie', movie.id) && movie.id !== id
-            );
-            if (availableMovies.length > 0) {
-                const sameSagaSection = document.getElementById('same-saga-section');
-                sameSagaSection.classList.remove('hidden');
-                const sameSagaList = document.getElementById('same-saga-list');
-                sameSagaList.innerHTML = '';
-                availableMovies.forEach(movie => {
-                    sameSagaList.appendChild(createSameSagaItem(movie));
+                const genresContainer = document.getElementById('detail-genres');
+                genresContainer.innerHTML = '';
+                details.genres.forEach(genre => {
+                    const genreTag = document.createElement('span');
+                    genreTag.className = 'bg-gray-700 text-gray-300 px-3 py-1 rounded-full text-sm';
+                    genreTag.textContent = genre.name;
+                    genresContainer.appendChild(genreTag);
                 });
-            }
-        } else {
-            const sameSagaSection = document.getElementById('same-saga-section');
-            sameSagaSection.classList.add('hidden');
-        }
 
-        Object.values(pages).forEach(p => {
-            p.style.display = 'none';
-        });
-        pages.detail.style.display = 'block';
-        window.scrollTo(0, 0);
-    } catch (error) {
-        console.error('Error showing detail page:', error);
-    } finally {
-        hideLoading();
+                const playBtn = document.getElementById('play-btn');
+                playBtn.onclick = () => {
+                    if (mediaType === 'movie') {
+                        playContent(mediaType, id);
+                    } else {
+                        playEpisode(id, 1, 1);
+                    }
+                };
+
+// --- Bloc à coller dans showDetailPage() ---
+const trailerBtn = document.getElementById('trailer-btn');
+trailerBtn.style.display = 'none';
+trailerBtn.onclick = null; // s'assurer qu'il n'y a pas d'ancien handler
+
+// titre sûr pour l'affichage
+const mediaTitle = mediaType === 'tv' ? details.name : details.title;
+
+// chercher un trailer YouTube dans la réponse TMDB (priorité aux vrais "Trailer")
+if (details.videos && Array.isArray(details.videos.results) && details.videos.results.length > 0) {
+    const trailer = details.videos.results.find(v => v.type === 'Trailer' && v.site === 'YouTube')
+                  || details.videos.results.find(v => v.site === 'YouTube')
+                  || details.videos.results[0];
+
+    if (trailer && trailer.key) {
+        trailerBtn.onclick = (e) => {
+            e.stopPropagation();
+            const trailerUrl = `https://www.youtube.com/watch?v=${trailer.key}`;
+            // mettre à jour le contexte si besoin
+            currentMediaType = mediaType;
+            currentMediaId = id;
+            // ouvrir le lecteur intégré avec l'URL YouTube
+            openVideoPlayer(trailerUrl, `${mediaTitle} - Bande-annonce`);
+        };
+        trailerBtn.style.display = 'flex';
+    } else {
+        // pas de clé YouTube trouvée
+        trailerBtn.style.display = 'none';
     }
+} else {
+    // pas de vidéos TMDB -> on cache le bouton
+    trailerBtn.style.display = 'none';
 }
+
+
+                const favoriteBtn = document.getElementById('favorite-btn');
+                favoriteBtn.onclick = () => {
+                    toggleFavorite(mediaType, id);
+                    updateFavoriteButton(mediaType, id);
+                };
+                updateFavoriteButton(mediaType, id);
+
+                const episodesSection = document.getElementById('episodes-section');
+                if (mediaType === 'tv') {
+                    episodesSection.classList.remove('hidden');
+                    const seasonSelect = document.getElementById('season-select');
+                    seasonSelect.innerHTML = '';
+                    for (let i = 1; i <= details.number_of_seasons; i++) {
+                        const option = document.createElement('option');
+                        option.value = i;
+                        option.textContent = `Saison ${i}`;
+                        seasonSelect.appendChild(option);
+                    }
+
+                    await loadSeasonEpisodes(id, 1);
+                    seasonSelect.onchange = () => {
+                        loadSeasonEpisodes(id, parseInt(seasonSelect.value));
+                    };
+                } else {
+                    episodesSection.classList.add('hidden');
+                }
+
+                if (details.belongs_to_collection) {
+                    const collectionId = details.belongs_to_collection.id;
+                    const collectionDetails = await fetchFromTMDB(`/collection/${collectionId}?language=fr-FR`);
+                    const availableMovies = collectionDetails.parts.filter(movie =>
+                        isContentAvailable('movie', movie.id) && movie.id !== id
+                    );
+                    if (availableMovies.length > 0) {
+                        const sameSagaSection = document.getElementById('same-saga-section');
+                        sameSagaSection.classList.remove('hidden');
+                        const sameSagaList = document.getElementById('same-saga-list');
+                        sameSagaList.innerHTML = '';
+                        availableMovies.forEach(movie => {
+                            sameSagaList.appendChild(createSameSagaItem(movie));
+                        });
+                    }
+                } else {
+                    const sameSagaSection = document.getElementById('same-saga-section');
+                    sameSagaSection.classList.add('hidden');
+                }
+
+                Object.values(pages).forEach(p => {
+                    p.style.display = 'none';
+                });
+                pages.detail.style.display = 'block';
+                window.scrollTo(0, 0);
+            } catch (error) {
+                console.error('Error showing detail page:', error);
+            } finally {
+                hideLoading();
+            }
+        }
 
         async function loadSeasonEpisodes(seriesId, seasonNumber) {
             showLoading();
@@ -1814,83 +1759,76 @@ async function showDetailPage(mediaType, id) {
         }
 
         // Content Playback Functions
-async function playContent(mediaType, id) {
-    showLoading();
-    try {
-        const details = await fetchFromTMDB(`/${mediaType}/${id}?language=fr-FR`);
-        const title = mediaType === 'tv' ? details.name : details.title;
-        let ageRating = '';
-        
-        if (mediaType === 'movie') {
-            const releaseDates = await fetchFromTMDB(`/movie/${id}/release_dates`);
-            const frRelease = releaseDates.results.find(r => r.iso_3166_1 === 'FR');
-            if (frRelease && frRelease.release_dates.length > 0) {
-                ageRating = frRelease.release_dates[0].certification;
-            }
-        } else {
-            const contentRatings = await fetchFromTMDB(`/tv/${id}/content_ratings`);
-            const frRating = contentRatings.results.find(r => r.iso_3166_1 === 'FR');
-            if (frRating) {
-                ageRating = frRating.rating;
-            }
-        }
+        async function playContent(mediaType, id) {
+            showLoading();
+            try {
+                const details = await fetchFromTMDB(`/${mediaType}/${id}?language=fr-FR`);
+                const title = mediaType === 'tv' ? details.name : details.title;
+                let ageRating = '';
+                if (mediaType === 'movie') {
+                    const releaseDates = await fetchFromTMDB(`/movie/${id}/release_dates`);
+                    const frRelease = releaseDates.results.find(r => r.iso_3166_1 === 'FR');
+                    if (frRelease && frRelease.release_dates.length > 0) {
+                        ageRating = frRelease.release_dates[0].certification;
+                    }
+                } else {
+                    const contentRatings = await fetchFromTMDB(`/tv/${id}/content_ratings`);
+                    const frRating = contentRatings.results.find(r => r.iso_3166_1 === 'FR');
+                    if (frRating) {
+                        ageRating = frRating.rating;
+                    }
+                }
 
-        const url = getContentUrl(mediaType, id);
-        const posterUrl = getImageUrl(details.poster_path);
-        
-        if (url) {
-            currentMediaType = mediaType;
-            currentMediaId = id;
-            currentEpisode = null;
-            // Ouvrir le lecteur avec isTrailer = false pour les films/séries
-            openVideoPlayer(url, title, ageRating, posterUrl, false);
-        } else {
-            alert('Ce contenu n\'est pas disponible pour le moment.');
+                const url = getContentUrl(mediaType, id);
+                const posterUrl = getImageUrl(details.poster_path);
+                if (url) {
+                    currentMediaType = mediaType;
+                    currentMediaId = id;
+                    currentEpisode = null;
+                    openVideoPlayer(url, title, ageRating, posterUrl);
+                } else {
+                    alert('Ce contenu n\'est pas disponible pour le moment.');
+                }
+            } catch (error) {
+                console.error('Error playing content:', error);
+            } finally {
+                hideLoading();
+            }
         }
-    } catch (error) {
-        console.error('Error playing content:', error);
-        alert('Erreur lors du chargement du contenu.');
-    } finally {
-        hideLoading();
-    }
-}
 
 async function playEpisode(seriesId, seasonNumber, episodeNumber) {
     showLoading();
     try {
-        const seriesDetails = await fetchFromTMDB(`/tv/${seriesId}?language=fr-FR`);
-        const episodeDetails = await fetchFromTMDB(`/tv/${seriesId}/season/${seasonNumber}/episode/${episodeNumber}?language=fr-FR`);
-        
-        const seriesTitle = seriesDetails.name;
-        const episodeTitle = episodeDetails.name;
-        const title = `${seriesTitle} - S${seasonNumber}E${episodeNumber} - ${episodeTitle}`;
-        
-        let ageRating = '';
-        const contentRatings = await fetchFromTMDB(`/tv/${seriesId}/content_ratings`);
-        const frRating = contentRatings.results.find(r => r.iso_3166_1 === 'FR');
-        if (frRating) {
-            ageRating = frRating.rating;
-        }
+                const seriesDetails = await fetchFromTMDB(`/tv/${seriesId}?language=fr-FR`);
+                const episodeDetails = await fetchFromTMDB(`/tv/${seriesId}/season/${seasonNumber}/episode/${episodeNumber}?language=fr-FR`);
+                const seriesTitle = seriesDetails.name;
+                const episodeTitle = episodeDetails.name;
+                const title = `${seriesTitle} - S${seasonNumber}E${episodeNumber} - ${episodeTitle}`;
+                let ageRating = '';
+                const contentRatings = await fetchFromTMDB(`/tv/${seriesId}/content_ratings`);
+                const frRating = contentRatings.results.find(r => r.iso_3166_1 === 'FR');
+                if (frRating) {
+                    ageRating = frRating.rating;
+                }
 
-        const url = getContentUrl('tv', seriesId, seasonNumber, episodeNumber);
-        const posterUrl = episodeDetails.still_path
-            ? getImageUrl(episodeDetails.still_path)
-            : getImageUrl(seriesDetails.poster_path);
-            
-        if (url) {
+                const url = getContentUrl('tv', seriesId, seasonNumber, episodeNumber);
+                const posterUrl = episodeDetails.still_path
+                    ? getImageUrl(episodeDetails.still_path)
+                    : getImageUrl(seriesDetails.poster_path);
+
+        
+   if (url) {
             currentMediaType = 'tv';
-            // Utiliser un identifiant spécifique pour l'épisode : série-saison-épisode
+            // Format: "seriesId-seasonNumber-episodeNumber" (ex: "119051-1-2")
             currentMediaId = `${seriesId}-${seasonNumber}-${episodeNumber}`;
             currentSeason = seasonNumber;
             currentEpisode = episodeNumber;
-            // Ouvrir le lecteur avec isTrailer = false pour les épisodes
-            openVideoPlayer(url, title, ageRating, posterUrl, false);
+            openVideoPlayer(url, title, ageRating, posterUrl);
         } else {
             alert('Cet épisode n\'est pas disponible pour le moment.');
         }
     } catch (error) {
         console.error('Error playing episode:', error);
-        alert('Erreur lors du chargement de l\'épisode.');
     } finally {
         hideLoading();
     }
@@ -1961,11 +1899,26 @@ async function playEpisode(seriesId, seasonNumber, episodeNumber) {
         window.addEventListener('load', adjustLayout);
 
 
+        function cleanupOldProgressData() {
+    // Supprimer l'ancienne clé générique
+    localStorage.removeItem('pjjsplayfrom_playercinestream2025.netlify.app/test2');
+    localStorage.removeItem('pjjsplayfrom_playercinestream2025.netlify.app/test3');
+    
+    // Vous pouvez aussi nettoyer d'autres anciennes clés si nécessaire
+    Object.keys(localStorage).forEach(key => {
+        if (key.includes('pjjsplayfrom') || key.includes('playercinestream')) {
+            localStorage.removeItem(key);
+        }
+    });
+}
 
-                // TEST 3 BY CYPRIEN VEYRET
+// Appeler cette fonction au chargement de l'application
+document.addEventListener('DOMContentLoaded', async () => {
+    cleanupOldProgressData();
+    // ... votre code existant ...
+});
 
+        
     </script>
 </body>
 </html>
-
-
