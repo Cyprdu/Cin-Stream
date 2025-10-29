@@ -60,7 +60,7 @@
     },
         {
         "tmdb_id": "movie-9286",
-        "url": "https://playjelly.fr/videos/4e702ceb-3eeb-2b85-2ac5-38ae5e358083/hls1/main/-1.mp4?DeviceId=TW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEzOS4wLjAuMCBTYWZhcmkvNTM3LjM2fDE3NTQ1MjgyMDk4Mjg1&MediaSourceId=4e702ceb3eeb2b852ac538ae5e358083&VideoCodec=av1,hevc,h264,vp9&AudioCodec=aac&AudioStreamIndex=1&VideoBitrate=326748345&AudioBitrate=384000&MaxFramerate=23.976025&PlaySessionId=7be105d2a38942c1be3dcbfa3654d921&api_key=19aaf8997c1d494c9ac0600511b73ff3&TranscodingMaxAudioChannels=2&RequireAvc=false&EnableAudioVbrEncoding=true&Tag=5d42a6329ef0e722866b909f7a836508&SegmentContainer=mp4&MinSegments=1&BreakOnNonKeyFrames=True&h264-level=41&h264-videobitdepth=8&h264-profile=high&av1-profile=main&av1-rangetype=SDR,HDR10,HLG&av1-level=19&vp9-rangetype=SDR,HDR10,HLG&hevc-profile=main,main10&hevc-rangetype=SDR,HDR10,HLG&hevc-level=183&hevc-deinterlace=true&h264-rangetype=SDR&h264-deinterlace=true&TranscodeReasons=ContainerNotSupported,%20AudioCodecNotSupported&runtimeTicks=0&actualSegmentLengthTicks=0"
+        "url": "https://playjelly.fr/videos/4e702ceb-3eeb-2b85-2ac5-38ae5e358083/hls1/main/-1.mp4?DeviceId=TW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEzOS4wLjAuMCBTYWZhcmkvNTM3LjM2fDE3NTQ1MjgyMDk4Mjg1&MediaSourceId=4e702ceb3eeb2b852ac538ae5e358083&VideoCodec=av1,hevc,h264,vp9&AudioCodec=aac&AudioStreadex=1&VideoBitrate=326748345&AudioBitrate=384000&MaxFramerate=23.976025&PlaySessionId=7be105d2a38942c1be3dcbfa3654d921&api_key=19aaf8997c1d494c9ac0600511b73ff3&TranscodingMaxAudioChannels=2&RequireAvc=false&EnableAudioVbrEncoding=true&Tag=5d42a6329ef0e722866b909f7a836508&SegmentContainer=mp4&Segments=1&BreakOnNonKeyFrames=True&h264-level=41&h264-videobitdepth=8&h264-profile=high&av1-profile=main&av1-rangetype=SDR,HDR10,HLG&av1-level=19&vp9-rangetype=SDR,HDR10,HLG&hevc-profile=main,main10&hevc-rangetype=SDR,HDR10,HLG&hevc-level=183&hevc-deinterlace=true&h264-rangetype=SDR&h264-deinterlace=true&TranscodeReasons=ContainerNotSupported,%20AudioCodecNotSupported&runtimeTicks=0&actualSegmentLengthTicks=0"
     },
         {
         "tmdb_id": "movie-19912",
@@ -186,7 +186,46 @@
         "tmdb_id": "movie-138843",
         "url": "https://cinecake.xyz/movies/Conjuring-Les-Dossiers-Warren.mp4"
     },
-    
+    {
+        "tmdb_id": "movie-38757",
+        "url": "https://cinecake.xyz/movies/Raiponce.mp4"
+    },
+    {
+        "tmdb_id": "movie-10198",
+        "url": "https://cinecake.xyz/movies/La-Princesse-et-la-Grenouille.mp4"
+    },
+    {
+        "tmdb_id": "movie-431693",
+        "url": "https://cinecake.xyz/movies/Les-Incognitos.mp4"
+    },
+    {
+        "tmdb_id": "movie-49519",
+        "url": "https://cinecake.xyz/movies/Les-Croods.mp4"
+    },
+    {
+        "tmdb_id": "movie-508439",
+        "url": "https://cinecake.xyz/movies/En-avant.mp4"
+    },
+    {
+        "tmdb_id": "movie-577922",
+        "url": "https://cinecake.xyz/movies/Tenet.mp4"
+    },
+    {
+        "tmdb_id": "movie-508442",
+        "url": "https://cinecake.xyz/movies/Soul.mp4"
+    },
+    {
+        "tmdb_id": "movie-62211",
+        "url": "https://cinecake.xyz/movies/Monstres-Academy.mp4"
+    },
+    {
+        "tmdb_id": "movie-62177",
+        "url": "https://cinecake.xyz/movies/Rebelle.mp4"
+    },
+    {
+        "tmdb_id": "movie-1022796",
+        "url": "https://cinecake.xyz/movies/Wish-Asha-Et-La-Bonne-Etoile.mp4"
+    },    
     {
         "tmdb_id": "movie-56292",
         "url": "https://share31121.sharecloudy.com/files/aa/EOV91W3VdU6YCwxmhey1m8IcugG7QzuunqE.m3u8"
@@ -312,6 +351,11 @@
         "tmdb_id": "movie-420818",
         "url": "https://cinecake.xyz/movies/Le-Roi-Lion-2019.mp4"
     },
+    {
+        "tmdb_id": "movie-37135",
+        "url": "https://cinecake.xyz/movies/Tarzan.mp4"
+    },
+    
     {
         "tmdb_id": "movie-1211472",
         "url": "https://pulse.topstrime.online/movie/1211472/fp0he3/master.m3u8"
@@ -702,27 +746,27 @@
     },
     {
         "tmdb_id": "movie-218",
-        "url": "https://cinecake.xyz/movies/Terminator.mp4"
+        "url": "https://cinecake.xyz/movies/Terator.mp4"
     },
     {
         "tmdb_id": "movie-280",
-        "url": "https://cinecake.xyz/movies/Terminator-2-Le-Jugement-Dernier.mp4"
+        "url": "https://cinecake.xyz/movies/Terator-2-Le-Jugement-Dernier.mp4"
     },
     {
         "tmdb_id": "movie-296",
-        "url": "https://cinecake.xyz/movies/Terminator-3-Le-Soulevement-Des-Machines.mp4"
+        "url": "https://cinecake.xyz/movies/Terator-3-Le-Soulevement-Des-Machines.mp4"
     },
     {
         "tmdb_id": "movie-534",
-        "url": "https://cinecake.xyz/movies/Terminator-Renaissance.mp4"
+        "url": "https://cinecake.xyz/movies/Terator-Renaissance.mp4"
     },
     {
         "tmdb_id": "movie-87101",
-        "url": "https://cinecake.xyz/movies/Terminator-Genisys.mp4"
+        "url": "https://cinecake.xyz/movies/Terator-Genisys.mp4"
     },
     {
         "tmdb_id": "movie-290859",
-        "url": "https://cinecake.xyz/movies/Terminator-Dark-Fate.mp4"
+        "url": "https://cinecake.xyz/movies/Terator-Dark-Fate.mp4"
     },
     {
         "tmdb_id": "movie-348",
@@ -862,7 +906,7 @@
     },
     {
         "tmdb_id": "movie-424",
-        "url": "https://tube-arts-lettres-sciences-humaines.apps.education.fr/static/streaming-playlists/hls/1c89429b-c501-4af6-9ea7-e63cb4ff27ea/94d8cfee-0aa5-4400-b9d3-4c102e11cfc3-master.m3u8"
+        "url": "https://tube-arts-lettres-sciences-humaines.apps.education.fr/static/streag-playlists/hls/1c89429b-c501-4af6-9ea7-e63cb4ff27ea/94d8cfee-0aa5-4400-b9d3-4c102e11cfc3-master.m3u8"
     },
     {
         "tmdb_id": "movie-832964",
@@ -1602,6 +1646,55 @@
         "tmdb_id": "movie-424783",
         "url": "https://cinecake.xyz/movies/Bumblebee.mp4"
     },
+    {
+        "tmdb_id": "movie-11970",
+        "url": "https://cinecake.xyz/movies/Hercule.mp4"
+    },
+    {
+        "tmdb_id": "movie-301528",
+        "url": "https://cinecake.xyz/movies/Toy-Story.mp4"
+    },
+    {
+        "tmdb_id": "movie-863",
+        "url": "https://cinecake.xyz/movies/Toy-Story-2.mp4"
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     {
         "tmdb_id": "tv-80752",
         "url": ""
@@ -7848,6 +7941,7 @@
 
 
 ]
+
 
 
 
