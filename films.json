@@ -300,8 +300,13 @@
         "url": "https://pulse.topstrime.online/movie/1152014/master.m3u8"
     },
     {
+        "tmdb_id": "movie-993784",
+        "url": "https://share31121.sharecloudy.com/files/aa/bD0wh3L9Gn6ZDrwIBUAL4cSVgklFc28nG8U.m3u8"
+    },
+    
+    {
         "tmdb_id": "movie-762509",
-        "url": "https://file-eu-par-3.gofile.io/download/direct/278ab4fc-0b7f-4512-9199-66fac264e9d2/mufasa.mp4"
+        "url": "https://cinecake.xyz/movies/Mufasa.mp4"
     },
     {
         "tmdb_id": "movie-420818",
@@ -7843,6 +7848,7 @@
 
 
 ]
+
 
 
 
