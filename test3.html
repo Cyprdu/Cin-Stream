@@ -392,13 +392,15 @@
     z-index: 999; /* Changez cette valeur pour qu'elle soit inférieure à celle du lecteur */
 }
         /* Taille adaptée pour le logo sur la page de détail */
+/* Taille adaptée pour le logo sur la page de détail */
 #detail-logo {
     max-height: 100px;
-    max-width: 60%;   /* pour éviter qu'il déborde à droite */
-    object-fit: contain; /* conserve les proportions du logo */
+    max-width: 60%;
+    object-fit: contain;
     margin-bottom: 15px;
-    display: block;
+    display: none; /* <-- important : caché par défaut */
 }
+
 
     </style>
 </head>
