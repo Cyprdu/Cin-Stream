@@ -128,7 +128,19 @@
     },
     {
         "tmdb_id": "movie-238",
-        "url": "https://cinecake.xyz/movies/Le-Parrain.mp4?cb_z2ruuir7wk=1747236006455"
+        "url": "https://cinecake.xyz/movies/Le-Parrain.mp4"
+    },
+    {
+        "tmdb_id": "movie-49521",
+        "url": "https://cinecake.xyz/movies/Man-of-Steel.mp4"
+    },
+    {
+        "tmdb_id": "movie-786892",
+        "url": "https://cinecake.xyz/movies/Furiosa-Une-saga-Mad-Max.mp4"
+    },
+    {
+        "tmdb_id": "movie-653346",
+        "url": "https://cinecake.xyz/movies/La-Planete-des-Singes-Le-Nouveau-Royaume.mp4"
     },
     {
         "tmdb_id": "movie-680",
@@ -11303,6 +11315,7 @@
         "url": "https://cinecake.xyz/series/Stranger-Things/S04/Stranger-Things-S04-E09.mp4"
     }
 ]
+
 
 
 
