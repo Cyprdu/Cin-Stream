@@ -1,4 +1,6 @@
 
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -624,9 +626,8 @@
             <div id="player"></div>
         </div>
     </div>
-    <!-- Loading Indicator -->
-    <div id="loading" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden">
-        <div class="loading-spinner"></div>
+<div id="loading" class="hidden"></div>
+
     </div>
     <script src="https://projection-2025.netlify.app/playerjs.js"></script>
     <script>
@@ -662,7 +663,50 @@
             { id: 753342 },
         ];
 
-        const FRMovies = [
+                        const popularCollections = [
+                    { id: 87359, name: "Mission: Impossible" },
+                    { id: 10, name: "Star Wars" },
+                    { id: 86311, name: "Avengers" },
+                    { id: 1241, name: "Harry Potter" },
+                    { id: 531241, name: "Spider-Man" },
+                    { id: 119, name: "Le Seigneur des Anneaux" },
+                    { id: 121938, name: "Le Hobbit" },
+                    { id: 131635, name: "Hunger Games" },
+                    { id: 295130, name: "X-Men" },
+                    { id: 420, name: "Le Monde de Narnia" },
+                    { id: 488924, name: "Paddington" },
+                ];
+
+        
+
+        
+        const popularSeries = [
+            { id: 119051 },
+            { id: 80752 },
+            { id: 122781 },
+            { id: 96677 },
+            { id: 84958 },
+            { id: 93405 },
+            { id: 112738 },
+            { id: 1399 },
+            { id: 1416 },
+            { id: 71446 },
+            { id: 1396 },
+            { id: 48866 },
+            { id: 1402 },
+            { id: 82856 },
+            { id: 202772 },
+            { id: 114410 },
+            { id: 205715 },
+            { id: 124364 },
+            { id: 46952 },
+            { id: 1412 },
+            { id: 92749 },
+            { id: 63210 },
+            { id: 122228 },
+            { id: 136673 },  
+        ];
+ const FRMovies = [
     { id: 575264 },
     { id: 954 },
     { id: 12222 },
@@ -1193,37 +1237,6 @@
     { id: 102207 },
     { id: 80015 },
 ];
-
-        
-        const popularSeries = [
-            { id: 119051 },
-            { id: 80752 },
-            { id: 122781 },
-            { id: 96677 },
-            { id: 84958 },
-            { id: 93405 },
-            { id: 112738 },
-            { id: 1399 },
-            { id: 1416 },
-            { id: 71446 },
-            { id: 1396 },
-            { id: 48866 },
-            { id: 1402 },
-            { id: 82856 },
-            { id: 202772 },
-            { id: 114410 },
-            { id: 205715 },
-            { id: 124364 },
-            { id: 46952 },
-            { id: 1412 },
-            { id: 92749 },
-            { id: 63210 },
-            { id: 122228 },
-            { id: 136673 },
-            
-            
-        ];
-
 
         // DOM Elements
         const pages = {
@@ -1919,19 +1932,7 @@
 
                 const sagasRow = document.querySelector('.sagas-row');
                 sagasRow.innerHTML = '';
-                const popularCollections = [
-                    { id: 87359, name: "Mission: Impossible" },
-                    { id: 10, name: "Star Wars" },
-                    { id: 86311, name: "Avengers" },
-                    { id: 1241, name: "Harry Potter" },
-                    { id: 531241, name: "Spider-Man" },
-                    { id: 119, name: "Le Seigneur des Anneaux" },
-                    { id: 121938, name: "Le Hobbit" },
-                    { id: 131635, name: "Hunger Games" },
-                    { id: 295130, name: "X-Men" },
-                    { id: 420, name: "Le Monde de Narnia" },
-                    { id: 488924, name: "Paddington" },
-                ];
+
 
                 let sagasAdded = 0;
                 for (const collection of popularCollections) {
