@@ -392,13 +392,15 @@
     z-index: 999; /* Changez cette valeur pour qu'elle soit inférieure à celle du lecteur */
 }
         /* Taille adaptée pour le logo sur la page de détail */
+/* Taille adaptée pour le logo sur la page de détail */
 #detail-logo {
     max-height: 100px;
-    max-width: 60%;   /* pour éviter qu'il déborde à droite */
-    object-fit: contain; /* conserve les proportions du logo */
+    max-width: 60%;
+    object-fit: contain;
     margin-bottom: 15px;
-    display: block;
+    display: none; /* <-- important : caché par défaut */
 }
+
 
     </style>
 </head>
@@ -452,7 +454,20 @@
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
-            <!-- Popular Series Section -->
+
+            <!-- Action Movies Section -->
+            <section class="mb-12 reduce-poster-size">
+                <h2 class="section-title text-2xl font-bold">Actions</h2>
+                <div class="row-container">
+                    <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
+                    <div class="movie-row action-movies-row">
+                        <!-- Action movies will be added here -->
+                    </div>
+                    <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </section>
+
+                        <!-- Popular Series Section -->
             <section class="mb-12 reduce-poster-size">
                 <h2 class="section-title text-2xl font-bold">Séries populaires</h2>
                 <div class="row-container">
@@ -463,12 +478,14 @@
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
-            <!-- Action Movies Section -->
+            
+
+                                    <!-- Marvel -->
             <section class="mb-12 reduce-poster-size">
-                <h2 class="section-title text-2xl font-bold">Actions</h2>
+                <h2 class="section-title text-2xl font-bold">Chronologie de l'univers Marvel </h2>
                 <div class="row-container">
                     <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
-                    <div class="movie-row action-movies-row">
+                    <div class="movie-row Marvel-row">
                         <!-- Action movies will be added here -->
                     </div>
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
@@ -679,6 +696,43 @@
             { id: 575264 },
             { id: 753342 },
         ];
+
+        
+        const Marvel = [
+            { id: 1771 },
+            { id: 299537 },
+            { id: 1726 },
+            { id: 10138 },
+            { id: 10195 },
+            { id: 1724 },
+            { id: 24428 },
+            { id: 76338 },
+            { id: 68721 },
+            { id: 1771 },
+            { id: 100402 },
+            { id: 118340 },
+            { id: 283995 },
+            { id: 99861 },
+            { id: 102899 },
+            { id: 271110 },
+            { id: 284054 },
+            { id: 497698 },
+            { id: 315635 },
+            { id: 284052 },
+            { id: 284053 },
+            { id: 363088 },
+            { id: 299536 },
+            { id: 299534 },
+            { id: 429617 },
+            { id: 634649 },
+            { id: 1571550 },
+            { id: 524434 },
+            { id: 566525 },
+        ];
+
+
+
+        
 
                         const popularCollections = [
                     { id: 87359, name: "Mission: Impossible" },
@@ -1745,14 +1799,25 @@
                 showDetailPage(type, id);
             });
 
-            fetchLogo(type, id).then(logoPath => {
-                if (logoPath) {
-                    const logoContainer = slide.querySelector('.logo-container');
-                    logoContainer.innerHTML = `<img src="${getImageUrl(logoPath, 'w500')}" alt="${title}" class="hero-logo">`;
-                }
-            }).catch(error => {
-                console.error('Error fetching logo:', error);
-            });
+fetchLogo(type, id).then(logoPath => {
+    const logoContainer = slide.querySelector('.logo-container');
+    if (logoPath) {
+        logoContainer.innerHTML = `<img src="${getImageUrl(logoPath, 'w500')}" alt="${title}" class="hero-logo">`;
+    } else {
+        // S'il n'y a pas de logo, on remet simplement le titre
+        logoContainer.innerHTML = `<h1 class="text-4xl md:text-5xl font-bold mb-4">${title}</h1>`;
+    }
+}).catch(error => {
+    console.error('Error fetching logo:', error);
+    const logoContainer = slide.querySelector('.logo-container');
+    // En cas d'erreur, on remet aussi le titre par sécurité
+    logoContainer.innerHTML = `<h1 class="text-4xl md:text-5xl font-bold mb-4">${title}</h1>`;
+});
+
+
+
+
+            
             return slide;
         }
 
@@ -1928,6 +1993,25 @@
                         }
                     }
                 }
+
+                                const MarvelRow = document.querySelector('.Marvel-row');
+               MarvelRow.innerHTML = '';
+                if (Marvel.length === 0) {
+                    MarvelRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
+                } else {
+                    for (const movie of Marvel) {
+                        try {
+                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                            if (details.poster_path && isContentAvailable('movie', details.id)) {
+                                MarvelRow.appendChild(createPosterCard(details, 'movie'));
+                            }
+                        } catch (error) {
+                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                        }
+                    }
+                }
+
+                
                 
                 const HarryPotterRow = document.querySelector('.HarryPotter-row');
                HarryPotterRow.innerHTML = '';
@@ -2182,17 +2266,34 @@
                 document.querySelector('.detail-backdrop').style.backgroundImage =
                     `url(${getImageUrl(details.backdrop_path, 'original')})`;
 
-                const logoElement = document.getElementById('detail-logo');
-                const titleElement = document.getElementById('detail-title');
-                if (details.images && details.images.logos && details.images.logos.length > 0) {
-                const frLogo = details.images.logos.find(logo => logo.iso_639_1 === 'fr');
-                logoElement.src = getImageUrl((frLogo || details.images.logos[0]).file_path);
-                logoElement.classList.remove('hidden');
-                titleElement.classList.add('hidden'); // ← on cache le titre
-            } else {
-                logoElement.classList.add('hidden');
-                titleElement.classList.remove('hidden'); // ← on réaffiche le titre s’il n’y a pas de logo
-            }
+const logoElement = document.getElementById('detail-logo');
+const titleElement = document.getElementById('detail-title');
+
+// par défaut on enlève l'ancienne src pour éviter un "flash" d'ancien logo
+logoElement.src = '';
+logoElement.style.display = 'none';
+titleElement.style.display = 'block';
+
+if (details.images && details.images.logos && details.images.logos.length > 0) {
+    const frLogo = details.images.logos.find(logo => logo.iso_639_1 === 'fr');
+    const logoPath = (frLogo || details.images.logos[0]).file_path;
+    if (logoPath) {
+        logoElement.src = getImageUrl(logoPath, 'w500');
+        logoElement.style.display = 'block';
+        titleElement.style.display = 'none';
+    } else {
+        // pas de logo : on s'assure que le titre est visible
+        logoElement.src = '';
+        logoElement.style.display = 'none';
+        titleElement.style.display = 'block';
+    }
+} else {
+    // pas de logos dans la réponse
+    logoElement.src = '';
+    logoElement.style.display = 'none';
+    titleElement.style.display = 'block';
+}
+
 
 
                 const genresContainer = document.getElementById('detail-genres');
