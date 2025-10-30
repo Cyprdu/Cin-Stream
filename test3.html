@@ -1938,7 +1938,7 @@
                         try {
                             const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
                             if (details.poster_path && isContentAvailable('movie', details.id)) {
-                                actionMoviesRow.appendChild(createPosterCard(details, 'movie'));
+                                HarryPotterRow.appendChild(createPosterCard(details, 'movie'));
                             }
                         } catch (error) {
                             console.error(`Error fetching details for action movie ${movie.id}:`, error);
