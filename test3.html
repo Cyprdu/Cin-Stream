@@ -1745,14 +1745,25 @@
                 showDetailPage(type, id);
             });
 
-            fetchLogo(type, id).then(logoPath => {
-                if (logoPath) {
-                    const logoContainer = slide.querySelector('.logo-container');
-                    logoContainer.innerHTML = `<img src="${getImageUrl(logoPath, 'w500')}" alt="${title}" class="hero-logo">`;
-                }
-            }).catch(error => {
-                console.error('Error fetching logo:', error);
-            });
+fetchLogo(type, id).then(logoPath => {
+    const logoContainer = slide.querySelector('.logo-container');
+    if (logoPath) {
+        logoContainer.innerHTML = `<img src="${getImageUrl(logoPath, 'w500')}" alt="${title}" class="hero-logo">`;
+    } else {
+        // S'il n'y a pas de logo, on remet simplement le titre
+        logoContainer.innerHTML = `<h1 class="text-4xl md:text-5xl font-bold mb-4">${title}</h1>`;
+    }
+}).catch(error => {
+    console.error('Error fetching logo:', error);
+    const logoContainer = slide.querySelector('.logo-container');
+    // En cas d'erreur, on remet aussi le titre par sécurité
+    logoContainer.innerHTML = `<h1 class="text-4xl md:text-5xl font-bold mb-4">${title}</h1>`;
+});
+
+
+
+
+            
             return slide;
         }
 
