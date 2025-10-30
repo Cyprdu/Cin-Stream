@@ -1895,23 +1895,6 @@
                     }
                 }
 
-                const FRMoviesRow = document.querySelector('.FR-movies-row');
-                FRMoviesRow.innerHTML = '';
-                if (FRMovies.length === 0) {
-                    FRMoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
-                } else {
-                    for (const movie of FRMovies) {
-                        try {
-                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
-                            if (details.poster_path && isContentAvailable('movie', details.id)) {
-                                FRMoviesRow.appendChild(createPosterCard(details, 'movie'));
-                            }
-                        } catch (error) {
-                            console.error(`Error fetching details for French movie ${movie.id}:`, error);
-                        }
-                    }
-                }
-
                 const seriesRow = document.querySelector('.series-row');
                 seriesRow.innerHTML = '';
                 if (popularSeries.length === 0) {
@@ -1925,6 +1908,23 @@
                             }
                         } catch (error) {
                             console.error(`Error fetching details for popular series ${serie.id}:`, error);
+                        }
+                    }
+                }
+
+                                const FRMoviesRow = document.querySelector('.FR-movies-row');
+                FRMoviesRow.innerHTML = '';
+                if (FRMovies.length === 0) {
+                    FRMoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
+                } else {
+                    for (const movie of FRMovies) {
+                        try {
+                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                            if (details.poster_path && isContentAvailable('movie', details.id)) {
+                                FRMoviesRow.appendChild(createPosterCard(details, 'movie'));
+                            }
+                        } catch (error) {
+                            console.error(`Error fetching details for French movie ${movie.id}:`, error);
                         }
                     }
                 }
