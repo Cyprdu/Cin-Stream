@@ -474,6 +474,23 @@
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
+
+                        <!-- Harry Potter -->
+            <section class="mb-12 reduce-poster-size">
+                <h2 class="section-title text-2xl font-bold">Univers Harry Potter</h2>
+                <div class="row-container">
+                    <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
+                    <div class="movie-row HarryPotter-row">
+                        <!-- Action movies will be added here -->
+                    </div>
+                    <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </section>
+
+
+
+
+            
             <!-- Action Movies Section -->
             <section class="mb-12 reduce-poster-size">
                 <h2 class="section-title text-2xl font-bold">Tout les films</h2>
@@ -706,6 +723,22 @@
             { id: 122228 },
             { id: 136673 },  
         ];
+
+
+                const HarryPotter = [
+            { id: 671 },
+            { id: 672 },
+            { id: 673 },
+            { id: 674 },
+            { id: 675 },
+            { id: 767 },
+            { id: 12444 },
+            { id: 12445 },
+            { id: 899082 },
+        ];
+
+
+        
  const FRMovies = [
     { id: 575264 },
     { id: 954 },
@@ -1889,6 +1922,23 @@
                             const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
                             if (details.poster_path && isContentAvailable('movie', details.id)) {
                                 actionMoviesRow.appendChild(createPosterCard(details, 'movie'));
+                            }
+                        } catch (error) {
+                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                        }
+                    }
+                }
+                
+                const HarryPotterRow = document.querySelector('.HarryPotter-row');
+               HarryPotterRow.innerHTML = '';
+                if (HarryPotter.length === 0) {
+                    HarryPotterRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
+                } else {
+                    for (const movie of HarryPotter) {
+                        try {
+                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                            if (details.poster_path && isContentAvailable('movie', details.id)) {
+                                HarryPotterRow.appendChild(createPosterCard(details, 'movie'));
                             }
                         } catch (error) {
                             console.error(`Error fetching details for action movie ${movie.id}:`, error);
