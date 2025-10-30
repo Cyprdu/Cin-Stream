@@ -2195,17 +2195,34 @@ fetchLogo(type, id).then(logoPath => {
                 document.querySelector('.detail-backdrop').style.backgroundImage =
                     `url(${getImageUrl(details.backdrop_path, 'original')})`;
 
-                const logoElement = document.getElementById('detail-logo');
-                const titleElement = document.getElementById('detail-title');
-                if (details.images && details.images.logos && details.images.logos.length > 0) {
-                const frLogo = details.images.logos.find(logo => logo.iso_639_1 === 'fr');
-                logoElement.src = getImageUrl((frLogo || details.images.logos[0]).file_path);
-                logoElement.classList.remove('hidden');
-                titleElement.classList.add('hidden'); // ← on cache le titre
-            } else {
-                logoElement.classList.add('hidden');
-                titleElement.classList.remove('hidden'); // ← on réaffiche le titre s’il n’y a pas de logo
-            }
+const logoElement = document.getElementById('detail-logo');
+const titleElement = document.getElementById('detail-title');
+
+// par défaut on enlève l'ancienne src pour éviter un "flash" d'ancien logo
+logoElement.src = '';
+logoElement.style.display = 'none';
+titleElement.style.display = 'block';
+
+if (details.images && details.images.logos && details.images.logos.length > 0) {
+    const frLogo = details.images.logos.find(logo => logo.iso_639_1 === 'fr');
+    const logoPath = (frLogo || details.images.logos[0]).file_path;
+    if (logoPath) {
+        logoElement.src = getImageUrl(logoPath, 'w500');
+        logoElement.style.display = 'block';
+        titleElement.style.display = 'none';
+    } else {
+        // pas de logo : on s'assure que le titre est visible
+        logoElement.src = '';
+        logoElement.style.display = 'none';
+        titleElement.style.display = 'block';
+    }
+} else {
+    // pas de logos dans la réponse
+    logoElement.src = '';
+    logoElement.style.display = 'none';
+    titleElement.style.display = 'block';
+}
+
 
 
                 const genresContainer = document.getElementById('detail-genres');
