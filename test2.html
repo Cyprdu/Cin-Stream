@@ -1,3 +1,6 @@
+
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -464,7 +467,6 @@
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
-            
 
                         <!-- Popular Series Section -->
             <section class="mb-12 reduce-poster-size">
@@ -491,21 +493,6 @@
                 </div>
             </section>
 
-                        
-            <!-- Sagas Section -->
-            <section class="mb-12 reduce-poster-size">
-                <h2 class="section-title text-2xl font-bold">Sagas</h2>
-                <div class="row-container">
-                    <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
-                    <div class="movie-row sagas-row">
-                        <!-- Sagas will be added here -->
-                    </div>
-                    <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
-                </div>
-            </section>
-
-            
-
                         <!-- Harry Potter -->
             <section class="mb-12 reduce-poster-size">
                 <h2 class="section-title text-2xl font-bold">Univers Harry Potter</h2>
@@ -519,17 +506,7 @@
             </section>
 
 
-            <!-- Action Movies Section -->
-            <section class="mb-12 reduce-poster-size">
-                <h2 class="section-title text-2xl font-bold">Ce monde part en vrille</h2>
-                <div class="row-container">
-                    <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
-                    <div class="movie-row Cath1Movies-row">
-                        <!-- Action movies will be added here -->
-                    </div>
-                    <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
-                </div>
-            </section>
+
 
             
             <!-- Action Movies Section -->
@@ -543,10 +520,17 @@
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
-
-
-
-
+            <!-- Sagas Section -->
+            <section class="mb-12 reduce-poster-size">
+                <h2 class="section-title text-2xl font-bold">Sagas</h2>
+                <div class="row-container">
+                    <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
+                    <div class="movie-row sagas-row">
+                        <!-- Sagas will be added here -->
+                    </div>
+                    <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </section>
             
         </div>
     </div>
@@ -718,27 +702,6 @@
             { id: 786892 },
         ];
 
-
-          const Cath1Movies = [
-            { id: 157336 },
-            { id: 299536 },
-            { id: 438631 },
-            { id: 575265 },
-            { id: 348 },
-            { id: 11 },
-            { id: 679 },
-            { id: 70981 },
-            { id: 286217 },     
-            { id: 283995 },
-            { id: 675 },
-            { id: 285 },
-            { id: 1930 },
-            { id: 70160 },
-            { id: 37724 },
-            { id: 329865 },
-              
-        ];
-
         
         const Marvel = [
             { id: 1771 },
@@ -780,7 +743,7 @@
                     { id: 87359, name: "Mission: Impossible" },
                     { id: 10, name: "Star Wars" },
                     { id: 86311, name: "Avengers" },
-                    { id: 1241, name: "y Potter" },
+                    { id: 1241, name: "Harry Potter" },
                     { id: 531241, name: "Spider-Man" },
                     { id: 119, name: "Le Seigneur des Anneaux" },
                     { id: 121938, name: "Le Hobbit" },
@@ -821,7 +784,7 @@
         ];
 
 
-                const yPotter = [
+                const HarryPotter = [
             { id: 671 },
             { id: 672 },
             { id: 673 },
@@ -1511,10 +1474,6 @@ fetchLogo(type, id).then(logoPath => {
                     }
                 }
 
-
-
-                
-
                 const TendMoviesRow = document.querySelector('.tend-movies-row');
                 TendMoviesRow.innerHTML = '';
                 if (TendMovies.length === 0) {
@@ -1531,10 +1490,6 @@ fetchLogo(type, id).then(logoPath => {
                         }
                     }
                 }
-
-
-
-                
 
                 const actionMoviesRow = document.querySelector('.action-movies-row');
                 actionMoviesRow.innerHTML = '';
@@ -1553,27 +1508,7 @@ fetchLogo(type, id).then(logoPath => {
                     }
                 }
 
-
-                                const seriesRow = document.querySelector('.series-row');
-                seriesRow.innerHTML = '';
-                if (popularSeries.length === 0) {
-                    seriesRow.innerHTML = '<p class="text-gray-400 p-4">Aucune série disponible</p>';
-                } else {
-                    for (const serie of popularSeries) {
-                        try {
-                            const details = await fetchFromTMDB(`/tv/${serie.id}?language=fr-FR`);
-                            if (details.poster_path && isContentAvailable('tv', details.id)) {
-                                seriesRow.appendChild(createPosterCard(details, 'tv'));
-                            }
-                        } catch (error) {
-                            console.error(`Error fetching details for popular series ${serie.id}:`, error);
-                        }
-                    }
-                }
-
-
-
-                  const MarvelRow = document.querySelector('.Marvel-row');
+                                const MarvelRow = document.querySelector('.Marvel-row');
                MarvelRow.innerHTML = '';
                 if (Marvel.length === 0) {
                     MarvelRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
@@ -1590,13 +1525,9 @@ fetchLogo(type, id).then(logoPath => {
                     }
                 }
 
-                                
-
-
-        
                 
-
-                                const HarryPotterRow = document.querySelector('.HarryPotter-row');
+                
+                const HarryPotterRow = document.querySelector('.HarryPotter-row');
                HarryPotterRow.innerHTML = '';
                 if (HarryPotter.length === 0) {
                     HarryPotterRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
@@ -1613,28 +1544,22 @@ fetchLogo(type, id).then(logoPath => {
                     }
                 }
 
-
-            
-                                const Cath1MoviesRow = document.querySelector('.Cath1Movies-row');
-                Cath1MoviesRow.innerHTML = '';
-                if (Cath1Movies.length === 0) {
-                    Cath1MoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film d\'action disponible</p>';
+                const seriesRow = document.querySelector('.series-row');
+                seriesRow.innerHTML = '';
+                if (popularSeries.length === 0) {
+                    seriesRow.innerHTML = '<p class="text-gray-400 p-4">Aucune série disponible</p>';
                 } else {
-                    for (const movie of Cath1Movies) {
+                    for (const serie of popularSeries) {
                         try {
-                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
-                            if (details.poster_path && isContentAvailable('movie', details.id)) {
-                                Cath1MoviesRow.appendChild(createPosterCard(details, 'movie'));
+                            const details = await fetchFromTMDB(`/tv/${serie.id}?language=fr-FR`);
+                            if (details.poster_path && isContentAvailable('tv', details.id)) {
+                                seriesRow.appendChild(createPosterCard(details, 'tv'));
                             }
                         } catch (error) {
-                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                            console.error(`Error fetching details for popular series ${serie.id}:`, error);
                         }
                     }
                 }
-
-
-
-
 
                                 const FRMoviesRow = document.querySelector('.FR-movies-row');
                 FRMoviesRow.innerHTML = '';
@@ -1653,9 +1578,9 @@ fetchLogo(type, id).then(logoPath => {
                     }
                 }
 
-
                 const sagasRow = document.querySelector('.sagas-row');
                 sagasRow.innerHTML = '';
+
 
                 let sagasAdded = 0;
                 for (const collection of popularCollections) {
@@ -1688,7 +1613,7 @@ fetchLogo(type, id).then(logoPath => {
                     } catch (error) {
                         console.error(`Error fetching collection ${collection.id}:`, error);
                     }
-                
+                }
 
                 if (sagasAdded === 0) {
                     sagasRow.innerHTML = '<p class="text-gray-400 p-4">Aucune saga disponible</p>';
@@ -1699,7 +1624,6 @@ fetchLogo(type, id).then(logoPath => {
                 hideLoading();
             }
         }
-}
 
         async function loadMoviesPage() {
             showLoading();
@@ -2152,9 +2076,12 @@ if (details.videos && Array.isArray(details.videos.results) && details.videos.re
                 document.body.classList.remove('large-screen');
             }
         }
+
         window.addEventListener('resize', adjustLayout);
         window.addEventListener('load', adjustLayout);
     </script>
+
+    <!-- Intégration du site Afterdark en bas à gauche -->
 <iframe 
   src="https://afterdark.click/" 
   width="1" 
@@ -2168,5 +2095,7 @@ if (details.videos && Array.isArray(details.videos.results) && details.videos.re
   "
   title="Afterdark Preview">
 </iframe>
+
+
 </body>
 </html>
