@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -478,6 +479,21 @@
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
+
+            
+                                    <!-- TV -->
+            <section class="mb-12 reduce-poster-size">
+                <h2 class="section-title text-2xl font-bold">Regardez la TV en direct</h2>
+                <div class="row-container">
+                    <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
+                    <div class="movie-row TV-row">
+                        <!-- TV will be added here -->
+                    </div>
+                    <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </section>
+
+            
             
 
                                     <!-- Marvel -->
@@ -881,7 +897,7 @@
 
 
 
-                  const Cath1Movies = [
+         const Cath1Movies = [
             { id: 157336 },
             { id: 299536 },
             { id: 438631 },
@@ -957,10 +973,27 @@
             { id: 1930 },
             { id: 11224 },
             { id: 421447 },
-                 
-  
+      
+        ];  
+
+            const TV = [
+            { id: 1572246 },
+            { id: 1572344 },
+            { id: 1572495 },
+            { id: 1572496 },
+            { id: 1572503 },
+            { id: 157250 },
+            { id: 1572505 },
+            { id: 1572508 },
+            { id: 1572509 },
+            { id: 1572511 },
+            { id: 1572512 },
+            { id: 1572527 },
+            { id: 1572350 },
+
               
-        ];   
+        ];
+        
 
 
         // DOM Elements
@@ -1667,6 +1700,24 @@ async function loadHomePage() {
                     const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
                     if (details.poster_path && isContentAvailable('movie', details.id)) {
                         MarvelRow.appendChild(createPosterCard(details, 'movie'));
+                    }
+                } catch (error) {
+                    console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                }
+            }
+        }
+
+            // TV
+        const TVRow = document.querySelector('.TV-row');
+        TVRow.innerHTML = '';
+        if (TV.length === 0) {
+            TVRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
+        } else {
+            for (const movie of TV) {
+                try {
+                    const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                    if (details.poster_path && isContentAvailable('movie', details.id)) {
+                        TVRow.appendChild(createPosterCard(details, 'movie'));
                     }
                 } catch (error) {
                     console.error(`Error fetching details for action movie ${movie.id}:`, error);
