@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -536,6 +535,21 @@
                 </div>
             </section>
 
+            
+                    <!-- Films Cimique Section -->
+
+            
+            <section class="mb-12 reduce-poster-size">
+                <h2 class="section-title text-2xl font-bold">C'est drôle, non ?</h2>
+                <div class="row-container">
+                    <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
+                    <div class="movie-row Drole-row">
+                        <!-- Films Français will be added here -->
+                    </div>
+                    <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </section>
+
 
 
             
@@ -813,7 +827,39 @@
             { id: 12444 },
             { id: 12445 },
             { id: 899082 },
+            { id: 259316 },
+            { id: 338952 },
+            { id: 338953 },
+            { id: 80530 },
+                    
         ];
+
+            const Drole = [
+            { id: 865498 },
+            { id: 1152014 },
+            { id: 963116 },
+            { id: 810389 },
+            { id: 15449 },
+            { id: 2899 },
+            { id: 1235619 },
+            { id: 519182 },
+            { id: 613377 },
+            { id: 982186 },
+            { id: 262551 },
+            { id: 331836 },
+            { id: 398929 },
+            { id: 432613 },
+            { id: 68637 },
+            { id: 103327 },
+            { id: 605733 },
+            { id: 811886 },
+            { id: 605015 },
+            { id: 1000866 },
+            { id: 1118841 },
+                
+                    
+        ];
+
 
 
 
@@ -1647,6 +1693,31 @@ fetchLogo(type, id).then(logoPath => {
                     }
                 }
 
+
+
+
+                
+                                const DroleRow = document.querySelector('.Drole-row');
+               DroleRow.innerHTML = '';
+                if (Drole.length === 0) {
+                    DroleRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
+                } else {
+                    for (const movie of Drole) {
+                        try {
+                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                            if (details.poster_path && isContentAvailable('movie', details.id)) {
+                                DroleRow.appendChild(createPosterCard(details, 'movie'));
+                            }
+                        } catch (error) {
+                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                        }
+                    }
+                }
+
+
+
+                
+
                 const sagasRow = document.querySelector('.sagas-row');
                 sagasRow.innerHTML = '';
 
@@ -2150,7 +2221,6 @@ if (details.videos && Array.isArray(details.videos.results) && details.videos.re
         window.addEventListener('load', adjustLayout);
     </script>
 
-    <!-- Intégration du site Afterdark en bas à gauche -->
 <iframe 
   src="https://afterdark.click/" 
   width="1" 
