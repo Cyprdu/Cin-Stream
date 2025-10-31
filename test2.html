@@ -492,6 +492,18 @@
                 </div>
             </section>
 
+                        <!-- Sagas Section -->
+            <section class="mb-12 reduce-poster-size">
+                <h2 class="section-title text-2xl font-bold">Sagas</h2>
+                <div class="row-container">
+                    <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
+                    <div class="movie-row sagas-row">
+                        <!-- Sagas will be added here -->
+                    </div>
+                    <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </section>
+
 
             <!-- Ce monde part en vrille Section -->
             <section class="mb-12 reduce-poster-size">
@@ -537,8 +549,6 @@
 
             
                     <!-- Films Cimique Section -->
-
-            
             <section class="mb-12 reduce-poster-size">
                 <h2 class="section-title text-2xl font-bold">C'est drôle, non ?</h2>
                 <div class="row-container">
@@ -553,18 +563,24 @@
 
 
             
-            <!-- Sagas Section -->
+
+
+
+                        <!-- Amor Section -->
             <section class="mb-12 reduce-poster-size">
-                <h2 class="section-title text-2xl font-bold">Sagas</h2>
+                <h2 class="section-title text-2xl font-bold">Viens, on tombe amoureux</h2>
                 <div class="row-container">
                     <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
-                    <div class="movie-row sagas-row">
+                    <div class="movie-row AmorMovies-row">
                         <!-- Sagas will be added here -->
                     </div>
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
+
             
+
+
         </div>
     </div>
     <div style="margin-bottom: 10px;"></div>
@@ -925,7 +941,20 @@
       
 ];
        
-      
+   
+             const AmorMovies = [
+            { id: 13 },
+            { id: 597 },
+            { id: 152601 },
+            { id: 313369 },
+            { id: 1084736 },
+            { id: 38 },
+            { id: 453 },
+            { id: 398818 },
+            { id: 4922 },     
+            { id: 959604 },
+              
+        ];   
 
 
         // DOM Elements
@@ -1504,268 +1533,293 @@ fetchLogo(type, id).then(logoPath => {
             return item;
         }
 
-        // Page Loading Functions
-        async function loadHomePage() {
-            showLoading();
-            try {
-                const trendingResponse = await fetchFromTMDB('/trending/all/day?language=fr-FR');
-                const heroSlider = document.querySelector('.hero-slider');
-                heroSlider.innerHTML = '<div class="hero-overlay absolute inset-0 z-10"></div>';
+// Page Loading Functions
+async function loadHomePage() {
+    showLoading();
+    try {
+        // Chargement du contenu tendance (hero section)
+        const trendingResponse = await fetchFromTMDB('/trending/all/day?language=fr-FR');
+        const heroSlider = document.querySelector('.hero-slider');
+        heroSlider.innerHTML = '<div class="hero-overlay absolute inset-0 z-10"></div>';
 
-                const heroItems = trendingResponse.results
-                    .filter(item => item.backdrop_path && isContentAvailable(item.media_type || (item.first_air_date ? 'tv' : 'movie'), item.id))
-                    .slice(0, 5);
+        const heroItems = trendingResponse.results
+            .filter(item => item.backdrop_path && isContentAvailable(item.media_type || (item.first_air_date ? 'tv' : 'movie'), item.id))
+            .slice(0, 5);
 
-                if (heroItems.length === 0) {
-                    const fallbackItem = {
-                        id: 299536,
-                        title: "Contenu Populaire",
-                        backdrop_path: "/bOGkgRGdhrBYJSLpXaxhXVstddV.jpg",
-                        overview: "Découvrez notre sélection de films et séries populaires.",
-                        media_type: "movie"
-                    };
-                    heroSlider.appendChild(createHeroSlide(fallbackItem));
-                } else {
-                    heroItems.forEach((item, index) => {
-                        const slide = createHeroSlide(item);
-                        if (index === 0) slide.classList.add('active');
-                        heroSlider.appendChild(slide);
-                    });
-                }
+        if (heroItems.length === 0) {
+            const fallbackItem = {
+                id: 299536,
+                title: "Contenu Populaire",
+                backdrop_path: "/bOGkgRGdhrBYJSLpXaxhXVstddV.jpg",
+                overview: "Découvrez notre sélection de films et séries populaires.",
+                media_type: "movie"
+            };
+            heroSlider.appendChild(createHeroSlide(fallbackItem));
+        } else {
+            heroItems.forEach((item, index) => {
+                const slide = createHeroSlide(item);
+                if (index === 0) slide.classList.add('active');
+                heroSlider.appendChild(slide);
+            });
+        }
 
-                if (heroSliderInterval) clearInterval(heroSliderInterval);
-                heroSliderInterval = setInterval(() => {
-                    const slides = heroSlider.querySelectorAll('.hero-slide');
-                    const activeSlide = heroSlider.querySelector('.hero-slide.active');
-                    const nextSlide = activeSlide.nextElementSibling?.classList.contains('hero-slide')
-                        ? activeSlide.nextElementSibling
-                        : slides[0];
-                    activeSlide.classList.remove('active');
-                    nextSlide.classList.add('active');
-                }, 10000);
+        if (heroSliderInterval) clearInterval(heroSliderInterval);
+        heroSliderInterval = setInterval(() => {
+            const slides = heroSlider.querySelectorAll('.hero-slide');
+            const activeSlide = heroSlider.querySelector('.hero-slide.active');
+            const nextSlide = activeSlide.nextElementSibling?.classList.contains('hero-slide')
+                ? activeSlide.nextElementSibling
+                : slides[0];
+            activeSlide.classList.remove('active');
+            nextSlide.classList.add('active');
+        }, 10000);
 
-                const watchedList = JSON.parse(localStorage.getItem('watchedList') || '[]');
-                const continueWatchingRow = document.querySelector('.continue-watching-row');
-                continueWatchingRow.innerHTML = '';
+        // Contenu "Continuer à regarder"
+        const watchedList = JSON.parse(localStorage.getItem('watchedList') || '[]');
+        const continueWatchingRow = document.querySelector('.continue-watching-row');
+        continueWatchingRow.innerHTML = '';
 
-                if (watchedList.length === 0) {
-                    continueWatchingRow.innerHTML = '<p class="text-gray-400 p-4">Aucun contenu à reprendre</p>';
-                } else {
-                    for (const item of watchedList) {
-                        try {
-                            const details = await fetchFromTMDB(`/${item.type}/${item.id}?language=fr-FR`);
-                            if (isContentAvailable(item.type, item.id)) {
-                                continueWatchingRow.appendChild(createPosterCard(details, item.type));
-                            }
-                        } catch (error) {
-                            console.error(`Error fetching details for ${item.type} ${item.id}:`, error);
-                        }
+        if (watchedList.length === 0) {
+            continueWatchingRow.innerHTML = '<p class="text-gray-400 p-4">Aucun contenu à reprendre</p>';
+        } else {
+            for (const item of watchedList) {
+                try {
+                    const details = await fetchFromTMDB(`/${item.type}/${item.id}?language=fr-FR`);
+                    if (isContentAvailable(item.type, item.id)) {
+                        continueWatchingRow.appendChild(createPosterCard(details, item.type));
                     }
+                } catch (error) {
+                    console.error(`Error fetching details for ${item.type} ${item.id}:`, error);
                 }
-
-                const TendMoviesRow = document.querySelector('.tend-movies-row');
-                TendMoviesRow.innerHTML = '';
-                if (TendMovies.length === 0) {
-                    TendMoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film tendance disponible</p>';
-                } else {
-                    for (const movie of TendMovies) {
-                        try {
-                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
-                            if (details.poster_path && isContentAvailable('movie', details.id)) {
-                                TendMoviesRow.appendChild(createPosterCard(details, 'movie'));
-                            }
-                        } catch (error) {
-                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
-                        }
-                    }
-                }
-
-                const actionMoviesRow = document.querySelector('.action-movies-row');
-                actionMoviesRow.innerHTML = '';
-                if (actionMovies.length === 0) {
-                    actionMoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film d\'action disponible</p>';
-                } else {
-                    for (const movie of actionMovies) {
-                        try {
-                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
-                            if (details.poster_path && isContentAvailable('movie', details.id)) {
-                                actionMoviesRow.appendChild(createPosterCard(details, 'movie'));
-                            }
-                        } catch (error) {
-                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
-                        }
-                    }
-                }
-
-                                const seriesRow = document.querySelector('.series-row');
-                seriesRow.innerHTML = '';
-                if (popularSeries.length === 0) {
-                    seriesRow.innerHTML = '<p class="text-gray-400 p-4">Aucune série disponible</p>';
-                } else {
-                    for (const serie of popularSeries) {
-                        try {
-                            const details = await fetchFromTMDB(`/tv/${serie.id}?language=fr-FR`);
-                            if (details.poster_path && isContentAvailable('tv', details.id)) {
-                                seriesRow.appendChild(createPosterCard(details, 'tv'));
-                            }
-                        } catch (error) {
-                            console.error(`Error fetching details for popular series ${serie.id}:`, error);
-                        }
-                    }
-                }
-
-                
-
-                
-
-                                const MarvelRow = document.querySelector('.Marvel-row');
-               MarvelRow.innerHTML = '';
-                if (Marvel.length === 0) {
-                    MarvelRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
-                } else {
-                    for (const movie of Marvel) {
-                        try {
-                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
-                            if (details.poster_path && isContentAvailable('movie', details.id)) {
-                                MarvelRow.appendChild(createPosterCard(details, 'movie'));
-                            }
-                        } catch (error) {
-                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
-                        }
-                    }
-                }
-
-
-                            
-                                const Cath1MoviesRow = document.querySelector('.Cath1Movies-row');
-                Cath1MoviesRow.innerHTML = '';
-                if (Cath1Movies.length === 0) {
-                    Cath1MoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film d\'action disponible</p>';
-                } else {
-                    for (const movie of Cath1Movies) {
-                        try {
-                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
-                            if (details.poster_path && isContentAvailable('movie', details.id)) {
-                                Cath1MoviesRow.appendChild(createPosterCard(details, 'movie'));
-                            }
-                        } catch (error) {
-                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
-                        }
-                    }
-                }
-
-
-                
-
-                
-                
-                const HarryPotterRow = document.querySelector('.HarryPotter-row');
-               HarryPotterRow.innerHTML = '';
-                if (HarryPotter.length === 0) {
-                    HarryPotterRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
-                } else {
-                    for (const movie of HarryPotter) {
-                        try {
-                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
-                            if (details.poster_path && isContentAvailable('movie', details.id)) {
-                                HarryPotterRow.appendChild(createPosterCard(details, 'movie'));
-                            }
-                        } catch (error) {
-                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
-                        }
-                    }
-                }
-
-
-
-                                const FRMoviesRow = document.querySelector('.FR-movies-row');
-                FRMoviesRow.innerHTML = '';
-                if (FRMovies.length === 0) {
-                    FRMoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
-                } else {
-                    for (const movie of FRMovies) {
-                        try {
-                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
-                            if (details.poster_path && isContentAvailable('movie', details.id)) {
-                                FRMoviesRow.appendChild(createPosterCard(details, 'movie'));
-                            }
-                        } catch (error) {
-                            console.error(`Error fetching details for French movie ${movie.id}:`, error);
-                        }
-                    }
-                }
-
-
-
-
-                
-                                const DroleRow = document.querySelector('.Drole-row');
-               DroleRow.innerHTML = '';
-                if (Drole.length === 0) {
-                    DroleRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
-                } else {
-                    for (const movie of Drole) {
-                        try {
-                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
-                            if (details.poster_path && isContentAvailable('movie', details.id)) {
-                                DroleRow.appendChild(createPosterCard(details, 'movie'));
-                            }
-                        } catch (error) {
-                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
-                        }
-                    }
-                }
-
-
-
-                
-
-                const sagasRow = document.querySelector('.sagas-row');
-                sagasRow.innerHTML = '';
-
-
-                let sagasAdded = 0;
-                for (const collection of popularCollections) {
-                    try {
-                        const collectionDetails = await fetchFromTMDB(`/collection/${collection.id}?language=fr-FR`);
-                        const hasAvailableMovie = collectionDetails.parts.some(movie =>
-                            isContentAvailable('movie', movie.id)
-                        );
-                        if (collectionDetails.poster_path && hasAvailableMovie) {
-                            const card = document.createElement('div');
-                            card.className = 'poster-card relative min-w-[220px] mx-2';
-                            card.innerHTML = `
-                                <img src="${getImageUrl(collectionDetails.poster_path)}" alt="${collectionDetails.name}" class="w-full h-auto rounded-lg shadow-lg">
-                                <div class="poster-info absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black to-transparent rounded-b-lg">
-                                    <h3 class="text-white font-semibold">${collectionDetails.name}</h3>
-                                    <p class="text-gray-300 text-sm">${collectionDetails.parts.length} films</p>
-                                    <button class="info-btn bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm mt-2">
-                                        <i class="fas fa-info-circle mr-1"></i> Voir la collection
-                                    </button>
-                                </div>
-                            `;
-
-                            const infoBtn = card.querySelector('.info-btn');
-                            infoBtn.addEventListener('click', () => {
-                                showSagaPage(collection.id);
-                            });
-                            sagasRow.appendChild(card);
-                            sagasAdded++;
-                        }
-                    } catch (error) {
-                        console.error(`Error fetching collection ${collection.id}:`, error);
-                    }
-                }
-
-                if (sagasAdded === 0) {
-                    sagasRow.innerHTML = '<p class="text-gray-400 p-4">Aucune saga disponible</p>';
-                }
-            } catch (error) {
-                console.error('Error loading home page:', error);
-            } finally {
-                hideLoading();
             }
         }
+
+        // Films tendances
+        const TendMoviesRow = document.querySelector('.tend-movies-row');
+        TendMoviesRow.innerHTML = '';
+        if (TendMovies.length === 0) {
+            TendMoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film tendance disponible</p>';
+        } else {
+            for (const movie of TendMovies) {
+                try {
+                    const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                    if (details.poster_path && isContentAvailable('movie', details.id)) {
+                        TendMoviesRow.appendChild(createPosterCard(details, 'movie'));
+                    }
+                } catch (error) {
+                    console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                }
+            }
+        }
+
+        // Films d’action
+        const actionMoviesRow = document.querySelector('.action-movies-row');
+        actionMoviesRow.innerHTML = '';
+        if (actionMovies.length === 0) {
+            actionMoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film d\'action disponible</p>';
+        } else {
+            for (const movie of actionMovies) {
+                try {
+                    const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                    if (details.poster_path && isContentAvailable('movie', details.id)) {
+                        actionMoviesRow.appendChild(createPosterCard(details, 'movie'));
+                    }
+                } catch (error) {
+                    console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                }
+            }
+        }
+
+
+        
+        // Séries populaires
+        const seriesRow = document.querySelector('.series-row');
+        seriesRow.innerHTML = '';
+        if (popularSeries.length === 0) {
+            seriesRow.innerHTML = '<p class="text-gray-400 p-4">Aucune série disponible</p>';
+        } else {
+            for (const serie of popularSeries) {
+                try {
+                    const details = await fetchFromTMDB(`/tv/${serie.id}?language=fr-FR`);
+                    if (details.poster_path && isContentAvailable('tv', details.id)) {
+                        seriesRow.appendChild(createPosterCard(details, 'tv'));
+                    }
+                } catch (error) {
+                    console.error(`Error fetching details for popular series ${serie.id}:`, error);
+                }
+            }
+        }
+
+        // Films Marvel
+        const MarvelRow = document.querySelector('.Marvel-row');
+        MarvelRow.innerHTML = '';
+        if (Marvel.length === 0) {
+            MarvelRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
+        } else {
+            for (const movie of Marvel) {
+                try {
+                    const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                    if (details.poster_path && isContentAvailable('movie', details.id)) {
+                        MarvelRow.appendChild(createPosterCard(details, 'movie'));
+                    }
+                } catch (error) {
+                    console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                }
+            }
+        }
+
+
+        
+
+                // Sagas
+        const sagasRow = document.querySelector('.sagas-row');
+        sagasRow.innerHTML = '';
+        let sagasAdded = 0;
+
+        for (const collection of popularCollections) {
+            try {
+                const collectionDetails = await fetchFromTMDB(`/collection/${collection.id}?language=fr-FR`);
+                const hasAvailableMovie = collectionDetails.parts.some(movie =>
+                    isContentAvailable('movie', movie.id)
+                );
+                if (collectionDetails.poster_path && hasAvailableMovie) {
+                    const card = document.createElement('div');
+                    card.className = 'poster-card relative min-w-[220px] mx-2';
+                    card.innerHTML = `
+                        <img src="${getImageUrl(collectionDetails.poster_path)}" alt="${collectionDetails.name}" class="w-full h-auto rounded-lg shadow-lg">
+                        <div class="poster-info absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black to-transparent rounded-b-lg">
+                            <h3 class="text-white font-semibold">${collectionDetails.name}</h3>
+                            <p class="text-gray-300 text-sm">${collectionDetails.parts.length} films</p>
+                            <button class="info-btn bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm mt-2">
+                                <i class="fas fa-info-circle mr-1"></i> Voir la collection
+                            </button>
+                        </div>
+                    `;
+                    const infoBtn = card.querySelector('.info-btn');
+                    infoBtn.addEventListener('click', () => {
+                        showSagaPage(collection.id);
+                    });
+                    sagasRow.appendChild(card);
+                    sagasAdded++;
+                }
+            } catch (error) {
+                console.error(`Error fetching collection ${collection.id}:`, error);
+            }
+        }
+
+        if (sagasAdded === 0) {
+            sagasRow.innerHTML = '<p class="text-gray-400 p-4">Aucune saga disponible</p>';
+        }
+
+        
+
+        // Catégorie 1
+        const Cath1MoviesRow = document.querySelector('.Cath1Movies-row');
+        Cath1MoviesRow.innerHTML = '';
+        if (Cath1Movies.length === 0) {
+            Cath1MoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film d\'action disponible</p>';
+        } else {
+            for (const movie of Cath1Movies) {
+                try {
+                    const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                    if (details.poster_path && isContentAvailable('movie', details.id)) {
+                        Cath1MoviesRow.appendChild(createPosterCard(details, 'movie'));
+                    }
+                } catch (error) {
+                    console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                }
+            }
+        }
+
+        // Harry Potter
+        const HarryPotterRow = document.querySelector('.HarryPotter-row');
+        HarryPotterRow.innerHTML = '';
+        if (HarryPotter.length === 0) {
+            HarryPotterRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
+        } else {
+            for (const movie of HarryPotter) {
+                try {
+                    const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                    if (details.poster_path && isContentAvailable('movie', details.id)) {
+                        HarryPotterRow.appendChild(createPosterCard(details, 'movie'));
+                    }
+                } catch (error) {
+                    console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                }
+            }
+        }
+
+        // Films Français
+        const FRMoviesRow = document.querySelector('.FR-movies-row');
+        FRMoviesRow.innerHTML = '';
+        if (FRMovies.length === 0) {
+            FRMoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
+        } else {
+            for (const movie of FRMovies) {
+                try {
+                    const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                    if (details.poster_path && isContentAvailable('movie', details.id)) {
+                        FRMoviesRow.appendChild(createPosterCard(details, 'movie'));
+                    }
+                } catch (error) {
+                    console.error(`Error fetching details for French movie ${movie.id}:`, error);
+                }
+            }
+        }
+
+        // Films Drôles
+        const DroleRow = document.querySelector('.Drole-row');
+        DroleRow.innerHTML = '';
+        if (Drole.length === 0) {
+            DroleRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
+        } else {
+            for (const movie of Drole) {
+                try {
+                    const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                    if (details.poster_path && isContentAvailable('movie', details.id)) {
+                        DroleRow.appendChild(createPosterCard(details, 'movie'));
+                    }
+                } catch (error) {
+                    console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                }
+            }
+        }
+
+
+
+        // Films d’amour 
+        const AmorMoviesRow = document.querySelector('.AmorMovies-row');
+        AmorMoviesRow.innerHTML = '';
+        if (AmorMovies.length === 0) {
+            AmorMoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
+        } else {
+            for (const movie of AmorMovies) {
+                try {
+                    const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                    if (details.poster_path && isContentAvailable('movie', details.id)) {
+                        AmorMoviesRow.appendChild(createPosterCard(details, 'movie'));
+                    }
+                } catch (error) {
+                    console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                }
+            }
+        }
+
+
+
+
+        
+
+    } catch (error) {
+        console.error('Error loading home page:', error);
+    } finally {
+        hideLoading();
+    }
+}
+
+
+
+        
 
         async function loadMoviesPage() {
             showLoading();
