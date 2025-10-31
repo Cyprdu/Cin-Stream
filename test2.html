@@ -491,6 +491,21 @@
                 </div>
             </section>
 
+                        
+            <!-- Sagas Section -->
+            <section class="mb-12 reduce-poster-size">
+                <h2 class="section-title text-2xl font-bold">Sagas</h2>
+                <div class="row-container">
+                    <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
+                    <div class="movie-row sagas-row">
+                        <!-- Sagas will be added here -->
+                    </div>
+                    <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </section>
+
+            
+
                         <!-- Harry Potter -->
             <section class="mb-12 reduce-poster-size">
                 <h2 class="section-title text-2xl font-bold">Univers Harry Potter</h2>
@@ -531,18 +546,7 @@
 
 
 
-            
-            <!-- Sagas Section -->
-            <section class="mb-12 reduce-poster-size">
-                <h2 class="section-title text-2xl font-bold">Sagas</h2>
-                <div class="row-container">
-                    <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
-                    <div class="movie-row sagas-row">
-                        <!-- Sagas will be added here -->
-                    </div>
-                    <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
-                </div>
-            </section>
+
             
         </div>
     </div>
@@ -1507,6 +1511,10 @@ fetchLogo(type, id).then(logoPath => {
                     }
                 }
 
+
+
+                
+
                 const TendMoviesRow = document.querySelector('.tend-movies-row');
                 TendMoviesRow.innerHTML = '';
                 if (TendMovies.length === 0) {
@@ -1523,6 +1531,10 @@ fetchLogo(type, id).then(logoPath => {
                         }
                     }
                 }
+
+
+
+                
 
                 const actionMoviesRow = document.querySelector('.action-movies-row');
                 actionMoviesRow.innerHTML = '';
@@ -1541,63 +1553,8 @@ fetchLogo(type, id).then(logoPath => {
                     }
                 }
 
-                                const Cath1MoviesRow = document.querySelector('.Cath1Movies-row');
-                Cath1MoviesRow.innerHTML = '';
-                if (Cath1Movies.length === 0) {
-                    Cath1MoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film d\'action disponible</p>';
-                } else {
-                    for (const movie of Cath1Movies) {
-                        try {
-                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
-                            if (details.poster_path && isContentAvailable('movie', details.id)) {
-                                Cath1MoviesRow.appendChild(createPosterCard(details, 'movie'));
-                            }
-                        } catch (error) {
-                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
-                        }
-                    }
-                }
 
-
-                
-
-                                const MarvelRow = document.querySelector('.Marvel-row');
-               MarvelRow.innerHTML = '';
-                if (Marvel.length === 0) {
-                    MarvelRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
-                } else {
-                    for (const movie of Marvel) {
-                        try {
-                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
-                            if (details.poster_path && isContentAvailable('movie', details.id)) {
-                                MarvelRow.appendChild(createPosterCard(details, 'movie'));
-                            }
-                        } catch (error) {
-                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
-                        }
-                    }
-                }
-
-                
-                
-                const HarryPotterRow = document.querySelector('.HarryPotter-row');
-               HarryPotterRow.innerHTML = '';
-                if (HarryPotter.length === 0) {
-                    HarryPotterRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
-                } else {
-                    for (const movie of HarryPotter) {
-                        try {
-                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
-                            if (details.poster_path && isContentAvailable('movie', details.id)) {
-                                HarryPotterRow.appendChild(createPosterCard(details, 'movie'));
-                            }
-                        } catch (error) {
-                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
-                        }
-                    }
-                }
-
-                const seriesRow = document.querySelector('.series-row');
+                                const seriesRow = document.querySelector('.series-row');
                 seriesRow.innerHTML = '';
                 if (popularSeries.length === 0) {
                     seriesRow.innerHTML = '<p class="text-gray-400 p-4">Aucune série disponible</p>';
@@ -1614,23 +1571,26 @@ fetchLogo(type, id).then(logoPath => {
                     }
                 }
 
-                                const FRMoviesRow = document.querySelector('.FR-movies-row');
-                FRMoviesRow.innerHTML = '';
-                if (FRMovies.length === 0) {
-                    FRMoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
+
+
+                  const MarvelRow = document.querySelector('.Marvel-row');
+               MarvelRow.innerHTML = '';
+                if (Marvel.length === 0) {
+                    MarvelRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
                 } else {
-                    for (const movie of FRMovies) {
+                    for (const movie of Marvel) {
                         try {
                             const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
                             if (details.poster_path && isContentAvailable('movie', details.id)) {
-                                FRMoviesRow.appendChild(createPosterCard(details, 'movie'));
+                                MarvelRow.appendChild(createPosterCard(details, 'movie'));
                             }
                         } catch (error) {
-                            console.error(`Error fetching details for French movie ${movie.id}:`, error);
+                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
                         }
                     }
                 }
 
+                                
                 const sagasRow = document.querySelector('.sagas-row');
                 sagasRow.innerHTML = '';
 
@@ -1677,6 +1637,70 @@ fetchLogo(type, id).then(logoPath => {
                 hideLoading();
             }
         }
+
+
+        
+                
+
+                                const HarryPotterRow = document.querySelector('.HarryPotter-row');
+               HarryPotterRow.innerHTML = '';
+                if (HarryPotter.length === 0) {
+                    HarryPotterRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
+                } else {
+                    for (const movie of HarryPotter) {
+                        try {
+                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                            if (details.poster_path && isContentAvailable('movie', details.id)) {
+                                HarryPotterRow.appendChild(createPosterCard(details, 'movie'));
+                            }
+                        } catch (error) {
+                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                        }
+                    }
+                }
+
+
+            
+                                const Cath1MoviesRow = document.querySelector('.Cath1Movies-row');
+                Cath1MoviesRow.innerHTML = '';
+                if (Cath1Movies.length === 0) {
+                    Cath1MoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film d\'action disponible</p>';
+                } else {
+                    for (const movie of Cath1Movies) {
+                        try {
+                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                            if (details.poster_path && isContentAvailable('movie', details.id)) {
+                                Cath1MoviesRow.appendChild(createPosterCard(details, 'movie'));
+                            }
+                        } catch (error) {
+                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                        }
+                    }
+                }
+
+
+
+
+
+                                const FRMoviesRow = document.querySelector('.FR-movies-row');
+                FRMoviesRow.innerHTML = '';
+                if (FRMovies.length === 0) {
+                    FRMoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
+                } else {
+                    for (const movie of FRMovies) {
+                        try {
+                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                            if (details.poster_path && isContentAvailable('movie', details.id)) {
+                                FRMoviesRow.appendChild(createPosterCard(details, 'movie'));
+                            }
+                        } catch (error) {
+                            console.error(`Error fetching details for French movie ${movie.id}:`, error);
+                        }
+                    }
+                }
+
+
+
 
         async function loadMoviesPage() {
             showLoading();
