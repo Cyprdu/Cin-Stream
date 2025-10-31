@@ -1594,7 +1594,6 @@ fetchLogo(type, id).then(logoPath => {
                 const sagasRow = document.querySelector('.sagas-row');
                 sagasRow.innerHTML = '';
 
-
                 let sagasAdded = 0;
                 for (const collection of popularCollections) {
                     try {
@@ -1626,7 +1625,7 @@ fetchLogo(type, id).then(logoPath => {
                     } catch (error) {
                         console.error(`Error fetching collection ${collection.id}:`, error);
                     }
-                }
+                
 
                 if (sagasAdded === 0) {
                     sagasRow.innerHTML = '<p class="text-gray-400 p-4">Aucune saga disponible</p>';
@@ -1700,7 +1699,7 @@ fetchLogo(type, id).then(logoPath => {
                 }
 
 
-
+}
 
         async function loadMoviesPage() {
             showLoading();
