@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -442,7 +441,9 @@
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
-            <!-- Action Movies Section -->
+
+            
+            <!-- Tendances Section -->
             <section class="mb-12 reduce-poster-size">
                 <h2 class="section-title text-2xl font-bold">Tendances</h2>
                 <div class="row-container">
@@ -454,7 +455,7 @@
                 </div>
             </section>
 
-            <!-- Action Movies Section -->
+            <!-- Ça explose à l’écran Section -->
             <section class="mb-12 reduce-poster-size">
                 <h2 class="section-title text-2xl font-bold">Ça explose à l’écran</h2>
                 <div class="row-container">
@@ -485,11 +486,26 @@
                 <div class="row-container">
                     <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
                     <div class="movie-row Marvel-row">
-                        <!-- Action movies will be added here -->
+                        <!-- Chronologie de l'univers Marvel will be added here -->
                     </div>
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
+
+
+            <!-- Ce monde part en vrille Section -->
+            <section class="mb-12 reduce-poster-size">
+                <h2 class="section-title text-2xl font-bold">Ce monde part en vrille</h2>
+                <div class="row-container">
+                    <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
+                    <div class="movie-row Cath1Movies-row">
+                        <!-- Ce monde part en vrille will be added here -->
+                    </div>
+                    <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </section>
+
+            
 
                         <!-- Harry Potter -->
             <section class="mb-12 reduce-poster-size">
@@ -497,7 +513,7 @@
                 <div class="row-container">
                     <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
                     <div class="movie-row HarryPotter-row">
-                        <!-- Action movies will be added here -->
+                        <!-- Harry Potter will be added here -->
                     </div>
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
@@ -507,17 +523,21 @@
 
 
             
-            <!-- Action Movies Section -->
+            <!-- Films Français Section -->
             <section class="mb-12 reduce-poster-size">
                 <h2 class="section-title text-2xl font-bold">Films Français</h2>
                 <div class="row-container">
                     <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
                     <div class="movie-row FR-movies-row">
-                        <!-- Action movies will be added here -->
+                        <!-- Films Français will be added here -->
                     </div>
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
+
+
+
+            
             <!-- Sagas Section -->
             <section class="mb-12 reduce-poster-size">
                 <h2 class="section-title text-2xl font-bold">Sagas</h2>
@@ -792,6 +812,28 @@
             { id: 12444 },
             { id: 12445 },
             { id: 899082 },
+        ];
+
+
+
+                  const Cath1Movies = [
+            { id: 157336 },
+            { id: 299536 },
+            { id: 438631 },
+            { id: 575265 },
+            { id: 348 },
+            { id: 11 },
+            { id: 679 },
+            { id: 70981 },
+            { id: 286217 },     
+            { id: 283995 },
+            { id: 675 },
+            { id: 285 },
+            { id: 1930 },
+            { id: 70160 },
+            { id: 37724 },
+            { id: 329865 },
+              
         ];
 
 
@@ -1543,6 +1585,28 @@ fetchLogo(type, id).then(logoPath => {
                         }
                     }
                 }
+
+
+                            
+                                const Cath1MoviesRow = document.querySelector('.Cath1Movies-row');
+                Cath1MoviesRow.innerHTML = '';
+                if (Cath1Movies.length === 0) {
+                    Cath1MoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film d\'action disponible</p>';
+                } else {
+                    for (const movie of Cath1Movies) {
+                        try {
+                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                            if (details.poster_path && isContentAvailable('movie', details.id)) {
+                                Cath1MoviesRow.appendChild(createPosterCard(details, 'movie'));
+                            }
+                        } catch (error) {
+                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                        }
+                    }
+                }
+
+
+                
 
                 
                 
