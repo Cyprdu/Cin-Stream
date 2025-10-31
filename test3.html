@@ -537,8 +537,6 @@
 
             
                     <!-- Films Cimique Section -->
-
-            
             <section class="mb-12 reduce-poster-size">
                 <h2 class="section-title text-2xl font-bold">C'est drôle, non ?</h2>
                 <div class="row-container">
@@ -564,7 +562,23 @@
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
+
+
+                        <!-- Amor Section -->
+            <section class="mb-12 reduce-poster-size">
+                <h2 class="section-title text-2xl font-bold">Viens, on tombe amoureux</h2>
+                <div class="row-container">
+                    <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
+                    <div class="movie-row Amor-row">
+                        <!-- Sagas will be added here -->
+                    </div>
+                    <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </section>
+
             
+
+
         </div>
     </div>
     <div style="margin-bottom: 10px;"></div>
@@ -710,14 +724,16 @@
             { id: 1272166 },
             { id: 604079 },
             { id: 76600 },
+            { id: 997113 },
             { id: 617126 },
             { id: 911430 },
             { id: 157336 },
-            { id: 516729 },
-            { id: 575264 },
             { id: 76600 },
-            { id: 753342 },
-            { id: 1084736 },
+            { id: 575265 },
+            { id: 1054867 },
+            { id: 1071585 },
+            { id: 13448 },
+            
         ];
 
         const actionMovies = [
@@ -923,7 +939,20 @@
       
 ];
        
-      
+   
+             const AmorMovies = [
+            { id: 13 },
+            { id: 597 },
+            { id: 152601 },
+            { id: 313369 },
+            { id: 1084736 },
+            { id: 38 },
+            { id: 453 },
+            { id: 398818 },
+            { id: 4922 },     
+            { id: 959604 },
+              
+        ];   
 
 
         // DOM Elements
@@ -1716,6 +1745,7 @@ fetchLogo(type, id).then(logoPath => {
 
 
 
+                //---------------------------
                 
 
                 const sagasRow = document.querySelector('.sagas-row');
@@ -1764,6 +1794,38 @@ fetchLogo(type, id).then(logoPath => {
                 hideLoading();
             }
         }
+
+
+
+// -----------------------------
+                
+
+                                const AmorMoviesRow = document.querySelector('.AmorMovies-row');
+               AmorMoviesRow.innerHTML = '';
+                if (AmorMovies.length === 0) {
+                    AmorMoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
+                } else {
+                    for (const movie of AmorMovies) {
+                        try {
+                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                            if (details.poster_path && isContentAvailable('movie', details.id)) {
+                                AmorMoviesRow.appendChild(createPosterCard(details, 'movie'));
+                            }
+                        } catch (error) {
+                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                        }
+                    }
+                }
+
+                
+
+
+
+// ..
+
+
+
+        
 
         async function loadMoviesPage() {
             showLoading();
