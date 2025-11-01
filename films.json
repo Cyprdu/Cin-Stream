@@ -2512,10 +2512,22 @@
         "tmdb_id": "movie-1572528",
         "url": "https://viamotionhsi.netplus.ch/live/eds/d17/browser-HLS8/d17.m3u8"
     }, 
-
-
-
-
+        {
+        "tmdb_id": "movie-1572632",
+        "url": "https://viamotionhsi.netplus.ch/live/eds/lequipe21/browser-HLS8/lequipe21.m3u8"
+    }, 
+        {
+        "tmdb_id": "movie-1572634",
+        "url": "https://viamotionhsi.netplus.ch/live/eds/6ter/browser-HLS8/6ter.m3u8"
+    }, 
+        {
+        "tmdb_id": "movie-1572635",
+        "url": "https://viamotionhsi.netplus.ch/live/eds/numero23/browser-HLS8/numero23.m3u8"
+    }, 
+        {
+        "tmdb_id": "movie-1572636",
+        "url": "https://viamotionhsi.netplus.ch/live/eds/rmcdecouverte/browser-HLS8/rmcdecouverte.m3u8"
+    }, 
 
 
 
@@ -11683,6 +11695,7 @@
         "url": "https://cinecake.xyz/series/Stranger-Things/S04/Stranger-Things-S04-E09.mp4"
     }
 ]
+
 
 
 
