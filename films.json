@@ -2528,7 +2528,14 @@
         "tmdb_id": "movie-1572636",
         "url": "https://viamotionhsi.netplus.ch/live/eds/rmcdecouverte/browser-HLS8/rmcdecouverte.m3u8"
     }, 
-
+        {
+        "tmdb_id": "movie-1572636",
+        "url": "https://viamotionhsi.netplus.ch/live/eds/rmcdecouverte/browser-HLS8/rmcdecouverte.m3u8"
+    },
+        {
+        "tmdb_id": "movie-4348",
+        "url": "https://proxy.afterdark.baby/boom-clap?url=https://jilliandescribecompany.com/e/3rihonpweaai"
+    },
 
 
 
@@ -11695,6 +11702,7 @@
         "url": "https://cinecake.xyz/series/Stranger-Things/S04/Stranger-Things-S04-E09.mp4"
     }
 ]
+
 
 
 
