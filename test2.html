@@ -1309,32 +1309,39 @@
         }
 
         // Progress Tracking Functions
-        function saveProgress(mediaType, mediaId, currentTime, duration) {
-            const key = `${mediaType}-${mediaId}`;
-            const progress = `${currentTime}--${duration}`;
-            localStorage.setItem(key, progress);
+function saveProgress(mediaType, mediaId, currentTime, duration) {
+    // 🚫 Bloquer certains IDs (ex: chaînes TV)
+    if (blockedWatchlistIds.includes(Number(mediaId))) {
+        console.log(`⛔ Contenu ${mediaId} bloqué : non ajouté à la watchlist.`);
+        return;
+    }
 
-            let watchedList = JSON.parse(localStorage.getItem('watchedList') || '[]');
-            const existingIndex = watchedList.findIndex(item => item.id === mediaId && item.type === mediaType);
-            const watchedItem = {
-                id: mediaId,
-                type: mediaType,
-                progress: currentTime,
-                duration: duration,
-                timestamp: Date.now()
-            };
-            if (existingIndex !== -1) {
-                watchedList[existingIndex] = watchedItem;
-            } else {
-                watchedList.push(watchedItem);
-            }
+    const key = `${mediaType}-${mediaId}`;
+    const progress = `${currentTime}--${duration}`;
+    localStorage.setItem(key, progress);
 
-            watchedList.sort((a, b) => b.timestamp - a.timestamp);
-            if (watchedList.length > 20) {
-                watchedList = watchedList.slice(0, 20);
-            }
-            localStorage.setItem('watchedList', JSON.stringify(watchedList));
-        }
+    let watchedList = JSON.parse(localStorage.getItem('watchedList') || '[]');
+    const existingIndex = watchedList.findIndex(item => item.id === mediaId && item.type === mediaType);
+    const watchedItem = {
+        id: mediaId,
+        type: mediaType,
+        progress: currentTime,
+        duration: duration,
+        timestamp: Date.now()
+    };
+    if (existingIndex !== -1) {
+        watchedList[existingIndex] = watchedItem;
+    } else {
+        watchedList.push(watchedItem);
+    }
+
+    watchedList.sort((a, b) => b.timestamp - a.timestamp);
+    if (watchedList.length > 20) {
+        watchedList = watchedList.slice(0, 20);
+    }
+    localStorage.setItem('watchedList', JSON.stringify(watchedList));
+}
+
 
         function getProgress(mediaType, mediaId) {
             const key = `${mediaType}-${mediaId}`;
@@ -2336,6 +2343,19 @@ if (details.videos && Array.isArray(details.videos.results) && details.videos.re
                 document.body.classList.remove('large-screen');
             }
         }
+
+
+        // Liste des IDs à bloquer dans la watchlist
+const blockedWatchlistIds = [
+    1572246, 1572344, 1572495, 1572496, 1572503, 1572500,
+    1572505, 1572508, 1572509, 1572511, 1572512, 1572527,
+    1572522, 1572524, 1572526, 1572527, 1572528, 1572350,
+    1572632, 1572634, 1572635, 1572636
+];
+
+
+
+        
 
         window.addEventListener('resize', adjustLayout);
         window.addEventListener('load', adjustLayout);
