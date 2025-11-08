@@ -4,42 +4,103 @@
   <meta charset="UTF-8">
   <title>CinéStream</title>
   <link rel="icon" href="https://github.com/Cyprdu/projection/blob/main/CIN%C3%A9%20(1).png?raw=true" type="image/png">
+  
+  <!-- ✅ Script principal Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3659884670016121"
+     crossorigin="anonymous"></script>
+  <meta name="google-adsense-account" content="ca-pub-3659884670016121">
+
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       overflow: hidden;
-            background-color: #00050d; /* Arrière-plan de la page */
+      background-color: #00050d; /* Arrière-plan de la page */
+      display: flex;
+      flex-direction: column;
+    }
 
+    #ad-top {
+      flex: 0 0 auto;
+      background: #000;
+      text-align: center;
+      padding: 5px 0;
     }
 
     #container {
+      flex: 1 1 auto;
+      position: relative;
       width: 100%;
       height: 100%;
-      position: relative;
     }
 
     iframe {
-      width: 99.9%;
-      height: 99.9%;
+      width: 100%;
+      height: 100%;
       border: none;
     }
-  </style>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3659884670016121"
-     crossorigin="anonymous"></script>
 
-  <meta name="google-adsense-account" content="ca-pub-3659884670016121">
+    #ad-bottom {
+      flex: 0 0 auto;
+      background: #000;
+      text-align: center;
+      padding: 5px 0;
+    }
+  </style>
 </head>
 <body>
+  
+  <!-- 🟩 Bannière publicitaire en haut -->
+  <div id="ad-top">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-3659884670016121"
+         data-ad-slot="8298695409"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+  <!-- 🎬 Conteneur principal -->
   <div id="container">
     <iframe id="myFrame" src="test2"></iframe>
   </div>
 
+  <!-- 🟨 Bannière publicitaire en bas -->
+  <div id="ad-bottom">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-3659884670016121"
+         data-ad-slot="8298695409"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+  <!-- Optionnel : compatibilité AMP (si tu fais une version AMP du site) -->
+  <script async custom-element="amp-ad" src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"></script>
+
+  <!-- Version AMP pour pages AMP uniquement -->
+  <!--
+  <amp-ad width="100vw" height="320"
+       type="adsense"
+       data-ad-client="ca-pub-3659884670016121"
+       data-ad-slot="8298695409"
+       data-auto-format="rspv"
+       data-full-width="">
+    <div overflow=""></div>
+  </amp-ad>
+  -->
+
   <script>
+    // ✅ Corrige les problèmes d’affichage de l’iframe lors du redimensionnement ou du fullscreen
     function forceReflow() {
       const frame = document.getElementById('myFrame');
-      // Redimensionner légèrement puis restaurer pour forcer le reflow
       const originalHeight = frame.style.height;
       frame.style.height = '99.9%';
       setTimeout(() => {
@@ -50,6 +111,6 @@
     window.addEventListener('resize', forceReflow);
     document.addEventListener('fullscreenchange', forceReflow);
   </script>
+
 </body>
 </html>
-
