@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Lecteur M3U8</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<body>
+    <h1>Lecteur M3U8</h1>
+    <video id="video" controls width="800"></video>
+
+    <script>
+        const video = document.getElementById('video');
+        const m3u8Url = "https://direct.xalaflix.zone/487890.m3u8";
+
+        if(Hls.isSupported()) {
+            const hls = new Hls();
+            hls.loadSource(m3u8Url); // hls.js suit automatiquement les redirections
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                video.play();
+            });
+        } else if(video.canPlayType('application/vnd.apple.mpegurl')) {
+            // Pour Safari et iOS qui supportent HLS nativement
+            video.src = m3u8Url;
+            video.addEventListener('loadedmetadata', function() {
+                video.play();
+            });
+        } else {
+            alert("Votre navigateur ne supporte pas HLS.");
+        }
+    </script>
+</body>
+</html>
