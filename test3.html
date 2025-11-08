@@ -335,7 +335,6 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        /* Réduire les affiches dans les sections spécifiques */
         .reduce-poster-size .movie-row .poster-card {
             min-width: 180px;
             width: 180px;
@@ -346,13 +345,11 @@
             height: auto;
             object-fit: cover;
         }
-        /* Style pour le logo du film dans le slider */
         .hero-logo {
             max-width: 300px;
             max-height: 100px;
             margin-bottom: 20px;
         }
-        /* Scrollbar design moderne */
         ::-webkit-scrollbar {
             width: 12px;
         }
@@ -370,36 +367,31 @@
         ::-webkit-scrollbar-thumb:hover {
             background: rgba(255, 255, 255, 0.5);
         }
-        /* Style pour la croix de fermeture */
         .close-detail {
-    position: fixed;
-    top: 80px;
-    left: 20px;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    color: white;
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(10, 20, 40, 0.5);
-    border-radius: 50%;
-    backdrop-filter: blur(5px);
-    margin-top: 5px;
-    z-index: 999; /* Changez cette valeur pour qu'elle soit inférieure à celle du lecteur */
-}
-        /* Taille adaptée pour le logo sur la page de détail */
-/* Taille adaptée pour le logo sur la page de détail */
-#detail-logo {
-    max-height: 100px;
-    max-width: 60%;
-    object-fit: contain;
-    margin-bottom: 15px;
-    display: none; /* <-- important : caché par défaut */
-}
-
-
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            color: white;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(10, 20, 40, 0.5);
+            border-radius: 50%;
+            backdrop-filter: blur(5px);
+            margin-top: 5px;
+            z-index: 999;
+        }
+        #detail-logo {
+            max-height: 100px;
+            max-width: 60%;
+            object-fit: contain;
+            margin-bottom: 15px;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -421,227 +413,161 @@
             </button>
         </div>
     </nav>
+
     <!-- Home Page -->
     <div id="home-page" class="page">
-        <!-- Hero Slider -->
         <div class="hero-slider">
-            <!-- Slides will be dynamically added here -->
             <div class="hero-overlay absolute inset-0 z-10"></div>
         </div>
-        <!-- Content Sections -->
         <div class="container mx-auto px-6 mt-[-120px] relative z-20">
-            <!-- Continue Watching Section -->
             <section class="mb-12 reduce-poster-size">
                 <h2 class="section-title text-2xl font-bold">Reprendre la lecture</h2>
                 <div class="row-container">
                     <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
-                    <div class="movie-row continue-watching-row">
-                        <!-- Continue watching items will be added here -->
-                    </div>
+                    <div class="movie-row continue-watching-row"></div>
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
 
-            
-            <!-- Tendances Section -->
             <section class="mb-12 reduce-poster-size">
                 <h2 class="section-title text-2xl font-bold">Tendances</h2>
                 <div class="row-container">
                     <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
-                    <div class="movie-row tend-movies-row">
-                        <!-- Tend movies will be added here -->
-                    </div>
+                    <div class="movie-row tend-movies-row"></div>
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
 
-            <!-- Ça explose à l’écran Section -->
             <section class="mb-12 reduce-poster-size">
-                <h2 class="section-title text-2xl font-bold">Ça explose à l’écran</h2>
+                <h2 class="section-title text-2xl font-bold">Ça explose à l'écran</h2>
                 <div class="row-container">
                     <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
-                    <div class="movie-row action-movies-row">
-                        <!-- Action movies will be added here -->
-                    </div>
+                    <div class="movie-row action-movies-row"></div>
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
 
-                        <!-- Popular Series Section -->
             <section class="mb-12 reduce-poster-size">
                 <h2 class="section-title text-2xl font-bold">Séries populaires</h2>
                 <div class="row-container">
                     <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
-                    <div class="movie-row series-row">
-                        <!-- Series will be added here -->
-                    </div>
+                    <div class="movie-row series-row"></div>
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
 
-            
-                                    <!-- TV -->
             <section class="mb-12 reduce-poster-size">
                 <h2 class="section-title text-2xl font-bold">Regardez la TV en direct</h2>
                 <div class="row-container">
                     <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
-                    <div class="movie-row TV-row">
-                        <!-- TV will be added here -->
-                    </div>
+                    <div class="movie-row TV-row"></div>
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
 
-            
-            
-
-                                    <!-- Marvel -->
             <section class="mb-12 reduce-poster-size">
-                <h2 class="section-title text-2xl font-bold">Chronologie de l'univers Marvel </h2>
+                <h2 class="section-title text-2xl font-bold">Chronologie de l'univers Marvel</h2>
                 <div class="row-container">
                     <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
-                    <div class="movie-row Marvel-row">
-                        <!-- Chronologie de l'univers Marvel will be added here -->
-                    </div>
+                    <div class="movie-row Marvel-row"></div>
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
 
-                        <!-- Sagas Section -->
             <section class="mb-12 reduce-poster-size">
                 <h2 class="section-title text-2xl font-bold">Sagas</h2>
                 <div class="row-container">
                     <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
-                    <div class="movie-row sagas-row">
-                        <!-- Sagas will be added here -->
-                    </div>
+                    <div class="movie-row sagas-row"></div>
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
 
-
-            <!-- Ce monde part en vrille Section -->
             <section class="mb-12 reduce-poster-size">
                 <h2 class="section-title text-2xl font-bold">Ce monde part en vrille</h2>
                 <div class="row-container">
                     <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
-                    <div class="movie-row Cath1Movies-row">
-                        <!-- Ce monde part en vrille will be added here -->
-                    </div>
+                    <div class="movie-row Cath1Movies-row"></div>
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
 
-            
-
-                        <!-- Harry Potter -->
             <section class="mb-12 reduce-poster-size">
                 <h2 class="section-title text-2xl font-bold">Univers Harry Potter</h2>
                 <div class="row-container">
                     <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
-                    <div class="movie-row HarryPotter-row">
-                        <!-- Harry Potter will be added here -->
-                    </div>
+                    <div class="movie-row HarryPotter-row"></div>
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
 
-
-
-
-            
-            <!-- Films Français Section -->
             <section class="mb-12 reduce-poster-size">
                 <h2 class="section-title text-2xl font-bold">Films Français</h2>
                 <div class="row-container">
                     <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
-                    <div class="movie-row FR-movies-row">
-                        <!-- Films Français will be added here -->
-                    </div>
+                    <div class="movie-row FR-movies-row"></div>
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
 
-            
-                    <!-- Films Cimique Section -->
             <section class="mb-12 reduce-poster-size">
                 <h2 class="section-title text-2xl font-bold">C'est drôle, non ?</h2>
                 <div class="row-container">
                     <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
-                    <div class="movie-row Drole-row">
-                        <!-- Films Français will be added here -->
-                    </div>
+                    <div class="movie-row Drole-row"></div>
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
 
-
-
-            
-
-
-
-                        <!-- Amor Section -->
             <section class="mb-12 reduce-poster-size">
                 <h2 class="section-title text-2xl font-bold">Viens, on tombe amoureux</h2>
                 <div class="row-container">
                     <button class="scroll-btn left"><i class="fas fa-chevron-left"></i></button>
-                    <div class="movie-row AmorMovies-row">
-                        <!-- Sagas will be added here -->
-                    </div>
+                    <div class="movie-row AmorMovies-row"></div>
                     <button class="scroll-btn right"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </section>
-
-            
-
-
         </div>
     </div>
     <div style="margin-bottom: 10px;"></div>
+
     <!-- Movies Catalog Page -->
-<div id="movies-page" class="catalog-page">
-    <div class="container mx-auto px-6">
-        <h1 class="text-3xl font-bold mb-8">Films</h1>
-        <h2 class="section-title text-2xl font-bold">Tous les films</h2>
-        <div class="catalog-grid alls-movies-grid">
-            <!-- All movies will be added here -->
+    <div id="movies-page" class="catalog-page">
+        <div class="container mx-auto px-6">
+            <h1 class="text-3xl font-bold mb-8">Films</h1>
+            <h2 class="section-title text-2xl font-bold">Tous les films</h2>
+            <div class="catalog-grid alls-movies-grid"></div>
         </div>
     </div>
-</div>
+
     <!-- Series Catalog Page -->
     <div id="series-page" class="catalog-page">
         <div class="container mx-auto px-6">
             <h1 class="text-3xl font-bold mb-8">Séries</h1>
             <h2 class="section-title text-2xl font-bold">Tendances</h2>
-            <div class="catalog-grid trending-series-grid mb-12">
-                <!-- Trending series will be added here -->
-            </div>
+            <div class="catalog-grid trending-series-grid mb-12"></div>
             <h2 class="section-title text-2xl font-bold">Toutes les séries</h2>
-            <div class="catalog-grid all-series-grid">
-                <!-- All series will be added here -->
-            </div>
+            <div class="catalog-grid all-series-grid"></div>
         </div>
     </div>
+
     <!-- Favorites Page -->
     <div id="favorites-page" class="catalog-page">
         <div class="container mx-auto px-6">
             <h1 class="text-3xl font-bold mb-8">Mes Favories</h1>
-            <div class="catalog-grid favorites-grid">
-                <!-- Favorites will be added here -->
-            </div>
+            <div class="catalog-grid favorites-grid"></div>
         </div>
     </div>
+
     <!-- Saga Catalog Page -->
     <div id="saga-page" class="catalog-page">
         <div class="container mx-auto px-6">
             <h1 class="text-3xl font-bold mb-8">Saga</h1>
             <h2 class="section-title text-2xl font-bold">Films de la saga</h2>
-            <div class="catalog-grid saga-movies-grid">
-                <!-- Saga movies will be added here -->
-            </div>
+            <div class="catalog-grid saga-movies-grid"></div>
         </div>
     </div>
+
     <!-- Detail Page -->
     <div id="detail-page" class="detail-page">
         <div class="detail-backdrop"></div>
@@ -680,39 +606,31 @@
                     </div>
                 </div>
             </div>
-            <!-- Same Saga Section -->
             <div id="same-saga-section" class="mt-12 hidden">
                 <h2 class="text-2xl font-bold mb-4">De la même saga</h2>
-                <div id="same-saga-list" class="flex flex-wrap gap-4">
-                    <!-- Same saga movies will be added here -->
-                </div>
+                <div id="same-saga-list" class="flex flex-wrap gap-4"></div>
             </div>
-            <!-- Episodes section (for series) -->
             <div id="episodes-section" class="mt-12 hidden">
                 <h2 class="text-2xl font-bold mb-4">Épisodes</h2>
                 <div class="flex gap-4 mb-6">
-                    <select id="season-select" class="bg-gray-800 text-white px-4 py-2 rounded-md">
-                        <!-- Season options will be added here -->
-                    </select>
+                    <select id="season-select" class="bg-gray-800 text-white px-4 py-2 rounded-md"></select>
                 </div>
-                <div id="episodes-list">
-                    <!-- Episodes will be added here -->
-                </div>
+                <div id="episodes-list"></div>
             </div>
         </div>
         <div id="close-detail" class="close-detail">
             <i class="fas fa-times"></i>
         </div>
     </div>
+
     <!-- Search Results Page -->
     <div id="search-results" class="search-results">
         <div class="container mx-auto px-6">
             <h1 class="text-3xl font-bold mb-8">Résultats de recherche</h1>
-            <div class="catalog-grid search-results-grid">
-                <!-- Search results will be added here -->
-            </div>
+            <div class="catalog-grid search-results-grid"></div>
         </div>
     </div>
+
     <!-- Video Player -->
     <div class="video-player-container">
         <div id="player-container">
@@ -725,286 +643,111 @@
             <div id="player"></div>
         </div>
     </div>
-<div id="loading" class="hidden"></div>
+    
+    <div id="loading" class="hidden"></div>
 
-    </div>
     <script src="https://projection-2025.netlify.app/playerjs.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script>
-        // API Configuration
         const API_KEY = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMGZiMzE0MWEyOWQ1MTY1NGU5Y2ZkOWM5MGYxNjI2NyIsIm5iZiI6MTcyMTQ4MTMzNS45NjMsInN1YiI6IjY2OWJiODc3MTc0OTgzOWJmODhlYWM2OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.WU6WYxkzGVxHJJQpUJ2xt3lyyB9hCXBbesUN3WTN-V0';
         const BASE_URL = 'https://api.themoviedb.org/3';
         const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/';
 
-        // Lists for specific sections
         const TendMovies = [
-            { id: 1156594 },
-            { id: 1272166 },
-            { id: 604079 },
-            { id: 76600 },
-            { id: 997113 },
-            { id: 617126 },
-            { id: 911430 },
-            { id: 157336 },
-            { id: 76600 },
-            { id: 575265 },
-            { id: 1054867 },
-            { id: 1071585 },
-            { id: 13448 },
-            
+            { id: 1156594 }, { id: 1272166 }, { id: 604079 }, { id: 76600 }, { id: 997113 },
+            { id: 617126 }, { id: 911430 }, { id: 157336 }, { id: 76600 }, { id: 575265 },
+            { id: 1054867 }, { id: 1071585 }, { id: 13448 }
         ];
 
         const actionMovies = [
-            { id: 24428 },
-            { id: 76600 },
-            { id: 299536 },
-            { id: 27205 },
-            { id: 19995 },
-            { id: 49521 },
-            { id: 99861 },
-            { id: 912649 },
-            { id: 634649 },     
-            { id: 140607 },
-            { id: 823464 },
-            { id: 786892 },
+            { id: 24428 }, { id: 76600 }, { id: 299536 }, { id: 27205 }, { id: 19995 },
+            { id: 49521 }, { id: 99861 }, { id: 912649 }, { id: 634649 }, { id: 140607 },
+            { id: 823464 }, { id: 786892 }
         ];
 
-        
         const Marvel = [
-            { id: 1771 },
-            { id: 299537 },
-            { id: 1726 },
-            { id: 10138 },
-            { id: 10195 },
-            { id: 1724 },
-            { id: 24428 },
-            { id: 76338 },
-            { id: 68721 },
-            { id: 1771 },
-            { id: 100402 },
-            { id: 118340 },
-            { id: 283995 },
-            { id: 99861 },
-            { id: 102899 },
-            { id: 271110 },
-            { id: 284054 },
-            { id: 497698 },
-            { id: 315635 },
-            { id: 284052 },
-            { id: 284053 },
-            { id: 363088 },
-            { id: 299536 },
-            { id: 299534 },
-            { id: 429617 },
-            { id: 634649 },
-            { id: 1571550 },
-            { id: 524434 },
-            { id: 566525 },
-            { id: 745160 },
-            
+            { id: 1771 }, { id: 299537 }, { id: 1726 }, { id: 10138 }, { id: 10195 },
+            { id: 1724 }, { id: 24428 }, { id: 76338 }, { id: 68721 }, { id: 1771 },
+            { id: 100402 }, { id: 118340 }, { id: 283995 }, { id: 99861 }, { id: 102899 },
+            { id: 271110 }, { id: 284054 }, { id: 497698 }, { id: 315635 }, { id: 284052 },
+            { id: 284053 }, { id: 363088 }, { id: 299536 }, { id: 299534 }, { id: 429617 },
+            { id: 634649 }, { id: 1571550 }, { id: 524434 }, { id: 566525 }, { id: 745160 }
         ];
 
+        const popularCollections = [
+            { id: 87359, name: "Mission: Impossible" },
+            { id: 10, name: "Star Wars" },
+            { id: 86311, name: "Avengers" },
+            { id: 1241, name: "Harry Potter" },
+            { id: 531241, name: "Spider-Man" },
+            { id: 119, name: "Le Seigneur des Anneaux" },
+            { id: 121938, name: "Le Hobbit" },
+            { id: 131635, name: "Hunger Games" },
+            { id: 295130, name: "X-Men" },
+            { id: 420, name: "Le Monde de Narnia" },
+            { id: 488924, name: "Paddington" }
+        ];
 
-
-        
-
-                        const popularCollections = [
-                    { id: 87359, name: "Mission: Impossible" },
-                    { id: 10, name: "Star Wars" },
-                    { id: 86311, name: "Avengers" },
-                    { id: 1241, name: "Harry Potter" },
-                    { id: 531241, name: "Spider-Man" },
-                    { id: 119, name: "Le Seigneur des Anneaux" },
-                    { id: 121938, name: "Le Hobbit" },
-                    { id: 131635, name: "Hunger Games" },
-                    { id: 295130, name: "X-Men" },
-                    { id: 420, name: "Le Monde de Narnia" },
-                    { id: 488924, name: "Paddington" },
-                ];
-
-        
-
-        
         const popularSeries = [
-            { id: 119051 },
-            { id: 80752 },
-            { id: 122781 },
-            { id: 96677 },
-            { id: 84958 },
-            { id: 93405 },
-            { id: 112738 },
-            { id: 1399 },
-            { id: 1416 },
-            { id: 71446 },
-            { id: 1396 },
-            { id: 48866 },
-            { id: 1402 },
-            { id: 82856 },
-            { id: 202772 },
-            { id: 114410 },
-            { id: 205715 },
-            { id: 124364 },
-            { id: 46952 },
-            { id: 1412 },
-            { id: 92749 },
-            { id: 63210 },
-            { id: 122228 },
-            { id: 136673 },  
+            { id: 119051 }, { id: 80752 }, { id: 122781 }, { id: 96677 }, { id: 84958 },
+            { id: 93405 }, { id: 112738 }, { id: 1399 }, { id: 1416 }, { id: 71446 },
+            { id: 1396 }, { id: 48866 }, { id: 1402 }, { id: 82856 }, { id: 202772 },
+            { id: 114410 }, { id: 205715 }, { id: 124364 }, { id: 46952 }, { id: 1412 },
+            { id: 92749 }, { id: 63210 }, { id: 122228 }, { id: 136673 }
         ];
 
-
-                const HarryPotter = [
-            { id: 671 },
-            { id: 672 },
-            { id: 673 },
-            { id: 674 },
-            { id: 675 },
-            { id: 767 },
-            { id: 12444 },
-            { id: 12445 },
-            { id: 899082 },
-            { id: 259316 },
-            { id: 338952 },
-            { id: 338953 },
-            { id: 80530 },
-                    
+        const HarryPotter = [
+            { id: 671 }, { id: 672 }, { id: 673 }, { id: 674 }, { id: 675 },
+            { id: 767 }, { id: 12444 }, { id: 12445 }, { id: 899082 }, { id: 259316 },
+            { id: 338952 }, { id: 338953 }, { id: 80530 }
         ];
 
-            const Drole = [
-            { id: 865498 },
-            { id: 1152014 },
-            { id: 963116 },
-            { id: 810389 },
-            { id: 15449 },
-            { id: 2899 },
-            { id: 1235619 },
-            { id: 519182 },
-            { id: 613377 },
-            { id: 982186 },
-            { id: 262551 },
-            { id: 331836 },
-            { id: 398929 },
-            { id: 432613 },
-            { id: 68637 },
-            { id: 103327 },
-            { id: 605733 },
-            { id: 811886 },
-            { id: 605015 },
-            { id: 1000866 },
-            { id: 1118841 },
-                
-                    
+        const Drole = [
+            { id: 865498 }, { id: 1152014 }, { id: 963116 }, { id: 810389 }, { id: 15449 },
+            { id: 2899 }, { id: 1235619 }, { id: 519182 }, { id: 613377 }, { id: 982186 },
+            { id: 262551 }, { id: 331836 }, { id: 398929 }, { id: 432613 }, { id: 68637 },
+            { id: 103327 }, { id: 605733 }, { id: 811886 }, { id: 605015 }, { id: 1000866 },
+            { id: 1118841 }
         ];
 
-
-
-
-         const Cath1Movies = [
-            { id: 157336 },
-            { id: 299536 },
-            { id: 438631 },
-            { id: 575265 },
-            { id: 348 },
-            { id: 11 },
-            { id: 679 },
-            { id: 70981 },
-            { id: 286217 },     
-            { id: 283995 },
-            { id: 675 },
-            { id: 285 },
-            { id: 1930 },
-            { id: 70160 },
-            { id: 37724 },
-            { id: 329865 },
-              
+        const Cath1Movies = [
+            { id: 157336 }, { id: 299536 }, { id: 438631 }, { id: 575265 }, { id: 348 },
+            { id: 11 }, { id: 679 }, { id: 70981 }, { id: 286217 }, { id: 283995 },
+            { id: 675 }, { id: 285 }, { id: 1930 }, { id: 70160 }, { id: 37724 },
+            { id: 329865 }
         ];
 
-
-        
-  const FRMovies = [
-     { id: 1152014 },
-     { id: 1084736 },
-     { id: 1100474 },
-     { id: 2899 },
-     { id: 77338 },   
-     { id: 398929 },
-     { id: 516729 },
-     { id: 1000866 },
-     { id: 1002155 },
-     { id: 959604 },
-     { id: 1039512 },
-     { id: 936074 }, 
-     { id: 811596 },
-     { id: 5528 },
-      { id: 15449 },
-    { id: 973912 },
-     { id: 11687 },
-     { id: 613335 }, 
-     { id: 736500 },
-     { id: 21778 },
-      { id: 589984 },
-    { id: 760 },
-     { id: 382597 },
-       { id: 182219 },
-     { id: 344268 },
-     { id: 6691 }, 
-     { id: 68637 },
-     { id: 12716 },
-      { id: 2330 },
-    { id: 8290 },
-     { id: 398924 },
-     { id: 102207 }, 
-     { id: 80015 },
-
-      
-];
-       
-   
-             const AmorMovies = [
-            { id: 13 },
-            { id: 597 },
-            { id: 152601 },
-            { id: 313369 },
-            { id: 1084736 },
-            { id: 38 },
-            { id: 453 },
-            { id: 398818 },
-            { id: 4922 },     
-            { id: 959604 },
-            { id: 6691 },
-            { id: 1930 },
-            { id: 11224 },
-            { id: 421447 },
-      
-        ];  
-
-            const TV = [
-            { id: 1572246 },
-            { id: 1572344 },
-            { id: 1572495 },
-            { id: 1572496 },
-            { id: 1572503 },
-            { id: 1572500 },
-            { id: 1572505 },
-            { id: 1572508 },
-            { id: 1572509 },
-            { id: 1572511 },
-            { id: 1572512 },
-            { id: 1572527 },
-            { id: 1572522 },
-            { id: 1572524 },
-            { id: 1572526 },
-            { id: 1572527 },
-            { id: 1572528 },
-            { id: 1572350 },
-            { id: 1572632 },
-            { id: 1572634 },
-            { id: 1572635 },
-            { id: 1572636 },     
+        const FRMovies = [
+            { id: 1152014 }, { id: 1084736 }, { id: 1100474 }, { id: 2899 }, { id: 77338 },
+            { id: 398929 }, { id: 516729 }, { id: 1000866 }, { id: 1002155 }, { id: 959604 },
+            { id: 1039512 }, { id: 936074 }, { id: 811596 }, { id: 5528 }, { id: 15449 },
+            { id: 973912 }, { id: 11687 }, { id: 613335 }, { id: 736500 }, { id: 21778 },
+            { id: 589984 }, { id: 760 }, { id: 382597 }, { id: 182219 }, { id: 344268 },
+            { id: 6691 }, { id: 68637 }, { id: 12716 }, { id: 2330 }, { id: 8290 },
+            { id: 398924 }, { id: 102207 }, { id: 80015 }
         ];
-        
 
+        const AmorMovies = [
+            { id: 13 }, { id: 597 }, { id: 152601 }, { id: 313369 }, { id: 1084736 },
+            { id: 38 }, { id: 453 }, { id: 398818 }, { id: 4922 }, { id: 959604 },
+            { id: 6691 }, { id: 1930 }, { id: 11224 }, { id: 421447 }
+        ];
 
-        // DOM Elements
+        const TV = [
+            { id: 1572246 }, { id: 1572344 }, { id: 1572495 }, { id: 1572496 }, { id: 1572503 },
+            { id: 1572500 }, { id: 1572505 }, { id: 1572508 }, { id: 1572509 }, { id: 1572511 },
+            { id: 1572512 }, { id: 1572527 }, { id: 1572522 }, { id: 1572524 }, { id: 1572526 },
+            { id: 1572527 }, { id: 1572528 }, { id: 1572350 }, { id: 1572632 }, { id: 1572634 },
+            { id: 1572635 }, { id: 1572636 }
+        ];
+
+        const blockedWatchlistIds = [
+            1572246, 1572344, 1572495, 1572496, 1572503, 1572500,
+            1572505, 1572508, 1572509, 1572511, 1572512, 1572527,
+            1572522, 1572524, 1572526, 1572527, 1572528, 1572350,
+            1572632, 1572634, 1572635, 1572636
+        ];
+
         const pages = {
             home: document.getElementById('home-page'),
             movies: document.getElementById('movies-page'),
@@ -1014,6 +757,7 @@
             detail: document.getElementById('detail-page'),
             search: document.getElementById('search-results')
         };
+
         const navLinks = document.querySelectorAll('.nav-link');
         const searchContainer = document.querySelector('.search-container');
         const searchToggle = document.querySelector('.search-toggle');
@@ -1025,7 +769,6 @@
         const homeLink = document.getElementById('home-link');
         const closeDetail = document.getElementById('close-detail');
 
-        // State Management
         let currentPage = 'home';
         let currentMediaType = null;
         let currentMediaId = null;
@@ -1035,7 +778,6 @@
         let heroSliderInterval = null;
         let availableContent = [];
 
-        // Function to fetch available content
         async function fetchAvailableContent() {
             try {
                 const response = await fetch('films.json');
@@ -1050,7 +792,6 @@
             }
         }
 
-        // Initialize the application
         document.addEventListener('DOMContentLoaded', async () => {
             availableContent = await fetchAvailableContent();
             initNavigation();
@@ -1059,7 +800,6 @@
             loadHomePage();
         });
 
-        // Navigation Functions
         function initNavigation() {
             navLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
@@ -1068,6 +808,7 @@
                     navigateToPage(page);
                 });
             });
+            
             homeLink.addEventListener('click', (e) => {
                 e.preventDefault();
                 navigateToPage('home');
@@ -1100,14 +841,6 @@
                 rightBtn.addEventListener('click', () => {
                     const row = container.querySelector('.movie-row');
                     row.scrollBy({ left: window.innerWidth * 0.75, behavior: 'smooth' });
-                });
-            });
-
-            document.querySelectorAll('.cast-scroll-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const direction = btn.classList.contains('left') ? -1 : 1;
-                    const castContainer = document.getElementById('detail-cast');
-                    castContainer.scrollBy({ left: direction * 300, behavior: 'smooth' });
                 });
             });
 
@@ -1150,7 +883,6 @@
             window.scrollTo(0, 0);
         }
 
-        // Search Functionality
         function initSearchFunctionality() {
             searchToggle.addEventListener('click', () => {
                 searchContainer.classList.toggle('active');
@@ -1201,94 +933,104 @@
             }
         }
 
-        // Video Player Functions
         function initVideoPlayer() {
             backLink.addEventListener('click', closeVideoPlayer);
         }
 
-async function openVideoPlayer(url, title, ageRating = '', posterUrl = '') {
-    try {
-        // 🧩 Cas particulier : lien de direct.xalaflix.zone
-        if (url.startsWith("https://direct.xalaflix.zone/")) {
-            console.log("🔍 Résolution via HLS :", url);
-
-            // Création d’un lecteur HLS invisible juste pour résoudre le vrai flux
-            const video = document.createElement('video');
-            video.style.display = 'none';
-            document.body.appendChild(video);
-
-            await new Promise((resolve, reject) => {
-                if (Hls.isSupported()) {
-                    const hls = new Hls();
-                    hls.loadSource(url);
-                    hls.attachMedia(video);
-
-                    hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                        // Hls.js a suivi toutes les redirections
-                        const resolved = hls.url;
-                        if (resolved) {
-                            console.log("✅ Lien m3u8 final détecté :", resolved);
-                            url = resolved;
+        async function resolveM3U8Url(url) {
+            if (url.startsWith('https://direct.xalaflix.zone/')) {
+                return new Promise((resolve, reject) => {
+                    const tempVideo = document.createElement('video');
+                    
+                    if (Hls.isSupported()) {
+                        const hls = new Hls({
+                            debug: false,
+                            enableWorker: true,
+                            lowLatencyMode: true,
+                        });
+                        
+                        hls.loadSource(url);
+                        hls.attachMedia(tempVideo);
+                        
+                        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                            const levels = hls.levels;
+                            if (levels && levels.length > 0) {
+                                const highestLevel = levels[levels.length - 1];
+                                const resolvedUrl = highestLevel.url[0] || url;
+                                hls.destroy();
+                                resolve(resolvedUrl);
+                            } else {
+                                hls.destroy();
+                                resolve(url);
+                            }
+                        });
+                        
+                        hls.on(Hls.Events.ERROR, function(event, data) {
+                            console.error('HLS error:', data);
                             hls.destroy();
-                            resolve();
-                        } else {
-                            reject("Impossible de récupérer l'URL finale");
-                        }
-                    });
-
-                    hls.on(Hls.Events.ERROR, (event, data) => {
-                        console.error("Erreur HLS :", data);
-                        reject("Erreur HLS : " + data.details);
-                    });
-                } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                    video.src = url;
-                    video.addEventListener('loadedmetadata', () => {
-                        console.log("✅ HLS natif chargé :", url);
-                        resolve();
-                    });
-                } else {
-                    reject("Navigateur ne supporte pas HLS");
-                }
-            });
-
-            document.body.removeChild(video);
+                            resolve(url);
+                        });
+                    } else if (tempVideo.canPlayType('application/vnd.apple.mpegurl')) {
+                        resolve(url);
+                    } else {
+                        resolve(url);
+                    }
+                });
+            }
+            
+            return url;
         }
 
-        // --- 🎬 Lecture normale du flux ---
-        videoPlayerContainer.style.display = 'block';
-        const displayTitle = ageRating ? `${title} (${ageRating})` : title;
-        movieTitle.textContent = displayTitle;
-        document.title = displayTitle;
+        async function openVideoPlayer(url, title, ageRating = '', posterUrl = '') {
+            videoPlayerContainer.style.display = 'block';
+            const displayTitle = ageRating ? `${title} (${ageRating})` : title;
+            movieTitle.textContent = displayTitle;
+            document.title = displayTitle;
 
-        const progress = getProgress(currentMediaType, currentMediaId);
-        const startTime = progress ? progress.currentTime : 0;
+            const progress = getProgress(currentMediaType, currentMediaId);
+            let startTime = 0;
+            if (progress) {
+                startTime = progress.currentTime;
+            }
 
-        player = new Playerjs({
-            id: "player",
-            file: url,
-            poster: "https://github.com/Cyprdu/projection/blob/main/black.png?raw=true",
-            autoplay: 1,
-            subtitle: "",
-            default_subtitle: "",
-            rename_audio: { "French": "Français" },
-            default_audio: "Français",
-            title: title,
-            start: startTime
-        });
+            const resolvedUrl = await resolveM3U8Url(url);
 
-        movieTitle.style.display = 'block';
-        movieTitle.style.opacity = '1';
-        setTimeout(() => {
-            movieTitle.style.opacity = '0';
-            setTimeout(() => (movieTitle.style.display = 'none'), 300);
-        }, 10000);
-    } catch (err) {
-        console.error("❌ Erreur openVideoPlayer :", err);
-        alert("Erreur : impossible de charger le flux vidéo.");
-    }
+            if (currentMediaType === 'movie') {
+                player = new Playerjs({
+                    id: "player",
+                    file: resolvedUrl,
+                    poster: "https://github.com/Cyprdu/projection/blob/main/black.png?raw=true",
+                    autoplay: 1,
+                    subtitle: "",
+                    default_subtitle: "",
+                    rename_audio: {"French": "Français"},
+                    default_audio: "Français",
+                    title: title,
+                    start: startTime
+                });
+            } else if (currentMediaType === 'tv') {
+                player = new Playerjs({
+                    id: "player",
+                    file: resolvedUrl,
+                    poster: "https://github.com/Cyprdu/projection/blob/main/black.png?raw=true",
+                    autoplay: 1,
+                    subtitle: "",
+                    default_subtitle: "",
+                    rename_audio: {"French": "Français"},
+                    default_audio: "Français",
+                    title: title,
+                    start: startTime
+                });
+            }
 
-
-
+            movieTitle.style.display = 'block';
+            movieTitle.style.opacity = '1';
+            setTimeout(function() {
+                movieTitle.style.opacity = '0';
+                setTimeout(function() {
+                    movieTitle.style.display = 'none';
+                }, 300);
+            }, 10000);
 
             const progressInterval = setInterval(() => {
                 if (player && typeof player.api === 'function') {
@@ -1307,21 +1049,6 @@ async function openVideoPlayer(url, title, ageRating = '', posterUrl = '') {
             videoPlayerContainer.addEventListener('close', () => {
                 clearInterval(progressInterval);
             }, { once: true });
-        }
-
-        function createSeriesPlaylist() {
-            return [
-                {
-                    "title": `Saison ${currentSeason}`,
-                    "folder": [
-                        {
-                            "title": `Épisode ${currentEpisode}`,
-                            "file": getContentUrl('tv', currentMediaId.split('-')[0], currentSeason, currentEpisode),
-                            "poster": ""
-                        }
-                    ]
-                }
-            ];
         }
 
         function closeVideoPlayer() {
@@ -1343,40 +1070,38 @@ async function openVideoPlayer(url, title, ageRating = '', posterUrl = '') {
             document.title = "CinéStream - Votre plateforme de streaming";
         }
 
-        // Progress Tracking Functions
-function saveProgress(mediaType, mediaId, currentTime, duration) {
-    // 🚫 Bloquer certains IDs (ex: chaînes TV)
-    if (blockedWatchlistIds.includes(Number(mediaId))) {
-        console.log(`⛔ Contenu ${mediaId} bloqué : non ajouté à la watchlist.`);
-        return;
-    }
+        function saveProgress(mediaType, mediaId, currentTime, duration) {
+            if (blockedWatchlistIds.includes(Number(mediaId))) {
+                console.log(`⛔ Contenu ${mediaId} bloqué : non ajouté à la watchlist.`);
+                return;
+            }
 
-    const key = `${mediaType}-${mediaId}`;
-    const progress = `${currentTime}--${duration}`;
-    localStorage.setItem(key, progress);
+            const key = `${mediaType}-${mediaId}`;
+            const progress = `${currentTime}--${duration}`;
+            localStorage.setItem(key, progress);
 
-    let watchedList = JSON.parse(localStorage.getItem('watchedList') || '[]');
-    const existingIndex = watchedList.findIndex(item => item.id === mediaId && item.type === mediaType);
-    const watchedItem = {
-        id: mediaId,
-        type: mediaType,
-        progress: currentTime,
-        duration: duration,
-        timestamp: Date.now()
-    };
-    if (existingIndex !== -1) {
-        watchedList[existingIndex] = watchedItem;
-    } else {
-        watchedList.push(watchedItem);
-    }
+            let watchedList = JSON.parse(localStorage.getItem('watchedList') || '[]');
+            const existingIndex = watchedList.findIndex(item => item.id === mediaId && item.type === mediaType);
+            const watchedItem = {
+                id: mediaId,
+                type: mediaType,
+                progress: currentTime,
+                duration: duration,
+                timestamp: Date.now()
+            };
+            
+            if (existingIndex !== -1) {
+                watchedList[existingIndex] = watchedItem;
+            } else {
+                watchedList.push(watchedItem);
+            }
 
-    watchedList.sort((a, b) => b.timestamp - a.timestamp);
-    if (watchedList.length > 20) {
-        watchedList = watchedList.slice(0, 20);
-    }
-    localStorage.setItem('watchedList', JSON.stringify(watchedList));
-}
-
+            watchedList.sort((a, b) => b.timestamp - a.timestamp);
+            if (watchedList.length > 20) {
+                watchedList = watchedList.slice(0, 20);
+            }
+            localStorage.setItem('watchedList', JSON.stringify(watchedList));
+        }
 
         function getProgress(mediaType, mediaId) {
             const key = `${mediaType}-${mediaId}`;
@@ -1388,7 +1113,6 @@ function saveProgress(mediaType, mediaId, currentTime, duration) {
             return null;
         }
 
-        // API Functions
         async function fetchFromTMDB(endpoint) {
             const options = {
                 method: 'GET',
@@ -1427,13 +1151,11 @@ function saveProgress(mediaType, mediaId, currentTime, duration) {
             return content ? content.url : null;
         }
 
-        // UI Component Creation Functions
         function createPosterCard(item, mediaType = null) {
             const type = mediaType || item.media_type || (item.first_air_date ? 'tv' : 'movie');
             const id = item.id;
             const title = type === 'tv' ? item.name : item.title;
             const posterPath = item.poster_path;
-            const backdropPath = item.backdrop_path;
             const year = type === 'tv'
                 ? (item.first_air_date ? new Date(item.first_air_date).getFullYear() : '')
                 : (item.release_date ? new Date(item.release_date).getFullYear() : '');
@@ -1519,25 +1241,19 @@ function saveProgress(mediaType, mediaId, currentTime, duration) {
                 showDetailPage(type, id);
             });
 
-fetchLogo(type, id).then(logoPath => {
-    const logoContainer = slide.querySelector('.logo-container');
-    if (logoPath) {
-        logoContainer.innerHTML = `<img src="${getImageUrl(logoPath, 'w500')}" alt="${title}" class="hero-logo">`;
-    } else {
-        // S'il n'y a pas de logo, on remet simplement le titre
-        logoContainer.innerHTML = `<h1 class="text-4xl md:text-5xl font-bold mb-4">${title}</h1>`;
-    }
-}).catch(error => {
-    console.error('Error fetching logo:', error);
-    const logoContainer = slide.querySelector('.logo-container');
-    // En cas d'erreur, on remet aussi le titre par sécurité
-    logoContainer.innerHTML = `<h1 class="text-4xl md:text-5xl font-bold mb-4">${title}</h1>`;
-});
+            fetchLogo(type, id).then(logoPath => {
+                const logoContainer = slide.querySelector('.logo-container');
+                if (logoPath) {
+                    logoContainer.innerHTML = `<img src="${getImageUrl(logoPath, 'w500')}" alt="${title}" class="hero-logo">`;
+                } else {
+                    logoContainer.innerHTML = `<h1 class="text-4xl md:text-5xl font-bold mb-4">${title}</h1>`;
+                }
+            }).catch(error => {
+                console.error('Error fetching logo:', error);
+                const logoContainer = slide.querySelector('.logo-container');
+                logoContainer.innerHTML = `<h1 class="text-4xl md:text-5xl font-bold mb-4">${title}</h1>`;
+            });
 
-
-
-
-            
             return slide;
         }
 
@@ -1621,311 +1337,279 @@ fetchLogo(type, id).then(logoPath => {
             return item;
         }
 
-// Page Loading Functions
-async function loadHomePage() {
-    showLoading();
-    try {
-        // Chargement du contenu tendance (hero section)
-        const trendingResponse = await fetchFromTMDB('/trending/all/day?language=fr-FR');
-        const heroSlider = document.querySelector('.hero-slider');
-        heroSlider.innerHTML = '<div class="hero-overlay absolute inset-0 z-10"></div>';
-
-        const heroItems = trendingResponse.results
-            .filter(item => item.backdrop_path && isContentAvailable(item.media_type || (item.first_air_date ? 'tv' : 'movie'), item.id))
-            .slice(0, 5);
-
-        if (heroItems.length === 0) {
-            const fallbackItem = {
-                id: 299536,
-                title: "Contenu Populaire",
-                backdrop_path: "/bOGkgRGdhrBYJSLpXaxhXVstddV.jpg",
-                overview: "Découvrez notre sélection de films et séries populaires.",
-                media_type: "movie"
-            };
-            heroSlider.appendChild(createHeroSlide(fallbackItem));
-        } else {
-            heroItems.forEach((item, index) => {
-                const slide = createHeroSlide(item);
-                if (index === 0) slide.classList.add('active');
-                heroSlider.appendChild(slide);
-            });
-        }
-
-        if (heroSliderInterval) clearInterval(heroSliderInterval);
-        heroSliderInterval = setInterval(() => {
-            const slides = heroSlider.querySelectorAll('.hero-slide');
-            const activeSlide = heroSlider.querySelector('.hero-slide.active');
-            const nextSlide = activeSlide.nextElementSibling?.classList.contains('hero-slide')
-                ? activeSlide.nextElementSibling
-                : slides[0];
-            activeSlide.classList.remove('active');
-            nextSlide.classList.add('active');
-        }, 10000);
-
-        // Contenu "Continuer à regarder"
-        const watchedList = JSON.parse(localStorage.getItem('watchedList') || '[]');
-        const continueWatchingRow = document.querySelector('.continue-watching-row');
-        continueWatchingRow.innerHTML = '';
-
-        if (watchedList.length === 0) {
-            continueWatchingRow.innerHTML = '<p class="text-gray-400 p-4">Aucun contenu à reprendre</p>';
-        } else {
-            for (const item of watchedList) {
-                try {
-                    const details = await fetchFromTMDB(`/${item.type}/${item.id}?language=fr-FR`);
-                    if (isContentAvailable(item.type, item.id)) {
-                        continueWatchingRow.appendChild(createPosterCard(details, item.type));
-                    }
-                } catch (error) {
-                    console.error(`Error fetching details for ${item.type} ${item.id}:`, error);
-                }
-            }
-        }
-
-        // Films tendances
-        const TendMoviesRow = document.querySelector('.tend-movies-row');
-        TendMoviesRow.innerHTML = '';
-        if (TendMovies.length === 0) {
-            TendMoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film tendance disponible</p>';
-        } else {
-            for (const movie of TendMovies) {
-                try {
-                    const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
-                    if (details.poster_path && isContentAvailable('movie', details.id)) {
-                        TendMoviesRow.appendChild(createPosterCard(details, 'movie'));
-                    }
-                } catch (error) {
-                    console.error(`Error fetching details for action movie ${movie.id}:`, error);
-                }
-            }
-        }
-
-        // Films d’action
-        const actionMoviesRow = document.querySelector('.action-movies-row');
-        actionMoviesRow.innerHTML = '';
-        if (actionMovies.length === 0) {
-            actionMoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film d\'action disponible</p>';
-        } else {
-            for (const movie of actionMovies) {
-                try {
-                    const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
-                    if (details.poster_path && isContentAvailable('movie', details.id)) {
-                        actionMoviesRow.appendChild(createPosterCard(details, 'movie'));
-                    }
-                } catch (error) {
-                    console.error(`Error fetching details for action movie ${movie.id}:`, error);
-                }
-            }
-        }
-
-
-        
-        // Séries populaires
-        const seriesRow = document.querySelector('.series-row');
-        seriesRow.innerHTML = '';
-        if (popularSeries.length === 0) {
-            seriesRow.innerHTML = '<p class="text-gray-400 p-4">Aucune série disponible</p>';
-        } else {
-            for (const serie of popularSeries) {
-                try {
-                    const details = await fetchFromTMDB(`/tv/${serie.id}?language=fr-FR`);
-                    if (details.poster_path && isContentAvailable('tv', details.id)) {
-                        seriesRow.appendChild(createPosterCard(details, 'tv'));
-                    }
-                } catch (error) {
-                    console.error(`Error fetching details for popular series ${serie.id}:`, error);
-                }
-            }
-        }
-
-        // Films Marvel
-        const MarvelRow = document.querySelector('.Marvel-row');
-        MarvelRow.innerHTML = '';
-        if (Marvel.length === 0) {
-            MarvelRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
-        } else {
-            for (const movie of Marvel) {
-                try {
-                    const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
-                    if (details.poster_path && isContentAvailable('movie', details.id)) {
-                        MarvelRow.appendChild(createPosterCard(details, 'movie'));
-                    }
-                } catch (error) {
-                    console.error(`Error fetching details for action movie ${movie.id}:`, error);
-                }
-            }
-        }
-
-            // TV
-        const TVRow = document.querySelector('.TV-row');
-        TVRow.innerHTML = '';
-        if (TV.length === 0) {
-            TVRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
-        } else {
-            for (const movie of TV) {
-                try {
-                    const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
-                    if (details.poster_path && isContentAvailable('movie', details.id)) {
-                        TVRow.appendChild(createPosterCard(details, 'movie'));
-                    }
-                } catch (error) {
-                    console.error(`Error fetching details for action movie ${movie.id}:`, error);
-                }
-            }
-        }
-
-
-        
-
-                // Sagas
-        const sagasRow = document.querySelector('.sagas-row');
-        sagasRow.innerHTML = '';
-        let sagasAdded = 0;
-
-        for (const collection of popularCollections) {
+        async function loadHomePage() {
+            showLoading();
             try {
-                const collectionDetails = await fetchFromTMDB(`/collection/${collection.id}?language=fr-FR`);
-                const hasAvailableMovie = collectionDetails.parts.some(movie =>
-                    isContentAvailable('movie', movie.id)
-                );
-                if (collectionDetails.poster_path && hasAvailableMovie) {
-                    const card = document.createElement('div');
-                    card.className = 'poster-card relative min-w-[220px] mx-2';
-                    card.innerHTML = `
-                        <img src="${getImageUrl(collectionDetails.poster_path)}" alt="${collectionDetails.name}" class="w-full h-auto rounded-lg shadow-lg">
-                        <div class="poster-info absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black to-transparent rounded-b-lg">
-                            <h3 class="text-white font-semibold">${collectionDetails.name}</h3>
-                            <p class="text-gray-300 text-sm">${collectionDetails.parts.length} films</p>
-                            <button class="info-btn bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm mt-2">
-                                <i class="fas fa-info-circle mr-1"></i> Voir la collection
-                            </button>
-                        </div>
-                    `;
-                    const infoBtn = card.querySelector('.info-btn');
-                    infoBtn.addEventListener('click', () => {
-                        showSagaPage(collection.id);
+                const trendingResponse = await fetchFromTMDB('/trending/all/day?language=fr-FR');
+                const heroSlider = document.querySelector('.hero-slider');
+                heroSlider.innerHTML = '<div class="hero-overlay absolute inset-0 z-10"></div>';
+
+                const heroItems = trendingResponse.results
+                    .filter(item => item.backdrop_path && isContentAvailable(item.media_type || (item.first_air_date ? 'tv' : 'movie'), item.id))
+                    .slice(0, 5);
+
+                if (heroItems.length === 0) {
+                    const fallbackItem = {
+                        id: 299536,
+                        title: "Contenu Populaire",
+                        backdrop_path: "/bOGkgRGdhrBYJSLpXaxhXVstddV.jpg",
+                        overview: "Découvrez notre sélection de films et séries populaires.",
+                        media_type: "movie"
+                    };
+                    heroSlider.appendChild(createHeroSlide(fallbackItem));
+                } else {
+                    heroItems.forEach((item, index) => {
+                        const slide = createHeroSlide(item);
+                        if (index === 0) slide.classList.add('active');
+                        heroSlider.appendChild(slide);
                     });
-                    sagasRow.appendChild(card);
-                    sagasAdded++;
                 }
+
+                if (heroSliderInterval) clearInterval(heroSliderInterval);
+                heroSliderInterval = setInterval(() => {
+                    const slides = heroSlider.querySelectorAll('.hero-slide');
+                    const activeSlide = heroSlider.querySelector('.hero-slide.active');
+                    const nextSlide = activeSlide.nextElementSibling?.classList.contains('hero-slide')
+                        ? activeSlide.nextElementSibling
+                        : slides[0];
+                    activeSlide.classList.remove('active');
+                    nextSlide.classList.add('active');
+                }, 10000);
+
+                const watchedList = JSON.parse(localStorage.getItem('watchedList') || '[]');
+                const continueWatchingRow = document.querySelector('.continue-watching-row');
+                continueWatchingRow.innerHTML = '';
+
+                if (watchedList.length === 0) {
+                    continueWatchingRow.innerHTML = '<p class="text-gray-400 p-4">Aucun contenu à reprendre</p>';
+                } else {
+                    for (const item of watchedList) {
+                        try {
+                            const details = await fetchFromTMDB(`/${item.type}/${item.id}?language=fr-FR`);
+                            if (isContentAvailable(item.type, item.id)) {
+                                continueWatchingRow.appendChild(createPosterCard(details, item.type));
+                            }
+                        } catch (error) {
+                            console.error(`Error fetching details for ${item.type} ${item.id}:`, error);
+                        }
+                    }
+                }
+
+                const TendMoviesRow = document.querySelector('.tend-movies-row');
+                TendMoviesRow.innerHTML = '';
+                if (TendMovies.length === 0) {
+                    TendMoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film tendance disponible</p>';
+                } else {
+                    for (const movie of TendMovies) {
+                        try {
+                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                            if (details.poster_path && isContentAvailable('movie', details.id)) {
+                                TendMoviesRow.appendChild(createPosterCard(details, 'movie'));
+                            }
+                        } catch (error) {
+                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                        }
+                    }
+                }
+
+                const actionMoviesRow = document.querySelector('.action-movies-row');
+                actionMoviesRow.innerHTML = '';
+                if (actionMovies.length === 0) {
+                    actionMoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film d\'action disponible</p>';
+                } else {
+                    for (const movie of actionMovies) {
+                        try {
+                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                            if (details.poster_path && isContentAvailable('movie', details.id)) {
+                                actionMoviesRow.appendChild(createPosterCard(details, 'movie'));
+                            }
+                        } catch (error) {
+                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                        }
+                    }
+                }
+
+                const seriesRow = document.querySelector('.series-row');
+                seriesRow.innerHTML = '';
+                if (popularSeries.length === 0) {
+                    seriesRow.innerHTML = '<p class="text-gray-400 p-4">Aucune série disponible</p>';
+                } else {
+                    for (const serie of popularSeries) {
+                        try {
+                            const details = await fetchFromTMDB(`/tv/${serie.id}?language=fr-FR`);
+                            if (details.poster_path && isContentAvailable('tv', details.id)) {
+                                seriesRow.appendChild(createPosterCard(details, 'tv'));
+                            }
+                        } catch (error) {
+                            console.error(`Error fetching details for popular series ${serie.id}:`, error);
+                        }
+                    }
+                }
+
+                const MarvelRow = document.querySelector('.Marvel-row');
+                MarvelRow.innerHTML = '';
+                if (Marvel.length === 0) {
+                    MarvelRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
+                } else {
+                    for (const movie of Marvel) {
+                        try {
+                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                            if (details.poster_path && isContentAvailable('movie', details.id)) {
+                                MarvelRow.appendChild(createPosterCard(details, 'movie'));
+                            }
+                        } catch (error) {
+                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                        }
+                    }
+                }
+
+                const TVRow = document.querySelector('.TV-row');
+                TVRow.innerHTML = '';
+                if (TV.length === 0) {
+                    TVRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
+                } else {
+                    for (const movie of TV) {
+                        try {
+                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                            if (details.poster_path && isContentAvailable('movie', details.id)) {
+                                TVRow.appendChild(createPosterCard(details, 'movie'));
+                            }
+                        } catch (error) {
+                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                        }
+                    }
+                }
+
+                const sagasRow = document.querySelector('.sagas-row');
+                sagasRow.innerHTML = '';
+                let sagasAdded = 0;
+
+                for (const collection of popularCollections) {
+                    try {
+                        const collectionDetails = await fetchFromTMDB(`/collection/${collection.id}?language=fr-FR`);
+                        const hasAvailableMovie = collectionDetails.parts.some(movie =>
+                            isContentAvailable('movie', movie.id)
+                        );
+                        if (collectionDetails.poster_path && hasAvailableMovie) {
+                            const card = document.createElement('div');
+                            card.className = 'poster-card relative min-w-[220px] mx-2';
+                            card.innerHTML = `
+                                <img src="${getImageUrl(collectionDetails.poster_path)}" alt="${collectionDetails.name}" class="w-full h-auto rounded-lg shadow-lg">
+                                <div class="poster-info absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black to-transparent rounded-b-lg">
+                                    <h3 class="text-white font-semibold">${collectionDetails.name}</h3>
+                                    <p class="text-gray-300 text-sm">${collectionDetails.parts.length} films</p>
+                                    <button class="info-btn bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm mt-2">
+                                        <i class="fas fa-info-circle mr-1"></i> Voir la collection
+                                    </button>
+                                </div>
+                            `;
+                            const infoBtn = card.querySelector('.info-btn');
+                            infoBtn.addEventListener('click', () => {
+                                showSagaPage(collection.id);
+                            });
+                            sagasRow.appendChild(card);
+                            sagasAdded++;
+                        }
+                    } catch (error) {
+                        console.error(`Error fetching collection ${collection.id}:`, error);
+                    }
+                }
+
+                if (sagasAdded === 0) {
+                    sagasRow.innerHTML = '<p class="text-gray-400 p-4">Aucune saga disponible</p>';
+                }
+
+                const Cath1MoviesRow = document.querySelector('.Cath1Movies-row');
+                Cath1MoviesRow.innerHTML = '';
+                if (Cath1Movies.length === 0) {
+                    Cath1MoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film d\'action disponible</p>';
+                } else {
+                    for (const movie of Cath1Movies) {
+                        try {
+                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                            if (details.poster_path && isContentAvailable('movie', details.id)) {
+                                Cath1MoviesRow.appendChild(createPosterCard(details, 'movie'));
+                            }
+                        } catch (error) {
+                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                        }
+                    }
+                }
+
+                const HarryPotterRow = document.querySelector('.HarryPotter-row');
+                HarryPotterRow.innerHTML = '';
+                if (HarryPotter.length === 0) {
+                    HarryPotterRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
+                } else {
+                    for (const movie of HarryPotter) {
+                        try {
+                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                            if (details.poster_path && isContentAvailable('movie', details.id)) {
+                                HarryPotterRow.appendChild(createPosterCard(details, 'movie'));
+                            }
+                        } catch (error) {
+                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                        }
+                    }
+                }
+
+                const FRMoviesRow = document.querySelector('.FR-movies-row');
+                FRMoviesRow.innerHTML = '';
+                if (FRMovies.length === 0) {
+                    FRMoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
+                } else {
+                    for (const movie of FRMovies) {
+                        try {
+                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                            if (details.poster_path && isContentAvailable('movie', details.id)) {
+                                FRMoviesRow.appendChild(createPosterCard(details, 'movie'));
+                            }
+                        } catch (error) {
+                            console.error(`Error fetching details for French movie ${movie.id}:`, error);
+                        }
+                    }
+                }
+
+                const DroleRow = document.querySelector('.Drole-row');
+                DroleRow.innerHTML = '';
+                if (Drole.length === 0) {
+                    DroleRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
+                } else {
+                    for (const movie of Drole) {
+                        try {
+                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                            if (details.poster_path && isContentAvailable('movie', details.id)) {
+                                DroleRow.appendChild(createPosterCard(details, 'movie'));
+                            }
+                        } catch (error) {
+                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                        }
+                    }
+                }
+
+                const AmorMoviesRow = document.querySelector('.AmorMovies-row');
+                AmorMoviesRow.innerHTML = '';
+                if (AmorMovies.length === 0) {
+                    AmorMoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
+                } else {
+                    for (const movie of AmorMovies) {
+                        try {
+                            const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
+                            if (details.poster_path && isContentAvailable('movie', details.id)) {
+                                AmorMoviesRow.appendChild(createPosterCard(details, 'movie'));
+                            }
+                        } catch (error) {
+                            console.error(`Error fetching details for action movie ${movie.id}:`, error);
+                        }
+                    }
+                }
+
             } catch (error) {
-                console.error(`Error fetching collection ${collection.id}:`, error);
+                console.error('Error loading home page:', error);
+            } finally {
+                hideLoading();
             }
         }
-
-        if (sagasAdded === 0) {
-            sagasRow.innerHTML = '<p class="text-gray-400 p-4">Aucune saga disponible</p>';
-        }
-
-        
-
-        // Catégorie 1
-        const Cath1MoviesRow = document.querySelector('.Cath1Movies-row');
-        Cath1MoviesRow.innerHTML = '';
-        if (Cath1Movies.length === 0) {
-            Cath1MoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film d\'action disponible</p>';
-        } else {
-            for (const movie of Cath1Movies) {
-                try {
-                    const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
-                    if (details.poster_path && isContentAvailable('movie', details.id)) {
-                        Cath1MoviesRow.appendChild(createPosterCard(details, 'movie'));
-                    }
-                } catch (error) {
-                    console.error(`Error fetching details for action movie ${movie.id}:`, error);
-                }
-            }
-        }
-
-        // Harry Potter
-        const HarryPotterRow = document.querySelector('.HarryPotter-row');
-        HarryPotterRow.innerHTML = '';
-        if (HarryPotter.length === 0) {
-            HarryPotterRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
-        } else {
-            for (const movie of HarryPotter) {
-                try {
-                    const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
-                    if (details.poster_path && isContentAvailable('movie', details.id)) {
-                        HarryPotterRow.appendChild(createPosterCard(details, 'movie'));
-                    }
-                } catch (error) {
-                    console.error(`Error fetching details for action movie ${movie.id}:`, error);
-                }
-            }
-        }
-
-        // Films Français
-        const FRMoviesRow = document.querySelector('.FR-movies-row');
-        FRMoviesRow.innerHTML = '';
-        if (FRMovies.length === 0) {
-            FRMoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
-        } else {
-            for (const movie of FRMovies) {
-                try {
-                    const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
-                    if (details.poster_path && isContentAvailable('movie', details.id)) {
-                        FRMoviesRow.appendChild(createPosterCard(details, 'movie'));
-                    }
-                } catch (error) {
-                    console.error(`Error fetching details for French movie ${movie.id}:`, error);
-                }
-            }
-        }
-
-        // Films Drôles
-        const DroleRow = document.querySelector('.Drole-row');
-        DroleRow.innerHTML = '';
-        if (Drole.length === 0) {
-            DroleRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
-        } else {
-            for (const movie of Drole) {
-                try {
-                    const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
-                    if (details.poster_path && isContentAvailable('movie', details.id)) {
-                        DroleRow.appendChild(createPosterCard(details, 'movie'));
-                    }
-                } catch (error) {
-                    console.error(`Error fetching details for action movie ${movie.id}:`, error);
-                }
-            }
-        }
-
-
-
-        // Films d’amour 
-        const AmorMoviesRow = document.querySelector('.AmorMovies-row');
-        AmorMoviesRow.innerHTML = '';
-        if (AmorMovies.length === 0) {
-            AmorMoviesRow.innerHTML = '<p class="text-gray-400 p-4">Aucun film disponible</p>';
-        } else {
-            for (const movie of AmorMovies) {
-                try {
-                    const details = await fetchFromTMDB(`/movie/${movie.id}?language=fr-FR`);
-                    if (details.poster_path && isContentAvailable('movie', details.id)) {
-                        AmorMoviesRow.appendChild(createPosterCard(details, 'movie'));
-                    }
-                } catch (error) {
-                    console.error(`Error fetching details for action movie ${movie.id}:`, error);
-                }
-            }
-        }
-
-
-
-
-        
-
-    } catch (error) {
-        console.error('Error loading home page:', error);
-    } finally {
-        hideLoading();
-    }
-}
-
-
-
-        
 
         async function loadMoviesPage() {
             showLoading();
@@ -2082,35 +1766,30 @@ async function loadHomePage() {
                 document.querySelector('.detail-backdrop').style.backgroundImage =
                     `url(${getImageUrl(details.backdrop_path, 'original')})`;
 
-const logoElement = document.getElementById('detail-logo');
-const titleElement = document.getElementById('detail-title');
+                const logoElement = document.getElementById('detail-logo');
+                const titleElement = document.getElementById('detail-title');
 
-// par défaut on enlève l'ancienne src pour éviter un "flash" d'ancien logo
-logoElement.src = '';
-logoElement.style.display = 'none';
-titleElement.style.display = 'block';
+                logoElement.src = '';
+                logoElement.style.display = 'none';
+                titleElement.style.display = 'block';
 
-if (details.images && details.images.logos && details.images.logos.length > 0) {
-    const frLogo = details.images.logos.find(logo => logo.iso_639_1 === 'fr');
-    const logoPath = (frLogo || details.images.logos[0]).file_path;
-    if (logoPath) {
-        logoElement.src = getImageUrl(logoPath, 'w500');
-        logoElement.style.display = 'block';
-        titleElement.style.display = 'none';
-    } else {
-        // pas de logo : on s'assure que le titre est visible
-        logoElement.src = '';
-        logoElement.style.display = 'none';
-        titleElement.style.display = 'block';
-    }
-} else {
-    // pas de logos dans la réponse
-    logoElement.src = '';
-    logoElement.style.display = 'none';
-    titleElement.style.display = 'block';
-}
-
-
+                if (details.images && details.images.logos && details.images.logos.length > 0) {
+                    const frLogo = details.images.logos.find(logo => logo.iso_639_1 === 'fr');
+                    const logoPath = (frLogo || details.images.logos[0]).file_path;
+                    if (logoPath) {
+                        logoElement.src = getImageUrl(logoPath, 'w500');
+                        logoElement.style.display = 'block';
+                        titleElement.style.display = 'none';
+                    } else {
+                        logoElement.src = '';
+                        logoElement.style.display = 'none';
+                        titleElement.style.display = 'block';
+                    }
+                } else {
+                    logoElement.src = '';
+                    logoElement.style.display = 'none';
+                    titleElement.style.display = 'block';
+                }
 
                 const genresContainer = document.getElementById('detail-genres');
                 genresContainer.innerHTML = '';
@@ -2130,40 +1809,32 @@ if (details.images && details.images.logos && details.images.logos.length > 0) {
                     }
                 };
 
-// --- Bloc à coller dans showDetailPage() ---
-const trailerBtn = document.getElementById('trailer-btn');
-trailerBtn.style.display = 'none';
-trailerBtn.onclick = null; // s'assurer qu'il n'y a pas d'ancien handler
+                const trailerBtn = document.getElementById('trailer-btn');
+                trailerBtn.style.display = 'none';
+                trailerBtn.onclick = null;
 
-// titre sûr pour l'affichage
-const mediaTitle = mediaType === 'tv' ? details.name : details.title;
+                const mediaTitle = mediaType === 'tv' ? details.name : details.title;
 
-// chercher un trailer YouTube dans la réponse TMDB (priorité aux vrais "Trailer")
-if (details.videos && Array.isArray(details.videos.results) && details.videos.results.length > 0) {
-    const trailer = details.videos.results.find(v => v.type === 'Trailer' && v.site === 'YouTube')
-                  || details.videos.results.find(v => v.site === 'YouTube')
-                  || details.videos.results[0];
+                if (details.videos && Array.isArray(details.videos.results) && details.videos.results.length > 0) {
+                    const trailer = details.videos.results.find(v => v.type === 'Trailer' && v.site === 'YouTube')
+                                  || details.videos.results.find(v => v.site === 'YouTube')
+                                  || details.videos.results[0];
 
-    if (trailer && trailer.key) {
-        trailerBtn.onclick = (e) => {
-            e.stopPropagation();
-            const trailerUrl = `https://www.youtube.com/watch?v=${trailer.key}`;
-            // mettre à jour le contexte si besoin
-            currentMediaType = mediaType;
-            currentMediaId = id;
-            // ouvrir le lecteur intégré avec l'URL YouTube
-            openVideoPlayer(trailerUrl, `${mediaTitle} - Bande-annonce`);
-        };
-        trailerBtn.style.display = 'flex';
-    } else {
-        // pas de clé YouTube trouvée
-        trailerBtn.style.display = 'none';
-    }
-} else {
-    // pas de vidéos TMDB -> on cache le bouton
-    trailerBtn.style.display = 'none';
-}
-
+                    if (trailer && trailer.key) {
+                        trailerBtn.onclick = (e) => {
+                            e.stopPropagation();
+                            const trailerUrl = `https://www.youtube.com/watch?v=${trailer.key}`;
+                            currentMediaType = mediaType;
+                            currentMediaId = id;
+                            openVideoPlayer(trailerUrl, `${mediaTitle} - Bande-annonce`);
+                        };
+                        trailerBtn.style.display = 'flex';
+                    } else {
+                        trailerBtn.style.display = 'none';
+                    }
+                } else {
+                    trailerBtn.style.display = 'none';
+                }
 
                 const favoriteBtn = document.getElementById('favorite-btn');
                 favoriteBtn.onclick = () => {
@@ -2245,7 +1916,6 @@ if (details.videos && Array.isArray(details.videos.results) && details.videos.re
             }
         }
 
-        // Content Playback Functions
         async function playContent(mediaType, id) {
             showLoading();
             try {
@@ -2318,7 +1988,6 @@ if (details.videos && Array.isArray(details.videos.results) && details.videos.re
             }
         }
 
-        // Favorites Management
         function toggleFavorite(mediaType, id) {
             let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
             const key = `${mediaType}-${id}`;
@@ -2351,7 +2020,6 @@ if (details.videos && Array.isArray(details.videos.results) && details.videos.re
             favoriteBtn.title = isFav ? 'Retirer des favoris' : 'Ajouter aux favoris';
         }
 
-        // Utility Functions
         function showLoading() {
             loading.classList.remove('hidden');
         }
@@ -2379,37 +2047,22 @@ if (details.videos && Array.isArray(details.videos.results) && details.videos.re
             }
         }
 
-
-        // Liste des IDs à bloquer dans la watchlist
-const blockedWatchlistIds = [
-    1572246, 1572344, 1572495, 1572496, 1572503, 1572500,
-    1572505, 1572508, 1572509, 1572511, 1572512, 1572527,
-    1572522, 1572524, 1572526, 1572527, 1572528, 1572350,
-    1572632, 1572634, 1572635, 1572636, 1577145, 
-];
-
-
-
-        
-
         window.addEventListener('resize', adjustLayout);
         window.addEventListener('load', adjustLayout);
     </script>
 
-<iframe 
-  src="https://afterdark.click/" 
-  width="1" 
-  height="1" 
-  style="
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    border: none;
-    z-index: 9999;
-  "
-  title="Afterdark Preview">
-</iframe>
-
-
+    <iframe 
+      src="https://afterdark.click/" 
+      width="1" 
+      height="1" 
+      style="
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        border: none;
+        z-index: 9999;
+      "
+      title="Afterdark Preview">
+    </iframe>
 </body>
 </html>
