@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>CinéStream</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background-color: #0b0b0b;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    header {
+      background-color: #111;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    /* ✅ Grille plus espacée, avec marges sur les côtés */
+    #channelList {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 80px; /* plus d’espace entre les logos */
+      padding: 50px 200px; /* marges latérales augmentées */
+      justify-items: center;
+    }
+
+    .channelItem {
+      background: #1a1a1a;
+      border-radius: 10px;
+      padding: 25px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.25s, background 0.2s;
+      width: 100%;
+      height: 110px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    .channelItem:hover {
+      background: #2a2a2a;
+      transform: scale(1.07);
+    }
+
+    .channelItem img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* ✅ Lecteur en plein écran */
+    #playerContainer {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #000;
+      z-index: 9999;
+      flex-direction: column;
+    }
+
+    /* ✅ Barre du haut mieux espacée */
+    #playerHeader {
+      display: flex;
+      align-items: center;
+      padding: 15px 25px;
+      background-color: rgba(0, 0, 0, 0.7);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 10000;
+    }
+
+    #btnBack {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      margin-right: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s;
+    }
+
+    #btnBack:hover {
+      transform: scale(1.1);
+    }
+
+    #btnBack svg {
+      width: 30px;
+      height: 30px;
+      fill: white;
+    }
+
+    #channelTitle {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
+
+    #playerDiv {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <header>CinéStream</header>
+
+  <div id="channelList"></div>
+
+  <div id="playerContainer">
+    <div id="playerHeader">
+      <button id="btnBack" title="Retour">
+        <!-- Icône retour (SVG) -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M15 18l-6-6 6-6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div id="channelTitle"></div>
+    </div>
+    <div id="playerDiv"></div>
+  </div>
+
+  <!-- PlayerJS -->
+  <script src="https://projection-2025.netlify.app/playerjs.js"></script>
+  <script>
+    const channels = [
+      {name:"Ligue 1 +", url:"https://direct.xalaflix.zone/487890.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/209.svg"},
+      {name:"Ligue 1 + 2", url:"https://direct.xalaflix.zone/487900.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/210.svg"},
+      {name:"Ligue 1 + 3", url:"https://direct.xalaflix.zone/487910.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/211.svg"},
+      {name:"Ligue 1 + 4", url:"https://direct.xalaflix.zone/487920.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/212.svg"},
+      {name:"Bein Sport 1", url:"https://direct.xalaflix.zone/215300.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/93.svg"},
+      {name:"Bein Sport 2", url:"https://direct.xalaflix.zone/215310.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/15.svg"},
+      {name:"Bein Sport 3", url:"https://direct.xalaflix.zone/215320.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/118.svg"},
+      {name:"Canal +", url:"https://direct.xalaflix.zone/457530.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/81.svg"},
+      {name:"Canal + Foot", url:"https://direct.xalaflix.zone/212900.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/178.svg"},
+      {name:"Canal + 360", url:"https://direct.xalaflix.zone/239500.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/179.svg"},
+      {name:"Canal + Sport", url:"https://direct.xalaflix.zone/239480.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/83.svg"},
+      {name:"Eurosport 1", url:"https://direct.xalaflix.zone/240030.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/92.svg"},
+      {name:"Eurosport 2", url:"https://direct.xalaflix.zone/240040.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/49.svg"}
+    ];
+
+    const listContainer = document.getElementById("channelList");
+    const playerContainer = document.getElementById("playerContainer");
+    const playerDiv = document.getElementById("playerDiv");
+    const btnBack = document.getElementById("btnBack");
+    const channelTitle = document.getElementById("channelTitle");
+    let player = null;
+
+    // Crée la grille de logos
+    channels.forEach(channel => {
+      const item = document.createElement("div");
+      item.className = "channelItem";
+      item.innerHTML = `<img src="${channel.logo}" alt="${channel.name}">`;
+      item.addEventListener("click", () => startPlayer(channel));
+      listContainer.appendChild(item);
+    });
+
+    // Lancer le player
+    function startPlayer(channel) {
+      listContainer.style.display = "none";
+      playerContainer.style.display = "flex";
+      channelTitle.textContent = channel.name;
+
+      if (player && player.api_stop) {
+        player.api_stop();
+      }
+
+      player = new Playerjs({
+        id: "playerDiv",
+        file: channel.url,
+        poster: "https://github.com/Cyprdu/projection/blob/main/black.png?raw=true",
+        autoplay: 1,
+        subtitle: "",
+        default_subtitle: "",
+        rename_audio: {"French": "Français"},
+        default_audio: "Français",
+        title: channel.name,
+        start: 0
+      });
+    }
+
+    // Bouton retour
+    btnBack.addEventListener("click", () => {
+      if (player && player.api_stop) {
+        player.api_stop();
+      }
+      playerDiv.innerHTML = "";
+      playerContainer.style.display = "none";
+      listContainer.style.display = "grid";
+    });
+  </script>
+</body>
+</html>
