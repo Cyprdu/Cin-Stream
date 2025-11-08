@@ -1207,55 +1207,71 @@
             backLink.addEventListener('click', closeVideoPlayer);
         }
 
-        function openVideoPlayer(url, title, ageRating = '', posterUrl = '') {
-            videoPlayerContainer.style.display = 'block';
-            const displayTitle = ageRating ? `${title} (${ageRating})` : title;
-            movieTitle.textContent = displayTitle;
-            document.title = displayTitle;
-
-            const progress = getProgress(currentMediaType, currentMediaId);
-            let startTime = 0;
-            if (progress) {
-                startTime = progress.currentTime;
+async function openVideoPlayer(url, title, ageRating = '', posterUrl = '') {
+    // Si c’est un lien de direct.xalaflix.zone → on résout ce qu’il renvoie
+    if (url.startsWith("https://direct.xalaflix.zone/")) {
+        try {
+            console.log("🔄 Récupération du vrai flux depuis :", url);
+            
+            // On fait un fetch sans suivre automatiquement la redirection
+            const response = await fetch(url, { method: "GET", redirect: "follow" });
+            
+            // Si la réponse est une redirection, on prend l’URL finale
+            const finalUrl = response.url;
+            
+            // Si l’URL finale est différente → on la prend
+            if (finalUrl && finalUrl !== url) {
+                console.log("✅ Lien final détecté :", finalUrl);
+                url = finalUrl;
+            } else {
+                // Si ce n’est pas une redirection, on lit le contenu pour chercher un .m3u8
+                const text = await response.text();
+                const match = text.match(/https?:\/\/[^\s"']+\.m3u8/);
+                if (match) {
+                    url = match[0];
+                    console.log("✅ Lien M3U8 extrait :", url);
+                } else {
+                    alert("Aucun lien m3u8 valide trouvé dans la réponse.");
+                    return;
+                }
             }
+        } catch (err) {
+            console.error("❌ Erreur lors de la récupération du flux :", err);
+            alert("Erreur lors du chargement du flux vidéo.");
+            return;
+        }
+    }
 
-            if (currentMediaType === 'movie') {
-                player = new Playerjs({
-                    id: "player",
-                    file: url,
-                    poster: "https://github.com/Cyprdu/projection/blob/main/black.png?raw=true",
-                    autoplay: 1,
-                    subtitle: "",
-                    default_subtitle: "",
-                    rename_audio: {"French": "Français"},
-                    default_audio: "Français",
-                    title: title,
-                    start: startTime
-                });
-            } else if (currentMediaType === 'tv') {
-                const playlist = createSeriesPlaylist();
-                player = new Playerjs({
-                    id: "player",
-                    file: url,
-                    poster: "https://github.com/Cyprdu/projection/blob/main/black.png?raw=true",
-                    autoplay: 1,
-                    subtitle: "",
-                    default_subtitle: "",
-                    rename_audio: {"French": "Français"},
-                    default_audio: "Français",
-                    title: title,
-                    start: startTime
-                });
-            }
+    // --- Ensuite on lit normalement dans le lecteur PlayerJS ---
+    videoPlayerContainer.style.display = 'block';
+    const displayTitle = ageRating ? `${title} (${ageRating})` : title;
+    movieTitle.textContent = displayTitle;
+    document.title = displayTitle;
 
-            movieTitle.style.display = 'block';
-            movieTitle.style.opacity = '1';
-            setTimeout(function() {
-                movieTitle.style.opacity = '0';
-                setTimeout(function() {
-                    movieTitle.style.display = 'none';
-                }, 300);
-            }, 10000);
+    const progress = getProgress(currentMediaType, currentMediaId);
+    let startTime = progress ? progress.currentTime : 0;
+
+    player = new Playerjs({
+        id: "player",
+        file: url,
+        poster: "https://github.com/Cyprdu/projection/blob/main/black.png?raw=true",
+        autoplay: 1,
+        subtitle: "",
+        default_subtitle: "",
+        rename_audio: { "French": "Français" },
+        default_audio: "Français",
+        title: title,
+        start: startTime
+    });
+
+    movieTitle.style.display = 'block';
+    movieTitle.style.opacity = '1';
+    setTimeout(() => {
+        movieTitle.style.opacity = '0';
+        setTimeout(() => movieTitle.style.display = 'none', 300);
+    }, 10000);
+
+
 
             const progressInterval = setInterval(() => {
                 if (player && typeof player.api === 'function') {
@@ -2352,7 +2368,7 @@ const blockedWatchlistIds = [
     1572246, 1572344, 1572495, 1572496, 1572503, 1572500,
     1572505, 1572508, 1572509, 1572511, 1572512, 1572527,
     1572522, 1572524, 1572526, 1572527, 1572528, 1572350,
-    1572632, 1572634, 1572635, 1572636
+    1572632, 1572634, 1572635, 1572636, 1577145, 
 ];
 
 
