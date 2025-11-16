@@ -161,7 +161,7 @@
     },
     {
         "tmdb_id": "movie-569094",
-        "url": "https://cinefries.xyz/movies/Spider-Man-Across-The--Verse.mp4"
+        "url": "https://cinefries.xyz/movies/Spider-Man-Across-The-Spider-Verse.mp4"
     },
     {
         "tmdb_id": "movie-950387",
@@ -758,6 +758,14 @@
     {
         "tmdb_id": "movie-603",
         "url": "https://cinefries.xyz/movies/Matrix.mp4"
+    },
+    {
+        "tmdb_id": "movie-227200",
+        "url": "https://cinefries.xyz/movies/Barbie-et-ses-soeurs-au-club-hippique.mp4"
+    },
+    {
+        "tmdb_id": "movie-50359",
+        "url": "https://cinefries.xyz/movies/Hop.mp4"
     },
     {
         "tmdb_id": "movie-604",
@@ -2331,12 +2339,38 @@
         "tmdb_id": "movie-1572522",
         "url": "https://viamotionhsi.netplus.ch/live/eds/bfmtv/browser-HLS8/bfmtv.m3u8"
     },
-
-
-
-
-
-
+    {
+        "tmdb_id": "movie-136400",
+        "url": "https://cinefries.xyz/movies/2-Guns.mp4"
+    },
+    {
+        "tmdb_id": "movie-899112",
+        "url": "https://cinefries.xyz/movies/Violent-Night.mp4"
+    },
+        {
+        "tmdb_id": "movie-522681",
+        "url": "https://cinefries.xyz/movies/Escape-Game.mp4"
+    },
+    {
+        "tmdb_id": "movie-585216",
+        "url": "https://cinefries.xyz/movies/Escape-Game-2-Le-monde-est-un-piege.mp4"
+    },
+    {
+        "tmdb_id": "movie-607",
+        "url": "https://cinefries.xyz/movies/Men-in-Black.mp4"
+    },
+    {
+        "tmdb_id": "movie-608",
+        "url": "https://cinefries.xyz/movies/Men-in-Black-II.mp4"
+    },
+    {
+        "tmdb_id": "movie-41154",
+        "url": "https://cinefries.xyz/movies/Men-in-Black-III.mp4"
+    },
+    {
+        "tmdb_id": "movie-479455",
+        "url": "https://cinefries.xyz/movies/Men-in-Black-International.mp4"
+    },
 
 
 
@@ -11491,4 +11525,5 @@
         "url": "https://cinefries.xyz/series/Stranger-Things/S04/Stranger-Things-S04-E09.mp4"
     }
 ]
+
 
