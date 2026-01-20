@@ -1,21 +1,109 @@
-<!DOCTYPE html><html lang="fr"><head>  <meta charset="UTF-8">  <title>CinéStream</title>  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <style>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>CinéStream</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
     body { margin: 0; font-family: 'Inter', Arial, sans-serif; background-color: #0b0b0b; color: white; overflow-x: hidden; }
-    header { background-color: #111; padding: 1.5rem; text-align: center; font-size: 1.5rem; font-weight: 600; letter-spacing: 1px; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100; }
-    #channelList { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 30px; padding: 40px 5%; justify-items: center; }
-    .channelItem { background: #1a1a1a; border-radius: 12px; padding: 15px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: transform 0.25s, background 0.2s, box-shadow 0.2s; width: 100%; max-width: 150px; height: 100px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-decoration: none; }
-    .channelItem:hover { background: #2a2a2a; transform: scale(1.08); box-shadow: 0 8px 25px rgba(0,0,0,0.7); }
-    .channelItem img { width: 100%; height: 100%; object-fit: contain; }
-    .channelName { margin-top: 8px; font-size: 0.75rem; color: #aaa; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; font-weight: 500; }
-    @media (max-width: 600px) { #channelList { padding: 20px; gap: 15px; } }
-  </style></head><body>
+    
+    header { 
+      background-color: rgba(17, 17, 17, 0.95); 
+      padding: 1rem 1.5rem; 
+      text-align: center; 
+      border-bottom: 1px solid #222; 
+      position: sticky; 
+      top: 0; 
+      z-index: 100; 
+      backdrop-filter: blur(10px);
+    }
 
-  <header>CinéStream</header>
+    .header-title { font-size: 1.5rem; font-weight: 600; letter-spacing: 1px; margin-bottom: 15px; display: block; }
+
+    /* Barre de recherche */
+    .search-container { max-width: 500px; margin: 0 auto; }
+    #searchInput {
+      width: 100%;
+      padding: 10px 15px;
+      border-radius: 25px;
+      border: 1px solid #333;
+      background: #1a1a1a;
+      color: white;
+      outline: none;
+      font-size: 0.9rem;
+      transition: border 0.3s;
+    }
+    #searchInput:focus { border-color: #e50914; }
+
+    #channelList { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
+      gap: 20px; 
+      padding: 30px 5%; 
+      justify-items: center; 
+    }
+
+    .channelItem { 
+      background: #1a1a1a; 
+      border-radius: 12px; 
+      cursor: pointer; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; 
+      transition: transform 0.25s, box-shadow 0.2s; 
+      width: 100%; 
+      height: 110px; 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
+      text-decoration: none; 
+      position: relative;
+      overflow: hidden; /* Important pour l'effet de nom en bas */
+    }
+
+    .channelItem:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.7); }
+
+    .channelItem img { width: 70%; height: 70%; object-fit: contain; margin-bottom: 10px; }
+
+    /* Nom de la chaîne avec flou en bas */
+    .channelName { 
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.6); /* Fond sombre transparent */
+      backdrop-filter: blur(8px); /* Effet de flou */
+      -webkit-backdrop-filter: blur(8px);
+      padding: 8px 5px;
+      font-size: 0.7rem; 
+      color: #fff; 
+      text-align: center; 
+      white-space: nowrap; 
+      overflow: hidden; 
+      text-overflow: ellipsis; 
+      font-weight: 600;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    @media (max-width: 600px) { 
+      #channelList { padding: 20px; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); } 
+      .channelItem { height: 90px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <span class="header-title">CinéStream</span>
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Rechercher une chaîne...">
+    </div>
+  </header>
+
   <div id="channelList"></div>
 
   <script>
     const baseUrl = "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/";
-    
-    const channels =[
+    const channels = [
   {
     "name": "TF1",
     "url": "https://viamotionhsi.netplus.ch/live/eds/tf1hd/browser-HLS8/tf1hd.m3u8",
@@ -612,21 +700,37 @@
     "logo": "tv5-monde-fr.png"
   }
 ];
+
     const listContainer = document.getElementById("channelList");
+    const searchInput = document.getElementById("searchInput");
 
-    channels.forEach(channel => {
-      const link = document.createElement("a");
-      link.className = "channelItem";
-      link.href = channel.url;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-
-      link.innerHTML = `
-        <img src="${baseUrl + channel.logo}" alt="${channel.name}" onerror="this.src='https://via.placeholder.com/150x100?text=Logo+Indisponible'">
-        <div class="channelName">${channel.name}</div>
-      `;
+    // Fonction pour afficher les chaînes
+    function displayChannels(filter = "") {
+      listContainer.innerHTML = "";
+      const filtered = channels.filter(c => c.name.toLowerCase().includes(filter.toLowerCase()));
       
-      listContainer.appendChild(link);
+      filtered.forEach(channel => {
+        const link = document.createElement("a");
+        link.className = "channelItem";
+        link.href = channel.url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+
+        link.innerHTML = `
+          <img src="${baseUrl + channel.logo}" alt="${channel.name}" onerror="this.src='https://via.placeholder.com/150x100?text=Logo'">
+          <div class="channelName">${channel.name}</div>
+        `;
+        listContainer.appendChild(link);
+      });
+    }
+
+    // Écouteur d'événement pour la recherche
+    searchInput.addEventListener("input", (e) => {
+      displayChannels(e.target.value);
     });
+
+    // Affichage initial
+    displayChannels();
   </script>
-</body></html>
+</body>
+</html>
