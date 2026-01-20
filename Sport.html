@@ -20,20 +20,19 @@
 
     .header-title { font-size: 1.5rem; font-weight: 600; letter-spacing: 1px; margin-bottom: 15px; display: block; }
 
-    /* Barre de recherche */
     .search-container { max-width: 500px; margin: 0 auto; }
     #searchInput {
       width: 100%;
-      padding: 10px 15px;
+      padding: 12px 20px;
       border-radius: 25px;
       border: 1px solid #333;
       background: #1a1a1a;
       color: white;
       outline: none;
       font-size: 0.9rem;
-      transition: border 0.3s;
+      transition: all 0.3s ease;
     }
-    #searchInput:focus { border-color: #e50914; }
+    #searchInput:focus { border-color: #e50914; box-shadow: 0 0 8px rgba(229, 9, 20, 0.4); }
 
     #channelList { 
       display: grid; 
@@ -57,12 +56,19 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
       text-decoration: none; 
       position: relative;
-      overflow: hidden; /* Important pour l'effet de nom en bas */
+      overflow: hidden;
     }
 
     .channelItem:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.7); }
 
-    .channelItem img { width: 70%; height: 70%; object-fit: contain; margin-bottom: 10px; }
+    .channelItem img { 
+      width: 65%; 
+      height: 65%; 
+      object-fit: contain; 
+      transition: transform 0.3s ease;
+    }
+
+    .channelItem:hover img { transform: scale(1.1); }
 
     /* Nom de la chaîne avec flou en bas */
     .channelName { 
@@ -70,23 +76,23 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(0, 0, 0, 0.6); /* Fond sombre transparent */
-      backdrop-filter: blur(8px); /* Effet de flou */
-      -webkit-backdrop-filter: blur(8px);
+      background: rgba(0, 0, 0, 0.7); 
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       padding: 8px 5px;
-      font-size: 0.7rem; 
+      font-size: 0.75rem; 
       color: #fff; 
       text-align: center; 
       white-space: nowrap; 
       overflow: hidden; 
       text-overflow: ellipsis; 
-      font-weight: 600;
+      font-weight: 500;
       border-top: 1px solid rgba(255,255,255,0.1);
     }
 
     @media (max-width: 600px) { 
       #channelList { padding: 20px; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); } 
-      .channelItem { height: 90px; }
+      .channelItem { height: 95px; }
     }
   </style>
 </head>
@@ -103,6 +109,8 @@
 
   <script>
     const baseUrl = "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/";
+    
+    // Liste simplifiée pour l'exemple (gardez votre liste complète ici)
     const channels = [
   {
     "name": "TF1",
@@ -699,7 +707,6 @@
     const listContainer = document.getElementById("channelList");
     const searchInput = document.getElementById("searchInput");
 
-    // Fonction pour afficher les chaînes
     function displayChannels(filter = "") {
       listContainer.innerHTML = "";
       const filtered = channels.filter(c => c.name.toLowerCase().includes(filter.toLowerCase()));
@@ -711,20 +718,21 @@
         link.target = "_blank";
         link.rel = "noopener noreferrer";
 
+        // VERIFICATION DU LOGO : 
+        // Si le texte commence par http ou https, on prend l'URL directe, sinon on ajoute la baseUrl
+        const finalLogoUrl = (channel.logo.startsWith('http')) 
+                             ? channel.logo 
+                             : baseUrl + channel.logo;
+
         link.innerHTML = `
-          <img src="${baseUrl + channel.logo}" alt="${channel.name}" onerror="this.src='https://via.placeholder.com/150x100?text=Logo'">
+          <img src="${finalLogoUrl}" alt="${channel.name}" onerror="this.src='https://via.placeholder.com/150x100?text=Logo'">
           <div class="channelName">${channel.name}</div>
         `;
         listContainer.appendChild(link);
       });
     }
 
-    // Écouteur d'événement pour la recherche
-    searchInput.addEventListener("input", (e) => {
-      displayChannels(e.target.value);
-    });
-
-    // Affichage initial
+    searchInput.addEventListener("input", (e) => displayChannels(e.target.value));
     displayChannels();
   </script>
 </body>
