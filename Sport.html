@@ -4,103 +4,226 @@
   <meta charset="UTF-8">
   <title>CinéStream</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
   <style>
-    body { margin: 0; font-family: 'Inter', Arial, sans-serif; background-color: #0b0b0b; color: white; overflow-x: hidden; }
-    
-    header { 
-      background-color: rgba(17, 17, 17, 0.95); 
-      padding: 1rem 1.5rem; 
-      text-align: center; 
-      border-bottom: 1px solid #222; 
-      position: sticky; 
-      top: 0; 
-      z-index: 100; 
-      backdrop-filter: blur(10px);
+    :root {
+      --bg-color: #0f1014;
+      --card-bg: #18191c;
+      --accent-color: #e50914; /* Rouge style Netflix */
+      --text-main: #ffffff;
+      --text-muted: #a3a3a3;
+      --header-bg: rgba(15, 16, 20, 0.85);
+      --glass-border: rgba(255, 255, 255, 0.08);
     }
 
-    .header-title { font-size: 1.5rem; font-weight: 600; letter-spacing: 1px; margin-bottom: 15px; display: block; }
+    * { box-sizing: border-box; }
 
-    .search-container { max-width: 500px; margin: 0 auto; }
+    body {
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Scrollbar personnalisée */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-color); }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+    /* HEADER */
+    header {
+      background-color: var(--header-bg);
+      padding: 1rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--glass-border);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .brand {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, #fff, #ccc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 10px rgba(255,255,255,0.1);
+    }
+
+    /* BARRE DE RECHERCHE */
+    .search-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      width: 18px;
+      height: 18px;
+      pointer-events: none;
+    }
+
     #searchInput {
       width: 100%;
-      padding: 12px 20px;
-      border-radius: 25px;
-      border: 1px solid #333;
-      background: #1a1a1a;
+      padding: 12px 15px 12px 45px;
+      border-radius: 12px;
+      border: 1px solid #2a2b2f;
+      background: rgba(255, 255, 255, 0.05);
       color: white;
-      outline: none;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+      font-family: inherit;
       transition: all 0.3s ease;
     }
-    #searchInput:focus { border-color: #e50914; box-shadow: 0 0 8px rgba(229, 9, 20, 0.4); }
 
-    #channelList { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
-      gap: 20px; 
-      padding: 30px 5%; 
-      justify-items: center; 
+    #searchInput::placeholder { color: #666; }
+    
+    #searchInput:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
     }
 
-    .channelItem { 
-      background: #1a1a1a; 
-      border-radius: 12px; 
-      cursor: pointer; 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      justify-content: center; 
-      transition: transform 0.25s, box-shadow 0.2s; 
-      width: 100%; 
-      height: 110px; 
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
-      text-decoration: none; 
+    /* GRILLE */
+    #channelList {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 24px;
+      padding: 40px 5%;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    /* CARTES */
+    .channelItem {
       position: relative;
+      background: var(--card-bg);
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      width: 100%;
+      aspect-ratio: 16/10; /* Ratio rectangulaire TV */
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      text-decoration: none;
       overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.03);
+      animation: fadeIn 0.5s ease-out;
     }
 
-    .channelItem:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.7); }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-    .channelItem img { 
-      width: 65%; 
-      height: 65%; 
-      object-fit: contain; 
+    .channelItem:hover {
+      transform: translateY(-5px) scale(1.02);
+      background: #202125;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+      border-color: rgba(255,255,255,0.1);
+    }
+
+    /* LOGO DANS LA CARTE */
+    .logo-container {
+      width: 100%;
+      height: 100%;
+      padding: 25px; /* Espace autour du logo */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+
+    .channelItem img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
       transition: transform 0.3s ease;
     }
+    
+    .channelItem:hover img {
+      transform: scale(1.08);
+    }
 
-    .channelItem:hover img { transform: scale(1.1); }
-
-    /* Nom de la chaîne avec flou en bas */
-    .channelName { 
+    /* LABEL AVEC EFFET FLOU */
+    .channelName {
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(0, 0, 0, 0.7); 
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      padding: 8px 5px;
-      font-size: 0.75rem; 
-      color: #fff; 
-      text-align: center; 
-      white-space: nowrap; 
-      overflow: hidden; 
-      text-overflow: ellipsis; 
-      font-weight: 500;
-      border-top: 1px solid rgba(255,255,255,0.1);
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(10, 10, 10, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 0 10px;
+      font-size: 0.7rem;
+      color: #eee;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      z-index: 2;
     }
 
-    @media (max-width: 600px) { 
-      #channelList { padding: 20px; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); } 
-      .channelItem { height: 95px; }
+    /* Indicateur de chargement (si pas de logo) */
+    .channelItem.loading {
+      background: linear-gradient(110deg, #18191c 8%, #222 18%, #18191c 33%);
+      background-size: 200% 100%;
+      animation: shine 1.5s linear infinite;
+    }
+
+    @keyframes shine {
+      to { background-position-x: -200%; }
+    }
+
+    /* MEDIA QUERIES */
+    @media (min-width: 768px) {
+      header {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+      .brand { margin-bottom: 0; }
+      .search-wrapper { margin-left: auto; width: 300px; }
+    }
+
+    @media (max-width: 600px) {
+      #channelList { gap: 15px; padding: 20px; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+      .channelName { font-size: 0.65rem; height: 32px; }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <span class="header-title">CinéStream</span>
-    <div class="search-container">
+    <div class="brand">CinéStream</div>
+    <div class="search-wrapper">
+      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
       <input type="text" id="searchInput" placeholder="Rechercher une chaîne...">
     </div>
   </header>
@@ -110,7 +233,7 @@
   <script>
     const baseUrl = "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/";
     
-    // Liste simplifiée pour l'exemple (gardez votre liste complète ici)
+    // Insérez ici votre liste complète de chaînes JSON
     const channels = [
   {
     "name": "TF1",
@@ -711,21 +834,30 @@
       listContainer.innerHTML = "";
       const filtered = channels.filter(c => c.name.toLowerCase().includes(filter.toLowerCase()));
       
-      filtered.forEach(channel => {
+      if(filtered.length === 0) {
+        listContainer.innerHTML = '<div style="grid-column: 1/-1; text-align:center; color:#555; padding: 40px;">Aucune chaîne trouvée</div>';
+        return;
+      }
+
+      filtered.forEach((channel, index) => {
         const link = document.createElement("a");
         link.className = "channelItem";
+        // Petit délai d'animation décalé pour un effet "cascade"
+        link.style.animationDelay = `${index * 0.03}s`;
+        
         link.href = channel.url;
         link.target = "_blank";
         link.rel = "noopener noreferrer";
 
-        // VERIFICATION DU LOGO : 
-        // Si le texte commence par http ou https, on prend l'URL directe, sinon on ajoute la baseUrl
+        // LOGIQUE INTELLIGENTE URL (Votre demande précédente)
         const finalLogoUrl = (channel.logo.startsWith('http')) 
                              ? channel.logo 
                              : baseUrl + channel.logo;
 
         link.innerHTML = `
-          <img src="${finalLogoUrl}" alt="${channel.name}" onerror="this.src='https://via.placeholder.com/150x100?text=Logo'">
+          <div class="logo-container">
+            <img src="${finalLogoUrl}" alt="${channel.name}" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\'font-size:2rem\'>📺</span>'">
+          </div>
           <div class="channelName">${channel.name}</div>
         `;
         listContainer.appendChild(link);
@@ -733,6 +865,8 @@
     }
 
     searchInput.addEventListener("input", (e) => displayChannels(e.target.value));
+    
+    // Initialisation
     displayChannels();
   </script>
 </body>
