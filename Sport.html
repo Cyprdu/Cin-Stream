@@ -1,210 +1,379 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>CinéStream</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', Arial, sans-serif;
-      background-color: #0b0b0b;
-      color: white;
-      overflow-x: hidden;
-    }
-
-    header {
-      background-color: #111;
-      padding: 1rem;
-      text-align: center;
-      font-size: 1.5rem;
-      font-weight: 600;
-      letter-spacing: 1px;
-    }
-
-    /* ✅ Grille plus espacée, avec marges sur les côtés */
-    #channelList {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 80px; /* plus d’espace entre les logos */
-      padding: 50px 200px; /* marges latérales augmentées */
-      justify-items: center;
-    }
-
-    .channelItem {
-      background: #1a1a1a;
-      border-radius: 10px;
-      padding: 25px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.25s, background 0.2s;
-      width: 100%;
-      height: 110px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    }
-
-    .channelItem:hover {
-      background: #2a2a2a;
-      transform: scale(1.07);
-    }
-
-    .channelItem img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    /* ✅ Lecteur en plein écran */
-    #playerContainer {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: #000;
-      z-index: 9999;
-      flex-direction: column;
-    }
-
-    /* ✅ Barre du haut mieux espacée */
-    #playerHeader {
-      display: flex;
-      align-items: center;
-      padding: 15px 25px;
-      background-color: rgba(0, 0, 0, 0.7);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 10000;
-    }
-
-    #btnBack {
-      background: none;
-      border: none;
-      color: white;
-      cursor: pointer;
-      margin-right: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.2s;
-    }
-
-    #btnBack:hover {
-      transform: scale(1.1);
-    }
-
-    #btnBack svg {
-      width: 30px;
-      height: 30px;
-      fill: white;
-    }
-
-    #channelTitle {
-      font-size: 1.2rem;
-      font-weight: 500;
-      color: #fff;
-      letter-spacing: 0.5px;
-    }
-
-    #playerDiv {
-      flex: 1;
-      width: 100%;
-      height: 100%;
-    }
-  </style>
-</head>
-<body>
+<!DOCTYPE html><html lang="fr"><head>  <meta charset="UTF-8">  <title>CinéStream</title>  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <style>
+    body { margin: 0; font-family: 'Inter', Arial, sans-serif; background-color: #0b0b0b; color: white; overflow-x: hidden; }
+    header { background-color: #111; padding: 1.5rem; text-align: center; font-size: 1.5rem; font-weight: 600; letter-spacing: 1px; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100; }
+    #channelList { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 30px; padding: 40px 5%; justify-items: center; }
+    .channelItem { background: #1a1a1a; border-radius: 12px; padding: 15px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: transform 0.25s, background 0.2s, box-shadow 0.2s; width: 100%; max-width: 150px; height: 100px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-decoration: none; }
+    .channelItem:hover { background: #2a2a2a; transform: scale(1.08); box-shadow: 0 8px 25px rgba(0,0,0,0.7); }
+    .channelItem img { width: 100%; height: 100%; object-fit: contain; }
+    .channelName { margin-top: 8px; font-size: 0.75rem; color: #aaa; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; font-weight: 500; }
+    @media (max-width: 600px) { #channelList { padding: 20px; gap: 15px; } }
+  </style></head><body>
 
   <header>CinéStream</header>
-
   <div id="channelList"></div>
 
-  <div id="playerContainer">
-    <div id="playerHeader">
-      <button id="btnBack" title="Retour">
-        <!-- Icône retour (SVG) -->
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path d="M15 18l-6-6 6-6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-      <div id="channelTitle"></div>
-    </div>
-    <div id="playerDiv"></div>
-  </div>
-
-  <!-- PlayerJS -->
-  <script src="https://projection-2025.netlify.app/playerjs.js"></script>
   <script>
-    const channels = [
-      {name:"Ligue 1 +", url:"https://direct.xalaflix.zone/487890.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/209.svg"},
-      {name:"Ligue 1 + 2", url:"https://direct.xalaflix.zone/487900.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/210.svg"},
-      {name:"Ligue 1 + 3", url:"https://direct.xalaflix.zone/487910.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/211.svg"},
-      {name:"Ligue 1 + 4", url:"https://direct.xalaflix.zone/487920.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/212.svg"},
-      {name:"Bein Sport 1", url:"https://direct.xalaflix.zone/215300.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/93.svg"},
-      {name:"Bein Sport 2", url:"https://direct.xalaflix.zone/215310.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/15.svg"},
-      {name:"Bein Sport 3", url:"https://direct.xalaflix.zone/215320.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/118.svg"},
-      {name:"Canal +", url:"https://direct.xalaflix.zone/457530.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/81.svg"},
-      {name:"Canal + Foot", url:"https://direct.xalaflix.zone/212900.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/178.svg"},
-      {name:"Canal + 360", url:"https://direct.xalaflix.zone/239500.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/179.svg"},
-      {name:"Canal + Sport", url:"https://direct.xalaflix.zone/239480.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/83.svg"},
-      {name:"Eurosport 1", url:"https://direct.xalaflix.zone/240030.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/92.svg"},
-      {name:"Eurosport 2", url:"https://direct.xalaflix.zone/240040.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/49.svg"}
-    ];
+    const baseUrl = "https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/";
+    
+    const channels = 
 
+        [
+  {
+    "name": "TF1",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/tf1hd/browser-HLS8/tf1hd.m3u8",
+    "logo": "tf1-fr.png"
+  },
+  {
+    "name": "FRANCE 2",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/france2hd/browser-HLS8/france2hd.m3u8",
+    "logo": "france-2-fr.png"
+  },
+  {
+    "name": "FRANCE 3",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/france3hd/browser-HLS8/france3hd.m3u8",
+    "logo": "france-3-fr.png"
+  },
+  {
+    "name": "FRANCE 4",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/france4hd/browser-HLS8/france4hd.m3u8",
+    "logo": "france-4-fr.png"
+  },
+  {
+    "name": "FRANCE 5",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/france5hd/browser-HLS8/france5hd.m3u8",
+    "logo": "france-5-fr.png"
+  },
+  {
+    "name": "M6",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8",
+    "logo": "m6-fr.png"
+  },
+  {
+    "name": "ARTE",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/artehd/browser-HLS8/artehd.m3u8",
+    "logo": "arte-fr.png"
+  },
+  {
+    "name": "LCP",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/lcp/browser-HLS8/lcp.m3u8",
+    "logo": "lcp-fr.png"
+  },
+  {
+    "name": "W9",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/w9/browser-HLS8/w9.m3u8",
+    "logo": "w9-fr.png"
+  },
+  {
+    "name": "TMC",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/tmc/browser-HLS8/tmc.m3u8",
+    "logo": "tmc-fr.png"
+  },
+  {
+    "name": "TFX",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/nt1/browser-HLS8/nt1.m3u8",
+    "logo": "tfx-fr.png"
+  },
+  {
+    "name": "GULLI",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/gulli/browser-HLS8/gulli.m3u8",
+    "logo": "gulli-fr.png"
+  },
+  {
+    "name": "BFMTV",
+    "url": "https://live-cdn-stream-euw1.bfmtv.bct.nextradiotv.com/master.m3u8",
+    "logo": "bfm-tv-fr.png"
+  },
+  {
+    "name": "CNEWS",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/itele/browser-HLS8/itele.m3u8",
+    "logo": "c-news-fr.png"
+  },
+  {
+    "name": "LCI",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/lci/browser-HLS8/lci.m3u8",
+    "logo": "lci-fr.png"
+  },
+  {
+    "name": "FRANCE INFO",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/franceinfo/browser-HLS8/franceinfo.m3u8",
+    "logo": "franceinfo-fr.png"
+  },
+  {
+    "name": "CSTAR",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/d17/browser-HLS8/d17.m3u8",
+    "logo": "c-star-fr.png"
+  },
+  {
+    "name": "T18",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/t18/browser-HLS8/t18.m3u8",
+    "logo": "t18-fr.png"
+  },
+  {
+    "name": "NOVO",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/novo19/browser-HLS8/novo19.m3u8",
+    "logo": "novo19-fr.png"
+  },
+  {
+    "name": "TF1 SERIES FILMS",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/hd1/browser-HLS8/hd1.m3u8",
+    "logo": "tf1-series-films-fr.png"
+  },
+  {
+    "name": "L'EQUIPE",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/lequipe21/browser-HLS8/lequipe21.m3u8",
+    "logo": "lequipe-fr.png"
+  },
+  {
+    "name": "6TER",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/6ter/browser-HLS8/6ter.m3u8",
+    "logo": "6ter-fr.png"
+  },
+  {
+    "name": "RMC STORY",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/numero23/browser-HLS8/numero23.m3u8",
+    "logo": "rmc-story-fr.png"
+  },
+  {
+    "name": "RMC DÉCOUVERTE",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/rmcdecouverte/browser-HLS8/rmcdecouverte.m3u8",
+    "logo": "rmc-decouverte-fr.png"
+  },
+  {
+    "name": "RMC LIFE",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/cherie25/browser-HLS8/cherie25.m3u8",
+    "logo": "rmc-life-fr.png"
+  },
+  {
+    "name": "RTL 9",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/rtl9/browser-HLS8/rtl9.m3u8",
+    "logo": "rtl9-fr.png"
+  },
+  {
+    "name": "FRANCE 24",
+    "url": "https://dash4.antik.sk/live/test_france24_france/playlist.m3u8",
+    "logo": "france-24-fr.png"
+  },
+  {
+    "name": "EUROSPORT 1",
+    "url": "https://direct.xalaflix.io/240030.m3u8",
+    "logo": "eurosport-1-fr.png"
+  },
+  {
+    "name": "EUROSPORT 2",
+    "url": "https://direct.xalaflix.io/240040.m3u8",
+    "logo": "eurosport-2-fr.png"
+  },
+  {
+    "name": "BEIN SPORT 1",
+    "url": "https://direct.xalaflix.io/215300.m3u8",
+    "logo": "bein-sports-1-french-fr.png"
+  },
+  {
+    "name": "BEIN SPORT 2",
+    "url": "https://direct.xalaflix.io/215310.m3u8",
+    "logo": "bein-sports-2-french-fr.png"
+  },
+  {
+    "name": "BEIN SPORT 3",
+    "url": "https://direct.xalaflix.io/215320.m3u8",
+    "logo": "bein-sports-3-french-fr.png"
+  },
+  {
+    "name": "LIGUE 1 + 1",
+    "url": "https://direct.xalaflix.io/487890.m3u8",
+    "logo": "ligue-1plus-fr.png"
+  },
+  {
+    "name": "LIGUE 1 + 2",
+    "url": "https://direct.xalaflix.io/487900.m3u8",
+    "logo": "ligue-1plus-2-fr.png"
+  },
+  {
+    "name": "LIGUE 1 + 3",
+    "url": "https://direct.xalaflix.io/487910.m3u8",
+    "logo": "ligue-1plus-3-fr.png"
+  },
+  {
+    "name": "LIGUE 1 + 4",
+    "url": "https://direct.xalaflix.io/487920.m3u8",
+    "logo": "ligue-1plus-4-fr.png"
+  },
+  {
+    "name": "CANAL + HD",
+    "url": "https://direct.xalaflix.io/457530.m3u8",
+    "logo": "canal-plus-fr.png"
+  },
+  {
+    "name": "CANAL + FOOT",
+    "url": "https://direct.xalaflix.io/212900.m3u8",
+    "logo": "canal-plus-foot-fr.png"
+  },
+  {
+    "name": "CANAL + 360",
+    "url": "https://direct.xalaflix.io/239500.m3u8",
+    "logo": "canal-plus-sport-360-fr.png"
+  },
+  {
+    "name": "CANAL + SPORT",
+    "url": "https://direct.xalaflix.io/239480.m3u8",
+    "logo": "canal-plus-sport-fr.png"
+  },
+  {
+    "name": "RMC SPORT 1",
+    "url": "https://direct.xalaflix.io/241150.m3u8",
+    "logo": "rmc-sport-1-fr.png"
+  },
+  {
+    "name": "RMC SPORT 2",
+    "url": "https://direct.xalaflix.io/241190.m3u8",
+    "logo": "rmc-sport-2-fr.png"
+  },
+  {
+    "name": "AUTOMOTO",
+    "url": "https://direct.xalaflix.io/458820.m3u8",
+    "logo": "automoto-la-chaine-fr.png"
+  },
+  {
+    "name": "CANAL + CINEMA",
+    "url": "https://direct.xalaflix.io/239330.m3u8",
+    "logo": "canal-plus-cinemas-fr.png"
+  },
+  {
+    "name": "CANAL+ SERIES",
+    "url": "https://direct.xalaflix.io/239450.m3u8",
+    "logo": "canal-plus-series-fr.png"
+  },
+  {
+    "name": "CANAL + KIDS",
+    "url": "https://direct.xalaflix.io/239380.m3u8",
+    "logo": "canal-plus-kids-fr.png"
+  },
+  {
+    "name": "CANAL+ DECALE",
+    "url": "https://direct.xalaflix.io/239360.m3u8",
+    "logo": "canal-plus-grand-ecran-fr.png"
+  },
+  {
+    "name": "CANAL+ DOCS",
+    "url": "https://direct.xalaflix.io/239370.m3u8",
+    "logo": "canal-plus-docs-fr.png"
+  },
+  {
+    "name": "CINÉ + FAMILY",
+    "url": "https://direct.xalaflix.io/239660.m3u8",
+    "logo": "cine-plus-family-fr.png"
+  },
+  {
+    "name": "CINÉ + EMOTION",
+    "url": "https://direct.xalaflix.io/239640.m3u8",
+    "logo": "cine-plus-emotion-fr.png"
+  },
+  {
+    "name": "CINÉ + FRISSON",
+    "url": "https://direct.xalaflix.io/239690.m3u8",
+    "logo": "cine-plus-frisson-fr.png"
+  },
+  {
+    "name": "CINÉ + CLASSIC",
+    "url": "https://direct.xalaflix.io/239590.m3u8",
+    "logo": "cine-plus-classic-fr.png"
+  },
+  {
+    "name": "CINÉ + PREMIERE",
+    "url": "https://direct.xalaflix.io/239720.m3u8",
+    "logo": "cine-plus-premier-fr.png"
+  },
+  {
+    "name": "OCS MAX",
+    "url": "https://direct.xalaflix.io/240810.m3u8",
+    "logo": "ocs-max-fr.png"
+  },
+  {
+    "name": "OCS CITY",
+    "url": "https://direct.xalaflix.io/240770.m3u8",
+    "logo": "ocs-city-fr.png"
+  },
+  {
+    "name": "DISNEY CHANEL",
+    "url": "https://direct.xalaflix.io/239870.m3u8",
+    "logo": "disney-channel-fr.png"
+  },
+  {
+    "name": "DISNEY JUNIOR",
+    "url": "https://direct.xalaflix.io/239920.m3u8",
+    "logo": "disney-jr-fr.png"
+  },
+  {
+    "name": "CANAL J",
+    "url": "https://direct.xalaflix.io/239130.m3u8",
+    "logo": "canal-j-fr.png"
+  },
+  {
+    "name": "KTO",
+    "url": "https://livekto.akamaized.net/hls/live/20000018/ktotv/master.m3u8",
+    "logo": "kto-fr.png"
+  },
+  {
+    "name": "PLANETE+",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/planeteplus/browser-HLS8/planeteplus.m3u8",
+    "logo": "planete-plus-fr.png"
+  },
+  {
+    "name": "NICKELODEON",
+    "url": "https://fl31.moveonjoy.com/NICKELODEON/index.m3u8",
+    "logo": "nickelodeon-fr.png"
+  },
+  {
+    "name": "TV5 MONDE",
+    "url": "https://ott.tv5monde.com/Content/HLS/Live/channel(fbs)/variant.m3u8",
+    "logo": "tv5-monde-fr.png"
+  },
+  {
+    "name": "AB1",
+    "url": "https://viamotionhsi.netplus.ch/live/eds/ab1/browser-HLS8/ab1.m3u8",
+    "logo": "ab1-fr.png"
+  },
+  {
+    "name": "INFOSPORT +",
+    "url": "http://212.102.60.80/Infosport/index.m3u8",
+    "logo": "infosport-plus-fr.png"
+  },
+  {
+    "name": "TIJI",
+    "url": "https://shls-tiji-tv-prod-dub.shahid.net/out/v1/98f46736bd8c4404b67e4b7a38cc8976/index.m3u8",
+    "logo": "tiji-fr.png"
+  },
+  {
+    "name": "BFM LYON",
+    "url": "https://ncdn-live-bfm.pfd.sfr.net/shls/LIVE$BFM_LYON/index.m3u8?start=LIVE&end=END",
+    "logo": "bfm-lyon-fr.png"
+  },
+  {
+    "name": "BFM GRAND LILLE",
+    "url": "https://ncdn-live-bfm.pfd.sfr.net/shls/LIVE$BFMGRANDLILLE/index.m3u8?start=LIVE&end=END",
+    "logo": "bfm-grand-lille-fr.png"
+  },
+  {
+    "name": "BFM GRAND LITTORAL",
+    "url": "https://ncdn-live-bfm.pfd.sfr.net/shls/LIVE$BFMGRANDLITTORAL/index.m3u8?start=LIVE&end=END",
+    "logo": "bfm-grand-littoral-fr.png"
+  }
+]
     const listContainer = document.getElementById("channelList");
-    const playerContainer = document.getElementById("playerContainer");
-    const playerDiv = document.getElementById("playerDiv");
-    const btnBack = document.getElementById("btnBack");
-    const channelTitle = document.getElementById("channelTitle");
-    let player = null;
 
-    // Crée la grille de logos
     channels.forEach(channel => {
-      const item = document.createElement("div");
-      item.className = "channelItem";
-      item.innerHTML = `<img src="${channel.logo}" alt="${channel.name}">`;
-      item.addEventListener("click", () => startPlayer(channel));
-      listContainer.appendChild(item);
-    });
+      const link = document.createElement("a");
+      link.className = "channelItem";
+      link.href = channel.url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
 
-    // Lancer le player
-    function startPlayer(channel) {
-      listContainer.style.display = "none";
-      playerContainer.style.display = "flex";
-      channelTitle.textContent = channel.name;
-
-      if (player && player.api_stop) {
-        player.api_stop();
-      }
-
-      player = new Playerjs({
-        id: "playerDiv",
-        file: channel.url,
-        poster: "https://github.com/Cyprdu/projection/blob/main/black.png?raw=true",
-        autoplay: 1,
-        subtitle: "",
-        default_subtitle: "",
-        rename_audio: {"French": "Français"},
-        default_audio: "Français",
-        title: channel.name,
-        start: 0
-      });
-    }
-
-    // Bouton retour
-    btnBack.addEventListener("click", () => {
-      if (player && player.api_stop) {
-        player.api_stop();
-      }
-      playerDiv.innerHTML = "";
-      playerContainer.style.display = "none";
-      listContainer.style.display = "grid";
+      link.innerHTML = `
+        <img src="${baseUrl + channel.logo}" alt="${channel.name}" onerror="this.src='https://via.placeholder.com/150x100?text=Logo+Indisponible'">
+        <div class="channelName">${channel.name}</div>
+      `;
+      
+      listContainer.appendChild(link);
     });
   </script>
-</body>
-</html>
+</body></html>
