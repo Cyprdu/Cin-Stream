@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>CinéStream</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background-color: #0b0b0b;
+      color: white;
+      overflow-x: hidden;
+    }
+    header {
+      background-color: #111;
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      border-bottom: 1px solid #222;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    /* Grille de logos */
+    #channelList {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 30px; 
+      padding: 40px 5%; 
+      justify-items: center;
+    }
+    .channelItem {
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 15px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.25s, background 0.2s, box-shadow 0.2s;
+      width: 100%;
+      max-width: 150px;
+      height: 100px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      text-decoration: none;
+    }
+    .channelItem:hover {
+      background: #2a2a2a;
+      transform: scale(1.08);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+    }
+    .channelItem img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .channelName {
+      margin-top: 8px;
+      font-size: 0.7rem;
+      color: #888;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
+    @media (max-width: 600px) {
+      #channelList {
+        padding: 20px;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>CinéStream</header>
+  <div id="channelList"></div>
+
+  <script>
+    const channels = [
+      {name:"TF1", url:"https://viamotionhsi.netplus.ch/live/eds/tf1hd/browser-HLS8/tf1hd.m3u8", logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tf1-fr.png"},
+      {name:"FRANCE 2", url:"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france2.m3u8", logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-2-fr.png"},
+      {name:"FRANCE 3", url:"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france3.m3u8", logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-3-fr.png"},
+      {name:"FRANCE 4", url:"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france4.m3u8", logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-4-fr.png"},
+      {name:"FRANCE 5", url:"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/france5.m3u8", logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/france-5-fr.png"},
+      {name:"M6", url:"https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8", logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/m6-fr.png"},
+      {name:"ARTE", url:"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/arte.m3u8", logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/arte-fr.png"},
+      {name:"LCP", url:"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/lcpps.m3u8", logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lcp-fr.png"},
+      {name:"W9", url:"https://viamotionhsi.netplus.ch/live/eds/w9/browser-HLS8/w9.m3u8", logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/w9-fr.png"},
+      {name:"TMC", url:"https://viamotionhsi.netplus.ch/live/eds/tmc/browser-HLS8/tmc.m3u8", logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tmc-fr.png"},
+      {name:"TFX", url:"https://viamotionhsi.netplus.ch/live/eds/nt1/browser-HLS8/nt1.m3u8", logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tfx-fr.png"},
+      {name:"GULLI", url:"https://viamotionhsi.netplus.ch/live/eds/gulli/browser-HLS8/gulli.m3u8", logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/gulli-fr.png"},
+      {name:"BFMTV", url:"https://live-cdn-stream-euw1.bfmtv.bct.nextradiotv.com/master.m3u8", logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/bfm-tv-fr.png"},
+      {name:"CNEWS", url:"https://raw.githubusercontent.com/LeBazarDeBryan/XTVZ_/main/Stream/Live/CNews.m3u8", logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/c-news-fr.png"},
+      {name:"LCI", url:"https://viamotionhsi.netplus.ch/live/eds/lci/browser-HLS8/lci.m3u8", logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lci-fr.png"},
+      {name:"FRANCE INFO", url:"https://raw.githubusercontent.com/schumijo/iptv/main/playlists/francetv/franceinfo.m3u8", logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/franceinfo-fr.png"},
+      {name:"CSTAR", url:"https://viamotionhsi.netplus.ch/live/eds/d17/browser-HLS8/d17.m3u8", logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/c-star-fr.png"},
+      {name:"L'EQUIPE", url:"https://dshn8inoshngm.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-gac2i63dmu8b7/LEquipe_FR.m3u8", logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/lequipe-fr.png"},
+      {name:"6TER", url:"https://viamotionhsi.netplus.ch/live/eds/6ter/browser-HLS8/6ter.m3u8", logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/6ter-fr.png"},
+      {name:"RMC STORY", url:"https://viamotionhsi.netplus.ch/live/eds/numero23/browser-HLS8/numero23.m3u8", logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-story-fr.png"},
+      {name:"RMC DÉCOUVERTE", url:"https://viamotionhsi.netplus.ch/live/eds/rmcdecouverte/browser-HLS8/rmcdecouverte.m3u8", logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rmc-decouverte-fr.png"},
+      {name:"RTL 9", url:"https://viamotionhsi.netplus.ch/live/eds/rtl9/browser-HLS8/rtl9.m3u8", logo:"https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/rtl9-fr.png"},
+      {name:"BEIN SPORT 1", url:"https://direct.xalaflix.io/215300.m3u8", logo:"https://xalaflix.men/upload/images/bein-sports-1-logo.png"},
+      {name:"BEIN SPORT 2", url:"https://direct.xalaflix.io/215310.m3u8", logo:"https://xalaflix.men/upload/images/bein-sports-2-logo.png"},
+      {name:"BEIN SPORT 3", url:"https://direct.xalaflix.io/215320.m3u8", logo:"https://xalaflix.men/upload/images/bein-sports-3-logo.png"},
+      {name:"CANAL + HD", url:"https://direct.xalaflix.io/457530.m3u8", logo:"https://github.com/paomedia/chaines-tv-francaises/blob/master/04.png?raw=true"},
+      {name:"CANAL + FOOT", url:"https://direct.xalaflix.io/212900.m3u8", logo:"https://xalaflix.men/upload/images/canal-plus-foot.png"},
+      {name:"CANAL + 360", url:"https://direct.xalaflix.io/239500.m3u8", logo:"https://xalaflix.men/upload/images/canal-plus-360.png"},
+      {name:"CANAL + SPORT", url:"https://direct.xalaflix.io/239480.m3u8", logo:"https://xalaflix.men/upload/images/canal-sport-logo-3.png"},
+      {name:"RMC SPORT 1", url:"https://direct.xalaflix.io/241150.m3u8", logo:"https://xalaflix.men/upload/images/rmc-sport-1-logo-b.png"},
+      {name:"RMC SPORT 2", url:"https://direct.xalaflix.io/241190.m3u8", logo:"https://xalaflix.men/upload/images/rmc-sport-2-logo-b.png"},
+      {name:"EUROSPORT 1", url:"https://direct.xalaflix.io/240030.m3u8", logo:"https://i.imgur.com/olQJgm7.png"},
+      {name:"EUROSPORT 2", url:"https://direct.xalaflix.io/240040.m3u8", logo:"https://i.imgur.com/f56dHgR.png"},
+      {name:"LIGUE 1 + 1", url:"https://direct.xalaflix.io/487890.m3u8", logo:"https://xalaflix.men/upload/images/logo_ligue_1.png"},
+      {name:"LIGUE 1 + 2", url:"https://direct.xalaflix.io/487900.m3u8", logo:"https://xalaflix.men/upload/images/logo_ligue_2.png"},
+      {name:"LIGUE 1 + 3", url:"https://direct.xalaflix.io/487910.m3u8", logo:"https://xalaflix.men/upload/images/logo_ligue_3.png"},
+      {name:"LIGUE 1 + 4", url:"https://direct.xalaflix.io/487920.m3u8", logo:"https://xalaflix.men/upload/images/logo_ligue_4.png"},
+      {name:"CANAL + CINEMA", url:"https://direct.xalaflix.io/239330.m3u8", logo:"https://xalaflix.men/upload/images/canal-plus-cinema-logo.png"},
+      {name:"OCS MAX", url:"https://direct.xalaflix.io/240810.m3u8", logo:"https://xalaflix.men/upload/images/ocs-max.png"},
+      {name:"DISNEY CHANNEL", url:"https://direct.xalaflix.io/239870.m3u8", logo:"https://xalaflix.men/upload/images/disney-channel-logo-min.webp"},
+      {name:"NICKELODEON", url:"https://fl31.moveonjoy.com/NICKELODEON/index.m3u8", logo:"https://i.imgur.com/E84jnP8.png"},
+      {name:"PLANETE+", url:"https://viamotionhsi.netplus.ch/live/eds/planeteplus/browser-HLS8/planeteplus.m3u8", logo:"https://focus.telerama.fr/500x500/0000/00/01/clear-147.png"},
+      {name:"AUTOMOTO", url:"https://direct.xalaflix.io/458820.m3u8", logo:"https://xalaflix.men/upload/images/automoto_logo.png"}
+    ];
+
+    const listContainer = document.getElementById("channelList");
+
+    channels.forEach(channel => {
+      const link = document.createElement("a");
+      link.className = "channelItem";
+      link.href = channel.url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.title = channel.name;
+
+      link.innerHTML = `
+        <img src="${channel.logo}" alt="${channel.name}">
+        <div class="channelName">${channel.name}</div>
+      `;
+      
+      listContainer.appendChild(link);
+    });
+  </script>
+</body>
+</html>
