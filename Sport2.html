@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>CinéStream</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background-color: #0b0b0b;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    header {
+      background-color: #111;
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      border-bottom: 1px solid #222;
+    }
+
+    /* Grille de logos */
+    #channelList {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 40px; 
+      padding: 50px 10%; 
+      justify-items: center;
+    }
+
+    .channelItem {
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.25s, background 0.2s, box-shadow 0.2s;
+      width: 100%;
+      max-width: 160px;
+      height: 110px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      text-decoration: none; /* Enlève le soulignement du lien */
+    }
+
+    .channelItem:hover {
+      background: #2a2a2a;
+      transform: scale(1.08);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+    }
+
+    .channelItem img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    @media (max-width: 600px) {
+      #channelList {
+        padding: 30px 20px;
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>CinéStream</header>
+
+  <div id="channelList"></div>
+
+  <script>
+    const channels = [
+      {name:"Ligue 1 +", url:"https://direct.xalaflix.zone/487890.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/209.svg"},
+      {name:"Ligue 1 + 2", url:"https://direct.xalaflix.zone/487900.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/210.svg"},
+      {name:"Ligue 1 + 3", url:"https://direct.xalaflix.zone/487910.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/211.svg"},
+      {name:"Ligue 1 + 4", url:"https://direct.xalaflix.zone/487920.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/212.svg"},
+      {name:"Bein Sport 1", url:"https://direct.xalaflix.zone/215300.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/93.svg"},
+      {name:"Bein Sport 2", url:"https://direct.xalaflix.zone/215310.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/15.svg"},
+      {name:"Bein Sport 3", url:"https://direct.xalaflix.zone/215320.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/118.svg"},
+      {name:"Canal +", url:"https://direct.xalaflix.zone/457530.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/81.svg"},
+      {name:"Canal + Foot", url:"https://direct.xalaflix.zone/212900.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/178.svg"},
+      {name:"Canal + 360", url:"https://direct.xalaflix.zone/239500.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/179.svg"},
+      {name:"Canal + Sport", url:"https://direct.xalaflix.zone/239480.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/83.svg"},
+      {name:"Eurosport 1", url:"https://direct.xalaflix.zone/240030.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/92.svg"},
+      {name:"Eurosport 2", url:"https://direct.xalaflix.zone/240040.m3u8", logo:"https://tv-sports.fr/photos/chaines/svg/49.svg"}
+    ];
+
+    const listContainer = document.getElementById("channelList");
+
+    // Génère la liste des chaînes
+    channels.forEach(channel => {
+      // Création d'un lien <a> qui ouvre dans un nouvel onglet
+      const link = document.createElement("a");
+      link.className = "channelItem";
+      link.href = channel.url;
+      link.target = "_blank"; // Ouvre dans un nouvel onglet
+      link.rel = "noopener noreferrer"; // Sécurité
+      link.title = channel.name;
+
+      link.innerHTML = `<img src="${channel.logo}" alt="${channel.name}">`;
+      
+      listContainer.appendChild(link);
+    });
+  </script>
+</body>
+</html>
